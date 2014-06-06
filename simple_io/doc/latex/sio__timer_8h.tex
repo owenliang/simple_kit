@@ -1,0 +1,226 @@
+\section{sio\_\-timer.h File Reference}
+\label{sio__timer_8h}\index{sio_timer.h@{sio\_\-timer.h}}
+{\tt \#include $<$stdint.h$>$}\par
+\subsection*{Classes}
+\begin{CompactItemize}
+\item 
+struct {\bf sio\_\-timer}
+\item 
+struct {\bf sio\_\-timer\_\-manager}
+\end{CompactItemize}
+\subsection*{Typedefs}
+\begin{CompactItemize}
+\item 
+typedef void($\ast$ {\bf sio\_\-timer\_\-callback\_\-t} )(struct sio $\ast$sio, struct sio\_\-timer $\ast$timer, void $\ast$arg)\label{sio__timer_8h_a0}
+
+\end{CompactItemize}
+\subsection*{Functions}
+\begin{CompactItemize}
+\item 
+sio\_\-timer\_\-manager $\ast$ {\bf sio\_\-timer\_\-new} ()
+\begin{CompactList}\small\item\em \aa{}136155\aa{}187186\"{a}184128\"{a}184170\aa{}174154\ae{}151182\aa{}153168\c{c}174!`\c{c}144134\aa{}153168 \item\end{CompactList}\item 
+void {\bf sio\_\-timer\_\-free} (struct sio\_\-timer\_\-manager $\ast$st\_\-mgr)
+\begin{CompactList}\small\item\em \'{e}135138\ae{}148190\"{a}184128\"{a}184170\aa{}174154\ae{}151182\aa{}153168\c{c}174!`\c{c}144134\aa{}153168 \item\end{CompactList}\item 
+uint64\_\-t {\bf sio\_\-timer\_\-size} (struct sio\_\-timer\_\-manager $\ast$st\_\-mgr)
+\begin{CompactList}\small\item\em \`{e}142183\aa{}143150\aa{}174154\ae{}151182\aa{}153168\ae{}149176\'{e}135143 \item\end{CompactList}\item 
+void {\bf sio\_\-timer\_\-insert} (struct sio\_\-timer\_\-manager $\ast$st\_\-mgr, struct sio\_\-timer $\ast$timer)
+\begin{CompactList}\small\item\em \ae{}143146\aa{}133165\aa{}174154\ae{}151182\aa{}153168 \item\end{CompactList}\item 
+void {\bf sio\_\-timer\_\-remove} (struct sio\_\-timer\_\-manager $\ast$st\_\-mgr, struct sio\_\-timer $\ast$timer)
+\begin{CompactList}\small\item\em \aa{}136160\'{e}153164\aa{}174154\ae{}151182\aa{}153168 \item\end{CompactList}\item 
+void {\bf sio\_\-timer\_\-modify} (struct sio\_\-timer\_\-manager $\ast$st\_\-mgr, struct sio\_\-timer $\ast$timer)
+\begin{CompactList}\small\item\em \"{a}?`174\ae{}148185\aa{}174154\ae{}151182\aa{}153168\`{e}?`135\ae{}156159\ae{}151182\'{e}151180 \item\end{CompactList}\item 
+sio\_\-timer $\ast$ {\bf sio\_\-timer\_\-top} (struct sio\_\-timer\_\-manager $\ast$st\_\-mgr)
+\begin{CompactList}\small\item\em \`{e}?`148\aa{}155158\aa{}164167\ae{}160185\aa{}160134\c{c}154132\ae{}160185\`{e}138130\c{c}130185 \item\end{CompactList}\item 
+sio\_\-timer $\ast$ {\bf sio\_\-timer\_\-pop} (struct sio\_\-timer\_\-manager $\ast$st\_\-mgr)
+\begin{CompactList}\small\item\em \aa{}136160\'{e}153164\aa{}164167\ae{}160185\aa{}160134\c{c}154132\ae{}160185\`{e}138130\c{c}130185 \item\end{CompactList}\end{CompactItemize}
+
+
+\subsection{Detailed Description}
+\begin{Desc}
+\item[Author:]liangdong({\tt liangdong01@baidu.com}) \end{Desc}
+\begin{Desc}
+\item[Date:]2014/03/31 09:48:05 \end{Desc}
+\begin{Desc}
+\item[Version:]\$Revision\$ \end{Desc}
+
+
+\subsection{Function Documentation}
+\index{sio_timer.h@{sio\_\-timer.h}!sio_timer_free@{sio\_\-timer\_\-free}}
+\index{sio_timer_free@{sio\_\-timer\_\-free}!sio_timer.h@{sio\_\-timer.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void sio\_\-timer\_\-free (struct sio\_\-timer\_\-manager $\ast$ {\em st\_\-mgr})}\label{sio__timer_8h_a2}
+
+
+\'{e}135138\ae{}148190\"{a}184128\"{a}184170\aa{}174154\ae{}151182\aa{}153168\c{c}174!`\c{c}144134\aa{}153168 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[\mbox{$\leftarrow$} {\em st\_\-mgr}]: struct sio\_\-timer\_\-manager$\ast$ \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]void \end{Desc}
+\begin{Desc}
+\item[Return values:]
+\begin{description}
+\item[{\em @see}]\end{description}
+\end{Desc}
+\begin{Desc}
+\item[Author:]liangdong \end{Desc}
+\begin{Desc}
+\item[Date:]2014/03/31 10:21:44 \end{Desc}
+\index{sio_timer.h@{sio\_\-timer.h}!sio_timer_insert@{sio\_\-timer\_\-insert}}
+\index{sio_timer_insert@{sio\_\-timer\_\-insert}!sio_timer.h@{sio\_\-timer.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void sio\_\-timer\_\-insert (struct sio\_\-timer\_\-manager $\ast$ {\em st\_\-mgr}, struct sio\_\-timer $\ast$ {\em timer})}\label{sio__timer_8h_a4}
+
+
+\ae{}143146\aa{}133165\aa{}174154\ae{}151182\aa{}153168 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[\mbox{$\leftarrow$} {\em st\_\-mgr}]: struct sio\_\-timer\_\-manager$\ast$ \item[\mbox{$\leftarrow$} {\em timer}]: struct sio\_\-timer$\ast$ \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]void \end{Desc}
+\begin{Desc}
+\item[Return values:]
+\begin{description}
+\item[{\em @see}]\end{description}
+\end{Desc}
+\begin{Desc}
+\item[Author:]liangdong \end{Desc}
+\begin{Desc}
+\item[Date:]2014/03/31 10:22:11 \end{Desc}
+\index{sio_timer.h@{sio\_\-timer.h}!sio_timer_modify@{sio\_\-timer\_\-modify}}
+\index{sio_timer_modify@{sio\_\-timer\_\-modify}!sio_timer.h@{sio\_\-timer.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void sio\_\-timer\_\-modify (struct sio\_\-timer\_\-manager $\ast$ {\em st\_\-mgr}, struct sio\_\-timer $\ast$ {\em timer})}\label{sio__timer_8h_a6}
+
+
+\"{a}?`174\ae{}148185\aa{}174154\ae{}151182\aa{}153168\`{e}?`135\ae{}156159\ae{}151182\'{e}151180 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[\mbox{$\leftarrow$} {\em st\_\-mgr}]: struct sio\_\-timer\_\-manager$\ast$ \item[\mbox{$\leftarrow$} {\em timer}]: struct sio\_\-timer$\ast$ \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]void \end{Desc}
+\begin{Desc}
+\item[Return values:]
+\begin{description}
+\item[{\em @see}]\end{description}
+\end{Desc}
+\begin{Desc}
+\item[Author:]liangdong \end{Desc}
+\begin{Desc}
+\item[Date:]2014/03/31 10:23:03 \end{Desc}
+\index{sio_timer.h@{sio\_\-timer.h}!sio_timer_new@{sio\_\-timer\_\-new}}
+\index{sio_timer_new@{sio\_\-timer\_\-new}!sio_timer.h@{sio\_\-timer.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}struct sio\_\-timer\_\-manager$\ast$ sio\_\-timer\_\-new ()}\label{sio__timer_8h_a1}
+
+
+\aa{}136155\aa{}187186\"{a}184128\"{a}184170\aa{}174154\ae{}151182\aa{}153168\c{c}174!`\c{c}144134\aa{}153168 
+
+\begin{Desc}
+\item[Returns:]struct sio\_\-timer\_\-manager$\ast$ \end{Desc}
+\begin{Desc}
+\item[Return values:]
+\begin{description}
+\item[{\em @see}]\end{description}
+\end{Desc}
+\begin{Desc}
+\item[Author:]liangdong \end{Desc}
+\begin{Desc}
+\item[Date:]2014/03/31 10:21:32 \end{Desc}
+\index{sio_timer.h@{sio\_\-timer.h}!sio_timer_pop@{sio\_\-timer\_\-pop}}
+\index{sio_timer_pop@{sio\_\-timer\_\-pop}!sio_timer.h@{sio\_\-timer.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}struct sio\_\-timer$\ast$ sio\_\-timer\_\-pop (struct sio\_\-timer\_\-manager $\ast$ {\em st\_\-mgr})}\label{sio__timer_8h_a8}
+
+
+\aa{}136160\'{e}153164\aa{}164167\ae{}160185\aa{}160134\c{c}154132\ae{}160185\`{e}138130\c{c}130185 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[\mbox{$\leftarrow$} {\em st\_\-mgr}]: struct sio\_\-timer\_\-manager$\ast$ \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]struct sio\_\-timer$\ast$ \end{Desc}
+\begin{Desc}
+\item[Return values:]
+\begin{description}
+\item[{\em @see}]\end{description}
+\end{Desc}
+\begin{Desc}
+\item[Author:]liangdong \end{Desc}
+\begin{Desc}
+\item[Date:]2014/03/31 10:23:45 \end{Desc}
+\index{sio_timer.h@{sio\_\-timer.h}!sio_timer_remove@{sio\_\-timer\_\-remove}}
+\index{sio_timer_remove@{sio\_\-timer\_\-remove}!sio_timer.h@{sio\_\-timer.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void sio\_\-timer\_\-remove (struct sio\_\-timer\_\-manager $\ast$ {\em st\_\-mgr}, struct sio\_\-timer $\ast$ {\em timer})}\label{sio__timer_8h_a5}
+
+
+\aa{}136160\'{e}153164\aa{}174154\ae{}151182\aa{}153168 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[\mbox{$\leftarrow$} {\em st\_\-mgr}]: struct sio\_\-timer\_\-manager$\ast$ \item[\mbox{$\leftarrow$} {\em timer}]: struct sio\_\-timer$\ast$ \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]void \end{Desc}
+\begin{Desc}
+\item[Return values:]
+\begin{description}
+\item[{\em @see}]\end{description}
+\end{Desc}
+\begin{Desc}
+\item[Author:]liangdong \end{Desc}
+\begin{Desc}
+\item[Date:]2014/03/31 10:22:45 \end{Desc}
+\index{sio_timer.h@{sio\_\-timer.h}!sio_timer_size@{sio\_\-timer\_\-size}}
+\index{sio_timer_size@{sio\_\-timer\_\-size}!sio_timer.h@{sio\_\-timer.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}uint64\_\-t sio\_\-timer\_\-size (struct sio\_\-timer\_\-manager $\ast$ {\em st\_\-mgr})}\label{sio__timer_8h_a3}
+
+
+\`{e}142183\aa{}143150\aa{}174154\ae{}151182\aa{}153168\ae{}149176\'{e}135143 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[\mbox{$\leftarrow$} {\em st\_\-mgr}]: struct sio\_\-timer\_\-manager$\ast$ \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]uint64\_\-t \end{Desc}
+\begin{Desc}
+\item[Return values:]
+\begin{description}
+\item[{\em @see}]\end{description}
+\end{Desc}
+\begin{Desc}
+\item[Author:]liangdong \end{Desc}
+\begin{Desc}
+\item[Date:]2014/03/31 10:21:57 \end{Desc}
+\index{sio_timer.h@{sio\_\-timer.h}!sio_timer_top@{sio\_\-timer\_\-top}}
+\index{sio_timer_top@{sio\_\-timer\_\-top}!sio_timer.h@{sio\_\-timer.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}struct sio\_\-timer$\ast$ sio\_\-timer\_\-top (struct sio\_\-timer\_\-manager $\ast$ {\em st\_\-mgr})}\label{sio__timer_8h_a7}
+
+
+\`{e}?`148\aa{}155158\aa{}164167\ae{}160185\aa{}160134\c{c}154132\ae{}160185\`{e}138130\c{c}130185 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[\mbox{$\leftarrow$} {\em st\_\-mgr}]: struct sio\_\-timer\_\-manager$\ast$ \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]struct sio\_\-timer$\ast$ \end{Desc}
+\begin{Desc}
+\item[Return values:]
+\begin{description}
+\item[{\em @see}]\end{description}
+\end{Desc}
+\begin{Desc}
+\item[Author:]liangdong \end{Desc}
+\begin{Desc}
+\item[Date:]2014/03/31 10:23:25 \end{Desc}

@@ -1,0 +1,201 @@
+\section{sio\_\-dgram.c File Reference}
+\label{sio__dgram_8c}\index{sio_dgram.c@{sio\_\-dgram.c}}
+{\tt \#include $<$errno.h$>$}\par
+{\tt \#include $<$stdlib.h$>$}\par
+{\tt \#include $<$unistd.h$>$}\par
+{\tt \#include $<$fcntl.h$>$}\par
+{\tt \#include $<$sys/socket.h$>$}\par
+{\tt \#include $<$netinet/in.h$>$}\par
+{\tt \#include $<$arpa/inet.h$>$}\par
+{\tt \#include \char`\"{}sio.h\char`\"{}}\par
+{\tt \#include \char`\"{}sio\_\-dgram.h\char`\"{}}\par
+\subsection*{Functions}
+\begin{CompactItemize}
+\item 
+sio\_\-dgram $\ast$ {\bf sio\_\-dgram\_\-open} (struct sio $\ast$sio, const char $\ast$ipv4, uint16\_\-t port, sio\_\-dgram\_\-callback\_\-t callback, void $\ast$arg)
+\begin{CompactList}\small\item\em \aa{}136155\aa{}187186udp socket, \c{c}187145\aa{}174154\aa{}136176ipv4\aa{}146140port, \aa{}166130\ae{}158156udp socket\"{a}189156\"{a}184186\aa{}174162\ae{}136183\c{c}171175\"{a}189?`\c{c}148168\"{a}184141\aa{}133179\aa{}?`131ip\ae{}136150port,\aa{}143175\"{a}187165ip\aa{}!`171\aa{}1341530.0.0.0,port\aa{}!`171\aa{}1341530. \item\end{CompactList}\item 
+void {\bf sio\_\-dgram\_\-close} (struct sio $\ast$sio, struct sio\_\-dgram $\ast$sdgram)
+\begin{CompactList}\small\item\em \aa{}133179\'{e}151173udp socket \item\end{CompactList}\item 
+int {\bf sio\_\-dgram\_\-write} (struct sio $\ast$sio, struct sio\_\-dgram $\ast$sdgram, const char $\ast$ipv4, uint16\_\-t port, const char $\ast$data, uint64\_\-t size)
+\begin{CompactList}\small\item\em \'{e}128154\`{e}?`135udp socket\aa{}144145ipv4,port\aa{}156176\aa{}157128\aa{}143145\'{e}128129\ae{}149176\ae{}141174 \item\end{CompactList}\item 
+void {\bf sio\_\-dgram\_\-set} (struct sio $\ast$sio, struct sio\_\-dgram $\ast$sdgram, sio\_\-dgram\_\-callback\_\-t callback, void $\ast$arg)
+\begin{CompactList}\small\item\em \ae{}155180\ae{}150176sio\_\-dgram\c{c}154132\aa{}155158\`{e}176131\aa{}135189\ae{}149176\aa{}146140\aa{}143130\ae{}149176 \item\end{CompactList}\item 
+int {\bf sio\_\-dgram\_\-attach} (struct sio $\ast$sio, struct sio\_\-dgram $\ast$sdgram)
+\begin{CompactList}\small\item\em \ae{}179168\aa{}134140sio\_\-dgram\aa{}136176sio \item\end{CompactList}\item 
+void {\bf sio\_\-dgram\_\-detach} (struct sio $\ast$sio, struct sio\_\-dgram $\ast$sdgram)
+\begin{CompactList}\small\item\em \aa{}143150\ae{}182136sio\_\-dgram\aa{}136176sio\c{c}154132\ae{}179168\aa{}134140 \item\end{CompactList}\item 
+int {\bf sio\_\-dgram\_\-response} (struct sio $\ast$sio, struct sio\_\-dgram $\ast$sdgram, struct sockaddr\_\-in $\ast$source, const char $\ast$data, uint64\_\-t size)
+\begin{CompactList}\small\item\em \'{e}128154\`{e}?`135udp socket\aa{}144145\ae{}186144\aa{}156176\aa{}157128\aa{}143145\'{e}128129\aa{}186148\c{c}173148 \item\end{CompactList}\end{CompactItemize}
+
+
+\subsection{Detailed Description}
+\begin{Desc}
+\item[Author:]liangdong({\tt liangdong01@baidu.com}) \end{Desc}
+\begin{Desc}
+\item[Date:]2014/03/31 13:33:56 \end{Desc}
+\begin{Desc}
+\item[Version:]\$Revision\$ \end{Desc}
+
+
+\subsection{Function Documentation}
+\index{sio_dgram.c@{sio\_\-dgram.c}!sio_dgram_attach@{sio\_\-dgram\_\-attach}}
+\index{sio_dgram_attach@{sio\_\-dgram\_\-attach}!sio_dgram.c@{sio\_\-dgram.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int sio\_\-dgram\_\-attach (struct sio $\ast$ {\em sio}, struct sio\_\-dgram $\ast$ {\em sdgram})}\label{sio__dgram_8c_a6}
+
+
+\ae{}179168\aa{}134140sio\_\-dgram\aa{}136176sio 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[\mbox{$\leftarrow$} {\em sio}]: struct sio$\ast$ \item[\mbox{$\leftarrow$} {\em sdgram}]: struct sio\_\-dgram$\ast$ \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]int \end{Desc}
+\begin{Desc}
+\item[Return values:]
+\begin{description}
+\item[{\em @see}]\end{description}
+\end{Desc}
+\begin{Desc}
+\item[Author:]liangdong \end{Desc}
+\begin{Desc}
+\item[Date:]2014/03/31 14:05:15 \end{Desc}
+\index{sio_dgram.c@{sio\_\-dgram.c}!sio_dgram_close@{sio\_\-dgram\_\-close}}
+\index{sio_dgram_close@{sio\_\-dgram\_\-close}!sio_dgram.c@{sio\_\-dgram.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void sio\_\-dgram\_\-close (struct sio $\ast$ {\em sio}, struct sio\_\-dgram $\ast$ {\em sdgram})}\label{sio__dgram_8c_a3}
+
+
+\aa{}133179\'{e}151173udp socket 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[\mbox{$\leftarrow$} {\em sio}]: struct sio$\ast$ \item[\mbox{$\leftarrow$} {\em sdgram}]: struct sio\_\-dgram$\ast$ \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]void \end{Desc}
+\begin{Desc}
+\item[Return values:]
+\begin{description}
+\item[{\em @see}]\end{description}
+\end{Desc}
+\begin{Desc}
+\item[Author:]liangdong \end{Desc}
+\begin{Desc}
+\item[Date:]2014/03/31 13:56:55 \end{Desc}
+\index{sio_dgram.c@{sio\_\-dgram.c}!sio_dgram_detach@{sio\_\-dgram\_\-detach}}
+\index{sio_dgram_detach@{sio\_\-dgram\_\-detach}!sio_dgram.c@{sio\_\-dgram.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void sio\_\-dgram\_\-detach (struct sio $\ast$ {\em sio}, struct sio\_\-dgram $\ast$ {\em sdgram})}\label{sio__dgram_8c_a7}
+
+
+\aa{}143150\ae{}182136sio\_\-dgram\aa{}136176sio\c{c}154132\ae{}179168\aa{}134140 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[\mbox{$\leftarrow$} {\em sio}]: struct sio$\ast$ \item[\mbox{$\leftarrow$} {\em sdgram}]: struct sio\_\-dgram$\ast$ \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]void \end{Desc}
+\begin{Desc}
+\item[Return values:]
+\begin{description}
+\item[{\em @see}]\end{description}
+\end{Desc}
+\begin{Desc}
+\item[Author:]liangdong \end{Desc}
+\begin{Desc}
+\item[Date:]2014/03/31 14:05:40 \end{Desc}
+\index{sio_dgram.c@{sio\_\-dgram.c}!sio_dgram_open@{sio\_\-dgram\_\-open}}
+\index{sio_dgram_open@{sio\_\-dgram\_\-open}!sio_dgram.c@{sio\_\-dgram.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}struct sio\_\-dgram$\ast$ sio\_\-dgram\_\-open (struct sio $\ast$ {\em sio}, const char $\ast$ {\em ipv4}, uint16\_\-t {\em port}, sio\_\-dgram\_\-callback\_\-t {\em callback}, void $\ast$ {\em arg})}\label{sio__dgram_8c_a2}
+
+
+\aa{}136155\aa{}187186udp socket, \c{c}187145\aa{}174154\aa{}136176ipv4\aa{}146140port, \aa{}166130\ae{}158156udp socket\"{a}189156\"{a}184186\aa{}174162\ae{}136183\c{c}171175\"{a}189?`\c{c}148168\"{a}184141\aa{}133179\aa{}?`131ip\ae{}136150port,\aa{}143175\"{a}187165ip\aa{}!`171\aa{}1341530.0.0.0,port\aa{}!`171\aa{}1341530. 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[\mbox{$\leftarrow$} {\em sio}]: struct sio$\ast$ \item[\mbox{$\leftarrow$} {\em ipv4}]: const char$\ast$ \item[\mbox{$\leftarrow$} {\em port}]: uint16\_\-t \item[\mbox{$\leftarrow$} {\em callback}]: sio\_\-dgram\_\-callback\_\-t \item[\mbox{$\leftarrow$} {\em arg}]: void$\ast$ \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]struct sio\_\-dgram$\ast$ \end{Desc}
+\begin{Desc}
+\item[Return values:]
+\begin{description}
+\item[{\em @see}]\end{description}
+\end{Desc}
+\begin{Desc}
+\item[Author:]liangdong \end{Desc}
+\begin{Desc}
+\item[Date:]2014/03/31 13:55:27 \end{Desc}
+\index{sio_dgram.c@{sio\_\-dgram.c}!sio_dgram_response@{sio\_\-dgram\_\-response}}
+\index{sio_dgram_response@{sio\_\-dgram\_\-response}!sio_dgram.c@{sio\_\-dgram.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int sio\_\-dgram\_\-response (struct sio $\ast$ {\em sio}, struct sio\_\-dgram $\ast$ {\em sdgram}, struct sockaddr\_\-in $\ast$ {\em source}, const char $\ast$ {\em data}, uint64\_\-t {\em size})}\label{sio__dgram_8c_a8}
+
+
+\'{e}128154\`{e}?`135udp socket\aa{}144145\ae{}186144\aa{}156176\aa{}157128\aa{}143145\'{e}128129\aa{}186148\c{c}173148 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[\mbox{$\leftarrow$} {\em sio}]: struct sio$\ast$ \item[\mbox{$\leftarrow$} {\em sdgram}]: struct sio\_\-dgram$\ast$ \item[\mbox{$\leftarrow$} {\em addr}]: struct sockaddr\_\-in$\ast$ \item[\mbox{$\leftarrow$} {\em data}]: const char$\ast$ \item[\mbox{$\leftarrow$} {\em size}]: uint64\_\-t \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]int \`{e}?`148\aa{}1551580\`{e}!`168\c{c}164186\ae{}136144\aa{}138159, -1\`{e}!`168\c{c}164186\aa{}164177\`{e}180165 \end{Desc}
+\begin{Desc}
+\item[Return values:]
+\begin{description}
+\item[{\em @see}]\end{description}
+\end{Desc}
+\begin{Desc}
+\item[Author:]liangdong \end{Desc}
+\begin{Desc}
+\item[Date:]2014/03/31 15:19:22 \end{Desc}
+\index{sio_dgram.c@{sio\_\-dgram.c}!sio_dgram_set@{sio\_\-dgram\_\-set}}
+\index{sio_dgram_set@{sio\_\-dgram\_\-set}!sio_dgram.c@{sio\_\-dgram.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void sio\_\-dgram\_\-set (struct sio $\ast$ {\em sio}, struct sio\_\-dgram $\ast$ {\em sdgram}, sio\_\-dgram\_\-callback\_\-t {\em callback}, void $\ast$ {\em arg})}\label{sio__dgram_8c_a5}
+
+
+\ae{}155180\ae{}150176sio\_\-dgram\c{c}154132\aa{}155158\`{e}176131\aa{}135189\ae{}149176\aa{}146140\aa{}143130\ae{}149176 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[\mbox{$\leftarrow$} {\em sio}]: struct sio$\ast$ \item[\mbox{$\leftarrow$} {\em sdgram}]: struct sio\_\-dgram$\ast$ \item[\mbox{$\leftarrow$} {\em callback}]: sio\_\-dgram\_\-callback\_\-t \item[\mbox{$\leftarrow$} {\em arg}]: void$\ast$ \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]void \end{Desc}
+\begin{Desc}
+\item[Return values:]
+\begin{description}
+\item[{\em @see}]\end{description}
+\end{Desc}
+\begin{Desc}
+\item[Author:]liangdong \end{Desc}
+\begin{Desc}
+\item[Date:]2014/03/31 13:58:57 \end{Desc}
+\index{sio_dgram.c@{sio\_\-dgram.c}!sio_dgram_write@{sio\_\-dgram\_\-write}}
+\index{sio_dgram_write@{sio\_\-dgram\_\-write}!sio_dgram.c@{sio\_\-dgram.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int sio\_\-dgram\_\-write (struct sio $\ast$ {\em sio}, struct sio\_\-dgram $\ast$ {\em sdgram}, const char $\ast$ {\em ipv4}, uint16\_\-t {\em port}, const char $\ast$ {\em data}, uint64\_\-t {\em size})}\label{sio__dgram_8c_a4}
+
+
+\'{e}128154\`{e}?`135udp socket\aa{}144145ipv4,port\aa{}156176\aa{}157128\aa{}143145\'{e}128129\ae{}149176\ae{}141174 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[\mbox{$\leftarrow$} {\em sio}]: struct sio$\ast$ \item[\mbox{$\leftarrow$} {\em sdgram}]: struct sio\_\-dgram$\ast$ \item[\mbox{$\leftarrow$} {\em ipv4}]: const char$\ast$ \item[\mbox{$\leftarrow$} {\em port}]: uint16\_\-t \item[\mbox{$\leftarrow$} {\em data}]: const char$\ast$ \item[\mbox{$\leftarrow$} {\em size}]: uint64\_\-t \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]int \`{e}?`148\aa{}1551580\`{e}!`168\c{c}164186\ae{}136144\aa{}138159, -1\`{e}!`168\c{c}164186\aa{}164177\`{e}180165 \end{Desc}
+\begin{Desc}
+\item[Return values:]
+\begin{description}
+\item[{\em @see}]\end{description}
+\end{Desc}
+\begin{Desc}
+\item[Author:]liangdong \end{Desc}
+\begin{Desc}
+\item[Date:]2014/03/31 13:58:15 \end{Desc}

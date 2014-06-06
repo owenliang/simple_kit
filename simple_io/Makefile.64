@@ -1,0 +1,284 @@
+#COMAKE2 edit-mode: -*- Makefile -*-
+####################64Bit Mode####################
+ifeq ($(shell uname -m),x86_64)
+CC=gcc
+CXX=g++
+CXXFLAGS=-g \
+  -pipe \
+  -W \
+  -Wall \
+  -fPIC
+CFLAGS=-g \
+  -pipe \
+  -W \
+  -Wall \
+  -fPIC
+CPPFLAGS=-D_GNU_SOURCE \
+  -D__STDC_LIMIT_MACROS \
+  -DVERSION=\"1.9.8.7\"
+INCPATH=-I. \
+  -I./include \
+  -I./output \
+  -I./output/include
+DEP_INCPATH=
+
+#============ CCP vars ============
+CCHECK=@ccheck.py
+CCHECK_FLAGS=
+PCLINT=@pclint
+PCLINT_FLAGS=
+CCP=@ccp.py
+CCP_FLAGS=
+
+
+#COMAKE UUID
+COMAKE_MD5=f5523f7894084842ce19bbcae820605d  COMAKE
+
+
+.PHONY:all
+all:comake2_makefile_check test_sio test_sio_stream_fork_server test_sio_stream_server test_sio_stream_multi_server test_sio_stream_client test_sio_dgram_server test_sio_dgram_client libsio.a 
+	@echo "[[1;32;40mCOMAKE:BUILD[0m][Target:'[1;32;40mall[0m']"
+	@echo "make all done"
+
+.PHONY:comake2_makefile_check
+comake2_makefile_check:
+	@echo "[[1;32;40mCOMAKE:BUILD[0m][Target:'[1;32;40mcomake2_makefile_check[0m']"
+	#in case of error, update 'Makefile' by 'comake2'
+	@echo "$(COMAKE_MD5)">comake2.md5
+	@md5sum -c --status comake2.md5
+	@rm -f comake2.md5
+
+.PHONY:ccpclean
+ccpclean:
+	@echo "[[1;32;40mCOMAKE:BUILD[0m][Target:'[1;32;40mccpclean[0m']"
+	@echo "make ccpclean done"
+
+.PHONY:clean
+clean:ccpclean
+	@echo "[[1;32;40mCOMAKE:BUILD[0m][Target:'[1;32;40mclean[0m']"
+	rm -rf test_sio
+	rm -rf ./output/bin/test_sio
+	rm -rf test_sio_stream_fork_server
+	rm -rf ./output/bin/test_sio_stream_fork_server
+	rm -rf test_sio_stream_server
+	rm -rf ./output/bin/test_sio_stream_server
+	rm -rf test_sio_stream_multi_server
+	rm -rf ./output/bin/test_sio_stream_multi_server
+	rm -rf test_sio_stream_client
+	rm -rf ./output/bin/test_sio_stream_client
+	rm -rf test_sio_dgram_server
+	rm -rf ./output/bin/test_sio_dgram_server
+	rm -rf test_sio_dgram_client
+	rm -rf ./output/bin/test_sio_dgram_client
+	rm -rf libsio.a
+	rm -rf ./output/lib/libsio.a
+	rm -rf ./output/include/sio.h
+	rm -rf ./output/include/sio_stream.h
+	rm -rf ./output/include/sio_buffer.h
+	rm -rf ./output/include/sio_timer.h
+	rm -rf ./output/include/sio_dgram.h
+	rm -rf test_sio_test_sio.o
+	rm -rf test_sio_stream_fork_server_test_sio_stream_fork_server.o
+	rm -rf test_sio_stream_server_test_sio_stream_server.o
+	rm -rf test_sio_stream_multi_server_test_sio_stream_multi_server.o
+	rm -rf test_sio_stream_client_test_sio_stream_client.o
+	rm -rf test_sio_dgram_server_test_sio_dgram_server.o
+	rm -rf test_sio_dgram_client_test_sio_dgram_client.o
+	rm -rf sio_sio.o
+	rm -rf sio_sio_stream.o
+	rm -rf sio_sio_buffer.o
+	rm -rf sio_sio_timer.o
+	rm -rf sio_sio_dgram.o
+
+.PHONY:dist
+dist:
+	@echo "[[1;32;40mCOMAKE:BUILD[0m][Target:'[1;32;40mdist[0m']"
+	tar czvf output.tar.gz output
+	@echo "make dist done"
+
+.PHONY:distclean
+distclean:clean
+	@echo "[[1;32;40mCOMAKE:BUILD[0m][Target:'[1;32;40mdistclean[0m']"
+	rm -f output.tar.gz
+	@echo "make distclean done"
+
+.PHONY:love
+love:
+	@echo "[[1;32;40mCOMAKE:BUILD[0m][Target:'[1;32;40mlove[0m']"
+	@echo "make love done"
+
+test_sio:libsio.a \
+  test_sio_test_sio.o \
+  libsio.a
+	@echo "[[1;32;40mCOMAKE:BUILD[0m][Target:'[1;32;40mtest_sio[0m']"
+	$(CXX) test_sio_test_sio.o \
+  libsio.a -Xlinker "-("   -lpthread \
+  -lrt -Xlinker "-)" -o test_sio
+	mkdir -p ./output/bin
+	cp -f --link test_sio ./output/bin
+
+test_sio_stream_fork_server:libsio.a \
+  test_sio_stream_fork_server_test_sio_stream_fork_server.o \
+  libsio.a
+	@echo "[[1;32;40mCOMAKE:BUILD[0m][Target:'[1;32;40mtest_sio_stream_fork_server[0m']"
+	$(CXX) test_sio_stream_fork_server_test_sio_stream_fork_server.o \
+  libsio.a -Xlinker "-("   -lpthread \
+  -lrt -Xlinker "-)" -o test_sio_stream_fork_server
+	mkdir -p ./output/bin
+	cp -f --link test_sio_stream_fork_server ./output/bin
+
+test_sio_stream_server:libsio.a \
+  test_sio_stream_server_test_sio_stream_server.o \
+  libsio.a
+	@echo "[[1;32;40mCOMAKE:BUILD[0m][Target:'[1;32;40mtest_sio_stream_server[0m']"
+	$(CXX) test_sio_stream_server_test_sio_stream_server.o \
+  libsio.a -Xlinker "-("   -lpthread \
+  -lrt -Xlinker "-)" -o test_sio_stream_server
+	mkdir -p ./output/bin
+	cp -f --link test_sio_stream_server ./output/bin
+
+test_sio_stream_multi_server:libsio.a \
+  test_sio_stream_multi_server_test_sio_stream_multi_server.o \
+  libsio.a
+	@echo "[[1;32;40mCOMAKE:BUILD[0m][Target:'[1;32;40mtest_sio_stream_multi_server[0m']"
+	$(CXX) test_sio_stream_multi_server_test_sio_stream_multi_server.o \
+  libsio.a -Xlinker "-("   -lpthread \
+  -lrt -Xlinker "-)" -o test_sio_stream_multi_server
+	mkdir -p ./output/bin
+	cp -f --link test_sio_stream_multi_server ./output/bin
+
+test_sio_stream_client:libsio.a \
+  test_sio_stream_client_test_sio_stream_client.o \
+  libsio.a
+	@echo "[[1;32;40mCOMAKE:BUILD[0m][Target:'[1;32;40mtest_sio_stream_client[0m']"
+	$(CXX) test_sio_stream_client_test_sio_stream_client.o \
+  libsio.a -Xlinker "-("   -lpthread \
+  -lrt -Xlinker "-)" -o test_sio_stream_client
+	mkdir -p ./output/bin
+	cp -f --link test_sio_stream_client ./output/bin
+
+test_sio_dgram_server:libsio.a \
+  test_sio_dgram_server_test_sio_dgram_server.o \
+  libsio.a
+	@echo "[[1;32;40mCOMAKE:BUILD[0m][Target:'[1;32;40mtest_sio_dgram_server[0m']"
+	$(CXX) test_sio_dgram_server_test_sio_dgram_server.o \
+  libsio.a -Xlinker "-("   -lpthread \
+  -lrt -Xlinker "-)" -o test_sio_dgram_server
+	mkdir -p ./output/bin
+	cp -f --link test_sio_dgram_server ./output/bin
+
+test_sio_dgram_client:libsio.a \
+  test_sio_dgram_client_test_sio_dgram_client.o \
+  libsio.a
+	@echo "[[1;32;40mCOMAKE:BUILD[0m][Target:'[1;32;40mtest_sio_dgram_client[0m']"
+	$(CXX) test_sio_dgram_client_test_sio_dgram_client.o \
+  libsio.a -Xlinker "-("   -lpthread \
+  -lrt -Xlinker "-)" -o test_sio_dgram_client
+	mkdir -p ./output/bin
+	cp -f --link test_sio_dgram_client ./output/bin
+
+libsio.a:sio_sio.o \
+  sio_sio_stream.o \
+  sio_sio_buffer.o \
+  sio_sio_timer.o \
+  sio_sio_dgram.o \
+  sio.h \
+  sio_stream.h \
+  sio_buffer.h \
+  sio_timer.h \
+  sio_dgram.h
+	@echo "[[1;32;40mCOMAKE:BUILD[0m][Target:'[1;32;40mlibsio.a[0m']"
+	ar crs libsio.a sio_sio.o \
+  sio_sio_stream.o \
+  sio_sio_buffer.o \
+  sio_sio_timer.o \
+  sio_sio_dgram.o
+	mkdir -p ./output/lib
+	cp -f --link libsio.a ./output/lib
+	mkdir -p ./output/include
+	cp -f --link sio.h sio_stream.h sio_buffer.h sio_timer.h sio_dgram.h ./output/include
+
+test_sio_test_sio.o:test_sio.c \
+  sio.h \
+  sio_timer.h
+	@echo "[[1;32;40mCOMAKE:BUILD[0m][Target:'[1;32;40mtest_sio_test_sio.o[0m']"
+	$(CC) -c $(INCPATH) $(DEP_INCPATH) $(CPPFLAGS) $(CFLAGS)  -o test_sio_test_sio.o test_sio.c
+
+test_sio_stream_fork_server_test_sio_stream_fork_server.o:test_sio_stream_fork_server.c \
+  sio.h \
+  sio_timer.h
+	@echo "[[1;32;40mCOMAKE:BUILD[0m][Target:'[1;32;40mtest_sio_stream_fork_server_test_sio_stream_fork_server.o[0m']"
+	$(CC) -c $(INCPATH) $(DEP_INCPATH) $(CPPFLAGS) $(CFLAGS)  -o test_sio_stream_fork_server_test_sio_stream_fork_server.o test_sio_stream_fork_server.c
+
+test_sio_stream_server_test_sio_stream_server.o:test_sio_stream_server.cpp \
+  sio.h \
+  sio_timer.h \
+  sio_stream.h \
+  sio_buffer.h
+	@echo "[[1;32;40mCOMAKE:BUILD[0m][Target:'[1;32;40mtest_sio_stream_server_test_sio_stream_server.o[0m']"
+	$(CXX) -c $(INCPATH) $(DEP_INCPATH) $(CPPFLAGS) $(CXXFLAGS)  -o test_sio_stream_server_test_sio_stream_server.o test_sio_stream_server.cpp
+
+test_sio_stream_multi_server_test_sio_stream_multi_server.o:test_sio_stream_multi_server.cpp \
+  sio.h \
+  sio_timer.h \
+  sio_stream.h \
+  sio_buffer.h
+	@echo "[[1;32;40mCOMAKE:BUILD[0m][Target:'[1;32;40mtest_sio_stream_multi_server_test_sio_stream_multi_server.o[0m']"
+	$(CXX) -c $(INCPATH) $(DEP_INCPATH) $(CPPFLAGS) $(CXXFLAGS)  -o test_sio_stream_multi_server_test_sio_stream_multi_server.o test_sio_stream_multi_server.cpp
+
+test_sio_stream_client_test_sio_stream_client.o:test_sio_stream_client.cpp \
+  sio.h \
+  sio_timer.h \
+  sio_stream.h \
+  sio_buffer.h
+	@echo "[[1;32;40mCOMAKE:BUILD[0m][Target:'[1;32;40mtest_sio_stream_client_test_sio_stream_client.o[0m']"
+	$(CXX) -c $(INCPATH) $(DEP_INCPATH) $(CPPFLAGS) $(CXXFLAGS)  -o test_sio_stream_client_test_sio_stream_client.o test_sio_stream_client.cpp
+
+test_sio_dgram_server_test_sio_dgram_server.o:test_sio_dgram_server.c \
+  sio.h \
+  sio_timer.h \
+  sio_dgram.h
+	@echo "[[1;32;40mCOMAKE:BUILD[0m][Target:'[1;32;40mtest_sio_dgram_server_test_sio_dgram_server.o[0m']"
+	$(CC) -c $(INCPATH) $(DEP_INCPATH) $(CPPFLAGS) $(CFLAGS)  -o test_sio_dgram_server_test_sio_dgram_server.o test_sio_dgram_server.c
+
+test_sio_dgram_client_test_sio_dgram_client.o:test_sio_dgram_client.c \
+  sio.h \
+  sio_timer.h \
+  sio_dgram.h
+	@echo "[[1;32;40mCOMAKE:BUILD[0m][Target:'[1;32;40mtest_sio_dgram_client_test_sio_dgram_client.o[0m']"
+	$(CC) -c $(INCPATH) $(DEP_INCPATH) $(CPPFLAGS) $(CFLAGS)  -o test_sio_dgram_client_test_sio_dgram_client.o test_sio_dgram_client.c
+
+sio_sio.o:sio.c \
+  sio_timer.h \
+  sio.h
+	@echo "[[1;32;40mCOMAKE:BUILD[0m][Target:'[1;32;40msio_sio.o[0m']"
+	$(CC) -c $(INCPATH) $(DEP_INCPATH) $(CPPFLAGS) $(CFLAGS)  -o sio_sio.o sio.c
+
+sio_sio_stream.o:sio_stream.c \
+  sio.h \
+  sio_timer.h \
+  sio_stream.h \
+  sio_buffer.h
+	@echo "[[1;32;40mCOMAKE:BUILD[0m][Target:'[1;32;40msio_sio_stream.o[0m']"
+	$(CC) -c $(INCPATH) $(DEP_INCPATH) $(CPPFLAGS) $(CFLAGS)  -o sio_sio_stream.o sio_stream.c
+
+sio_sio_buffer.o:sio_buffer.c \
+  sio_buffer.h
+	@echo "[[1;32;40mCOMAKE:BUILD[0m][Target:'[1;32;40msio_sio_buffer.o[0m']"
+	$(CC) -c $(INCPATH) $(DEP_INCPATH) $(CPPFLAGS) $(CFLAGS)  -o sio_sio_buffer.o sio_buffer.c
+
+sio_sio_timer.o:sio_timer.c \
+  sio_timer.h
+	@echo "[[1;32;40mCOMAKE:BUILD[0m][Target:'[1;32;40msio_sio_timer.o[0m']"
+	$(CC) -c $(INCPATH) $(DEP_INCPATH) $(CPPFLAGS) $(CFLAGS)  -o sio_sio_timer.o sio_timer.c
+
+sio_sio_dgram.o:sio_dgram.c \
+  sio.h \
+  sio_timer.h \
+  sio_dgram.h
+	@echo "[[1;32;40mCOMAKE:BUILD[0m][Target:'[1;32;40msio_sio_dgram.o[0m']"
+	$(CC) -c $(INCPATH) $(DEP_INCPATH) $(CPPFLAGS) $(CFLAGS)  -o sio_sio_dgram.o sio_dgram.c
+
+endif #ifeq ($(shell uname -m),x86_64)
+
+

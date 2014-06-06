@@ -1,0 +1,294 @@
+\section{sio\_\-stream.h File Reference}
+\label{sio__stream_8h}\index{sio_stream.h@{sio\_\-stream.h}}
+{\tt \#include \char`\"{}sio\_\-buffer.h\char`\"{}}\par
+\subsection*{Classes}
+\begin{CompactItemize}
+\item 
+struct {\bf sio\_\-stream}
+\end{CompactItemize}
+\subsection*{Typedefs}
+\begin{CompactItemize}
+\item 
+typedef void($\ast$ {\bf sio\_\-stream\_\-callback\_\-t} )(struct sio $\ast$sio, struct sio\_\-stream $\ast$stream, enum {\bf sio\_\-stream\_\-event} event, void $\ast$arg)\label{sio__stream_8h_a0}
+
+\end{CompactItemize}
+\subsection*{Enumerations}
+\begin{CompactItemize}
+\item 
+enum {\bf sio\_\-stream\_\-event} \{ {\bf SIO\_\-STREAM\_\-ACCEPT}, 
+{\bf SIO\_\-STREAM\_\-DATA}, 
+{\bf SIO\_\-STREAM\_\-ERROR}, 
+{\bf SIO\_\-STREAM\_\-CLOSE}
+ \}
+\item 
+enum {\bf sio\_\-stream\_\-type} \{ {\bf SIO\_\-STREAM\_\-LISTEN}, 
+{\bf SIO\_\-STREAM\_\-CONNECT}, 
+{\bf SIO\_\-STREAM\_\-NORMAL}
+ \}
+\end{CompactItemize}
+\subsection*{Functions}
+\begin{CompactItemize}
+\item 
+sio\_\-stream $\ast$ {\bf sio\_\-stream\_\-listen} (struct sio $\ast$sio, const char $\ast$ipv4, uint16\_\-t port, sio\_\-stream\_\-callback\_\-t callback, void $\ast$arg)
+\begin{CompactList}\small\item\em \aa{}144175\aa{}138168TCP\c{c}155145\aa{}144172\aa{}165151\ae{}142165\aa{}173151 \item\end{CompactList}\item 
+sio\_\-stream $\ast$ {\bf sio\_\-stream\_\-connect} (struct sio $\ast$sio, const char $\ast$ipv4, uint16\_\-t port, sio\_\-stream\_\-callback\_\-t callback, void $\ast$arg)
+\begin{CompactList}\small\item\em \aa{}143145\`{e}$\mu$183TCP\aa{}188130\ae{}173165\`{e}?`158\ae{}142165 \item\end{CompactList}\item 
+void {\bf sio\_\-stream\_\-set} (struct sio $\ast$sio, struct sio\_\-stream $\ast$stream, sio\_\-stream\_\-callback\_\-t callback, void $\ast$arg)
+\begin{CompactList}\small\item\em \ae{}155180\ae{}150176sio\_\-stream\c{c}154132\aa{}155158\`{e}176131\aa{}135189\ae{}149176\aa{}146140\c{c}148168\ae{}136183\aa{}143130\ae{}149176 \item\end{CompactList}\item 
+void {\bf sio\_\-stream\_\-close} (struct sio $\ast$sio, struct sio\_\-stream $\ast$stream)
+\begin{CompactList}\small\item\em \aa{}133179\'{e}151173TCP\`{e}?`158\ae{}142165 \item\end{CompactList}\item 
+void {\bf sio\_\-stream\_\-detach} (struct sio $\ast$sio, struct sio\_\-stream $\ast$stream)
+\begin{CompactList}\small\item\em \"{a}187142sio\"{a}184173\aa{}143150\ae{}182136stream\c{c}154132\ae{}179168\aa{}134140, \"{a}?`157\ae{}140129stream\aa{}143175\c{c}148168 \item\end{CompactList}\item 
+int {\bf sio\_\-stream\_\-attach} (struct sio $\ast$sio, struct sio\_\-stream $\ast$stream)
+\begin{CompactList}\small\item\em \aa{}176134stream\ae{}179168\aa{}134140\aa{}136176sio\"{a}184173, \aa{}143175\`{e}131189\aa{}164177\`{e}180165 \item\end{CompactList}\item 
+int {\bf sio\_\-stream\_\-write} (struct sio $\ast$sio, struct sio\_\-stream $\ast$stream, const char $\ast$data, uint64\_\-t size)
+\begin{CompactList}\small\item\em \aa{}143145\'{e}128129\ae{}149176\ae{}141174,\aa{}134133\c{c}189174\c{c}188147\aa{}134178 \item\end{CompactList}\item 
+sio\_\-buffer $\ast$ {\bf sio\_\-stream\_\-buffer} (struct sio\_\-stream $\ast$stream)
+\begin{CompactList}\small\item\em \`{e}?`148\aa{}155158\`{e}175187\c{c}188147\aa{}134178\aa{}140186 \item\end{CompactList}\item 
+uint64\_\-t {\bf sio\_\-stream\_\-pending} (struct sio\_\-stream $\ast$stream)
+\begin{CompactList}\small\item\em \`{e}?`148\aa{}155158\aa{}134153\c{c}188147\aa{}134178\aa{}140186\aa{}160134\c{c}167175\ae{}149176\ae{}141174\'{e}149?`\aa{}186166 \item\end{CompactList}\end{CompactItemize}
+
+
+\subsection{Detailed Description}
+\begin{Desc}
+\item[Author:]liangdong({\tt liangdong01@baidu.com}) \end{Desc}
+\begin{Desc}
+\item[Date:]2014/03/29 23:38:26 \end{Desc}
+\begin{Desc}
+\item[Version:]\$Revision\$ \end{Desc}
+
+
+\subsection{Enumeration Type Documentation}
+\index{sio_stream.h@{sio\_\-stream.h}!sio_stream_event@{sio\_\-stream\_\-event}}
+\index{sio_stream_event@{sio\_\-stream\_\-event}!sio_stream.h@{sio\_\-stream.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}enum {\bf sio\_\-stream\_\-event}}\label{sio__stream_8h_a17}
+
+
+\begin{Desc}
+\item[Enumeration values: ]\par
+\begin{description}
+\index{SIO_STREAM_ACCEPT@{SIO\_\-STREAM\_\-ACCEPT}!sio_stream.h@{sio\_\-stream.h}}\index{sio_stream.h@{sio\_\-stream.h}!SIO_STREAM_ACCEPT@{SIO\_\-STREAM\_\-ACCEPT}}\item[{\em 
+SIO\_\-STREAM\_\-ACCEPT\label{sio__stream_8h_a17a1}
+}]\ae{}142165\ae{}148182\"{a}186134\ae{}150176\`{e}?`158\ae{}142165 \index{SIO_STREAM_DATA@{SIO\_\-STREAM\_\-DATA}!sio_stream.h@{sio\_\-stream.h}}\index{sio_stream.h@{sio\_\-stream.h}!SIO_STREAM_DATA@{SIO\_\-STREAM\_\-DATA}}\item[{\em 
+SIO\_\-STREAM\_\-DATA\label{sio__stream_8h_a17a2}
+}]\ae{}142165\ae{}148182\"{a}186134\ae{}150176\ae{}149176\ae{}141174 \index{SIO_STREAM_ERROR@{SIO\_\-STREAM\_\-ERROR}!sio_stream.h@{sio\_\-stream.h}}\index{sio_stream.h@{sio\_\-stream.h}!SIO_STREAM_ERROR@{SIO\_\-STREAM\_\-ERROR}}\item[{\em 
+SIO\_\-STREAM\_\-ERROR\label{sio__stream_8h_a17a3}
+}]\`{e}?`158\ae{}142165\aa{}135186\c{c}142176\'{e}148153\`{e}175175 \index{SIO_STREAM_CLOSE@{SIO\_\-STREAM\_\-CLOSE}!sio_stream.h@{sio\_\-stream.h}}\index{sio_stream.h@{sio\_\-stream.h}!SIO_STREAM_CLOSE@{SIO\_\-STREAM\_\-CLOSE}}\item[{\em 
+SIO\_\-STREAM\_\-CLOSE\label{sio__stream_8h_a17a4}
+}]\`{e}?`158\ae{}142165\`{e}162171\aa{}133179\'{e}151173 \end{description}
+\end{Desc}
+
+
+
+\subsection{Function Documentation}
+\index{sio_stream.h@{sio\_\-stream.h}!sio_stream_attach@{sio\_\-stream\_\-attach}}
+\index{sio_stream_attach@{sio\_\-stream\_\-attach}!sio_stream.h@{sio\_\-stream.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int sio\_\-stream\_\-attach (struct sio $\ast$ {\em sio}, struct sio\_\-stream $\ast$ {\em stream})}\label{sio__stream_8h_a13}
+
+
+\aa{}176134stream\ae{}179168\aa{}134140\aa{}136176sio\"{a}184173, \aa{}143175\`{e}131189\aa{}164177\`{e}180165 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[\mbox{$\leftarrow$} {\em sio}]: struct sio$\ast$ \item[\mbox{$\leftarrow$} {\em stream}]: struct sio\_\-stream$\ast$ \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]int \end{Desc}
+\begin{Desc}
+\item[Return values:]
+\begin{description}
+\item[{\em \aa{}164177\`{e}180165\`{e}?`148\aa{}155158-1,\ae{}136144\aa{}138159\`{e}?`148\aa{}1551580}]\end{description}
+\end{Desc}
+\begin{Desc}
+\item[See also:]\end{Desc}
+\begin{Desc}
+\item[Author:]liangdong \end{Desc}
+\begin{Desc}
+\item[Date:]2014/03/30 17:39:54 \end{Desc}
+\index{sio_stream.h@{sio\_\-stream.h}!sio_stream_buffer@{sio\_\-stream\_\-buffer}}
+\index{sio_stream_buffer@{sio\_\-stream\_\-buffer}!sio_stream.h@{sio\_\-stream.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}struct sio\_\-buffer$\ast$ sio\_\-stream\_\-buffer (struct sio\_\-stream $\ast$ {\em stream})}\label{sio__stream_8h_a15}
+
+
+\`{e}?`148\aa{}155158\`{e}175187\c{c}188147\aa{}134178\aa{}140186 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[\mbox{$\leftarrow$} {\em stream}]: struct sio\_\-stream$\ast$ \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]struct sio\_\-buffer$\ast$ \end{Desc}
+\begin{Desc}
+\item[Return values:]
+\begin{description}
+\item[{\em @see}]\end{description}
+\end{Desc}
+\begin{Desc}
+\item[Author:]liangdong \end{Desc}
+\begin{Desc}
+\item[Date:]2014/03/30 18:23:29 \end{Desc}
+\index{sio_stream.h@{sio\_\-stream.h}!sio_stream_close@{sio\_\-stream\_\-close}}
+\index{sio_stream_close@{sio\_\-stream\_\-close}!sio_stream.h@{sio\_\-stream.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void sio\_\-stream\_\-close (struct sio $\ast$ {\em sio}, struct sio\_\-stream $\ast$ {\em stream})}\label{sio__stream_8h_a11}
+
+
+\aa{}133179\'{e}151173TCP\`{e}?`158\ae{}142165 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[\mbox{$\leftarrow$} {\em sio}]: struct sio$\ast$ \item[\mbox{$\leftarrow$} {\em stream}]: struct sio\_\-stream$\ast$ \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]void \end{Desc}
+\begin{Desc}
+\item[Return values:]
+\begin{description}
+\item[{\em @see}]\end{description}
+\end{Desc}
+\begin{Desc}
+\item[Author:]liangdong \end{Desc}
+\begin{Desc}
+\item[Date:]2014/03/30 16:20:52 \end{Desc}
+\index{sio_stream.h@{sio\_\-stream.h}!sio_stream_connect@{sio\_\-stream\_\-connect}}
+\index{sio_stream_connect@{sio\_\-stream\_\-connect}!sio_stream.h@{sio\_\-stream.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}struct sio\_\-stream$\ast$ sio\_\-stream\_\-connect (struct sio $\ast$ {\em sio}, const char $\ast$ {\em ipv4}, uint16\_\-t {\em port}, sio\_\-stream\_\-callback\_\-t {\em callback}, void $\ast$ {\em arg})}\label{sio__stream_8h_a9}
+
+
+\aa{}143145\`{e}$\mu$183TCP\aa{}188130\ae{}173165\`{e}?`158\ae{}142165 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[\mbox{$\leftarrow$} {\em sio}]: struct sio$\ast$ \item[\mbox{$\leftarrow$} {\em ipv4}]: const char$\ast$ \item[\mbox{$\leftarrow$} {\em port}]: uint16\_\-t \item[\mbox{$\leftarrow$} {\em callback}]: sio\_\-stream\_\-callback\_\-t \item[\mbox{$\leftarrow$} {\em arg}]: void$\ast$ \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]struct sio\_\-stream$\ast$ \end{Desc}
+\begin{Desc}
+\item[Return values:]
+\begin{description}
+\item[{\em @see}]\end{description}
+\end{Desc}
+\begin{Desc}
+\item[Author:]liangdong \end{Desc}
+\begin{Desc}
+\item[Date:]2014/03/30 16:12:47 \end{Desc}
+\index{sio_stream.h@{sio\_\-stream.h}!sio_stream_detach@{sio\_\-stream\_\-detach}}
+\index{sio_stream_detach@{sio\_\-stream\_\-detach}!sio_stream.h@{sio\_\-stream.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void sio\_\-stream\_\-detach (struct sio $\ast$ {\em sio}, struct sio\_\-stream $\ast$ {\em stream})}\label{sio__stream_8h_a12}
+
+
+\"{a}187142sio\"{a}184173\aa{}143150\ae{}182136stream\c{c}154132\ae{}179168\aa{}134140, \"{a}?`157\ae{}140129stream\aa{}143175\c{c}148168 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[\mbox{$\leftarrow$} {\em sio}]: struct sio$\ast$ \item[\mbox{$\leftarrow$} {\em stream}]: struct sio\_\-stream$\ast$ \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]void \end{Desc}
+\begin{Desc}
+\item[Return values:]
+\begin{description}
+\item[{\em @see}]\end{description}
+\end{Desc}
+\begin{Desc}
+\item[Author:]liangdong \end{Desc}
+\begin{Desc}
+\item[Date:]2014/03/30 17:25:35 \end{Desc}
+\index{sio_stream.h@{sio\_\-stream.h}!sio_stream_listen@{sio\_\-stream\_\-listen}}
+\index{sio_stream_listen@{sio\_\-stream\_\-listen}!sio_stream.h@{sio\_\-stream.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}struct sio\_\-stream$\ast$ sio\_\-stream\_\-listen (struct sio $\ast$ {\em sio}, const char $\ast$ {\em ipv4}, uint16\_\-t {\em port}, sio\_\-stream\_\-callback\_\-t {\em callback}, void $\ast$ {\em arg})}\label{sio__stream_8h_a8}
+
+
+\aa{}144175\aa{}138168TCP\c{c}155145\aa{}144172\aa{}165151\ae{}142165\aa{}173151 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[\mbox{$\leftarrow$} {\em sio}]: struct sio$\ast$ \item[\mbox{$\leftarrow$} {\em ipv4}]: const char$\ast$ \item[\mbox{$\leftarrow$} {\em port}]: uint16\_\-t \item[\mbox{$\leftarrow$} {\em callback}]: sio\_\-stream\_\-callback\_\-t \item[\mbox{$\leftarrow$} {\em arg}]: void$\ast$ \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]struct sio\_\-stream$\ast$ \end{Desc}
+\begin{Desc}
+\item[Return values:]
+\begin{description}
+\item[{\em @see}]\end{description}
+\end{Desc}
+\begin{Desc}
+\item[Author:]liangdong \end{Desc}
+\begin{Desc}
+\item[Date:]2014/03/30 16:12:30 \end{Desc}
+\index{sio_stream.h@{sio\_\-stream.h}!sio_stream_pending@{sio\_\-stream\_\-pending}}
+\index{sio_stream_pending@{sio\_\-stream\_\-pending}!sio_stream.h@{sio\_\-stream.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}uint64\_\-t sio\_\-stream\_\-pending (struct sio\_\-stream $\ast$ {\em stream})}\label{sio__stream_8h_a16}
+
+
+\`{e}?`148\aa{}155158\aa{}134153\c{c}188147\aa{}134178\aa{}140186\aa{}160134\c{c}167175\ae{}149176\ae{}141174\'{e}149?`\aa{}186166 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[\mbox{$\leftarrow$} {\em stream}]: struct sio\_\-stream$\ast$ \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]uint64\_\-t \end{Desc}
+\begin{Desc}
+\item[Return values:]
+\begin{description}
+\item[{\em @see}]\end{description}
+\end{Desc}
+\begin{Desc}
+\item[Author:]liangdong \end{Desc}
+\begin{Desc}
+\item[Date:]2014/04/21 14:42:04 \end{Desc}
+\index{sio_stream.h@{sio\_\-stream.h}!sio_stream_set@{sio\_\-stream\_\-set}}
+\index{sio_stream_set@{sio\_\-stream\_\-set}!sio_stream.h@{sio\_\-stream.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void sio\_\-stream\_\-set (struct sio $\ast$ {\em sio}, struct sio\_\-stream $\ast$ {\em stream}, sio\_\-stream\_\-callback\_\-t {\em callback}, void $\ast$ {\em arg})}\label{sio__stream_8h_a10}
+
+
+\ae{}155180\ae{}150176sio\_\-stream\c{c}154132\aa{}155158\`{e}176131\aa{}135189\ae{}149176\aa{}146140\c{c}148168\ae{}136183\aa{}143130\ae{}149176 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[\mbox{$\leftarrow$} {\em sio}]: struct sio$\ast$ \item[\mbox{$\leftarrow$} {\em stream}]: struct sio\_\-stream$\ast$ \item[\mbox{$\leftarrow$} {\em callback}]: sio\_\-stream\_\-callback\_\-t \item[\mbox{$\leftarrow$} {\em arg}]: void$\ast$ \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]void \end{Desc}
+\begin{Desc}
+\item[Return values:]
+\begin{description}
+\item[{\em @see}]\end{description}
+\end{Desc}
+\begin{Desc}
+\item[Author:]liangdong \end{Desc}
+\begin{Desc}
+\item[Date:]2014/03/31 12:44:46 \end{Desc}
+\index{sio_stream.h@{sio\_\-stream.h}!sio_stream_write@{sio\_\-stream\_\-write}}
+\index{sio_stream_write@{sio\_\-stream\_\-write}!sio_stream.h@{sio\_\-stream.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int sio\_\-stream\_\-write (struct sio $\ast$ {\em sio}, struct sio\_\-stream $\ast$ {\em stream}, const char $\ast$ {\em data}, uint64\_\-t {\em size})}\label{sio__stream_8h_a14}
+
+
+\aa{}143145\'{e}128129\ae{}149176\ae{}141174,\aa{}134133\c{c}189174\c{c}188147\aa{}134178 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[\mbox{$\leftarrow$} {\em sio}]: struct sio$\ast$ \item[\mbox{$\leftarrow$} {\em stream}]: struct sio\_\-stream$\ast$ \item[\mbox{$\leftarrow$} {\em data}]: const char$\ast$ \item[\mbox{$\leftarrow$} {\em size}]: uint64\_\-t \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]int \end{Desc}
+\begin{Desc}
+\item[Return values:]
+\begin{description}
+\item[{\em \aa{}164177\`{e}180165\`{e}?`148\aa{}155158-1,\ae{}136144\aa{}138159\`{e}?`148\aa{}1551580}]\end{description}
+\end{Desc}
+\begin{Desc}
+\item[See also:]\end{Desc}
+\begin{Desc}
+\item[Author:]liangdong \end{Desc}
+\begin{Desc}
+\item[Date:]2014/03/30 18:21:34 \end{Desc}

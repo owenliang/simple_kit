@@ -1,0 +1,240 @@
+\section{sdeque.c File Reference}
+\label{sdeque_8c}\index{sdeque.c@{sdeque.c}}
+{\tt \#include $<$stdlib.h$>$}\par
+{\tt \#include $<$string.h$>$}\par
+{\tt \#include \char`\"{}sdeque.h\char`\"{}}\par
+\subsection*{Functions}
+\begin{CompactItemize}
+\item 
+sdeque $\ast$ {\bf sdeque\_\-new} ()
+\begin{CompactList}\small\item\em \aa{}136155\aa{}187186\aa{}143140\aa{}144145\'{e}147190\`{e}!`168 \item\end{CompactList}\item 
+void {\bf sdeque\_\-free} (struct sdeque $\ast$sdeque)
+\begin{CompactList}\small\item\em \'{e}135138\ae{}148190\aa{}143140\aa{}144145\'{e}147190\`{e}!`168 \item\end{CompactList}\item 
+void {\bf sdeque\_\-push\_\-front} (struct sdeque $\ast$sdeque, void $\ast$value)
+\begin{CompactList}\small\item\em \aa{}144145\'{e}147190\`{e}!`168\aa{}164180\'{e}131168\ae{}143146\aa{}133165\ae{}149176\ae{}141174value \item\end{CompactList}\item 
+int {\bf sdeque\_\-pop\_\-front} (struct sdeque $\ast$sdeque)
+\begin{CompactList}\small\item\em \"{a}187142\'{e}147190\`{e}!`168\aa{}164180\'{e}131168\aa{}188185\aa{}135186\"{a}184128\"{a}184170value \item\end{CompactList}\item 
+int {\bf sdeque\_\-front} (struct sdeque $\ast$sdeque, void $\ast$$\ast$value)
+\begin{CompactList}\small\item\em \`{e}142183\aa{}143150\'{e}147190\`{e}!`168\aa{}164180\'{e}131168\c{c}154132value \item\end{CompactList}\item 
+void {\bf sdeque\_\-push\_\-back} (struct sdeque $\ast$sdeque, void $\ast$value)
+\begin{CompactList}\small\item\em \aa{}144145\'{e}147190\`{e}!`168\aa{}176190\'{e}131168\ae{}143146\aa{}133165\"{a}184128\"{a}184170value \item\end{CompactList}\item 
+int {\bf sdeque\_\-pop\_\-back} (struct sdeque $\ast$sdeque)
+\begin{CompactList}\small\item\em \"{a}187142\'{e}147190\`{e}!`168\aa{}176190\'{e}131168\aa{}188185\aa{}135186\"{a}184128\"{a}184170value \item\end{CompactList}\item 
+int {\bf sdeque\_\-back} (struct sdeque $\ast$sdeque, void $\ast$$\ast$value)
+\begin{CompactList}\small\item\em \`{e}142183\aa{}143150\'{e}147190\`{e}!`168\aa{}176190\'{e}131168\c{c}154132value \item\end{CompactList}\item 
+uint64\_\-t {\bf sdeque\_\-size} (struct sdeque $\ast$sdeque)
+\begin{CompactList}\small\item\em \`{e}142183\aa{}143150\'{e}147190\`{e}!`168\aa{}133131\c{c}180160\"{a}184170\ae{}149176 \item\end{CompactList}\end{CompactItemize}
+
+
+\subsection{Detailed Description}
+\begin{Desc}
+\item[Author:]liangdong({\tt liangdong01@baidu.com}) \end{Desc}
+\begin{Desc}
+\item[Date:]2014/05/27 20:33:03 \end{Desc}
+\begin{Desc}
+\item[Version:]\$Revision\$ \end{Desc}
+
+
+\subsection{Function Documentation}
+\index{sdeque.c@{sdeque.c}!sdeque_back@{sdeque\_\-back}}
+\index{sdeque_back@{sdeque\_\-back}!sdeque.c@{sdeque.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int sdeque\_\-back (struct sdeque $\ast$ {\em sdeque}, void $\ast$$\ast$ {\em value})}\label{sdeque_8c_a7}
+
+
+\`{e}142183\aa{}143150\'{e}147190\`{e}!`168\aa{}176190\'{e}131168\c{c}154132value 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[\mbox{$\leftarrow$} {\em sdeque}]: struct sdeque$\ast$ \item[\mbox{$\leftarrow$} {\em value}]: void$\ast$$\ast$, $\ast$value\`{e}162171\`{e}$\mu$139\aa{}128188\"{a}184186\c{c}148168\ae{}136183\ae{}149176\ae{}141174 \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]int \`{e}?`148\aa{}155158-1\`{e}!`168\c{c}164186\ae{}178!`\ae{}156137\aa{}133131\c{c}180160,0\`{e}!`168\c{c}164186\ae{}136144\aa{}138159 \end{Desc}
+\begin{Desc}
+\item[Return values:]
+\begin{description}
+\item[{\em @see}]\end{description}
+\end{Desc}
+\begin{Desc}
+\item[Author:]liangdong \end{Desc}
+\begin{Desc}
+\item[Date:]2014/05/29 21:57:48 \end{Desc}
+\index{sdeque.c@{sdeque.c}!sdeque_free@{sdeque\_\-free}}
+\index{sdeque_free@{sdeque\_\-free}!sdeque.c@{sdeque.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void sdeque\_\-free (struct sdeque $\ast$ {\em sdeque})}\label{sdeque_8c_a1}
+
+
+\'{e}135138\ae{}148190\aa{}143140\aa{}144145\'{e}147190\`{e}!`168 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[\mbox{$\leftarrow$} {\em sdeque}]: struct sdeque$\ast$ \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]void \end{Desc}
+\begin{Desc}
+\item[Return values:]
+\begin{description}
+\item[{\em @see}]\end{description}
+\end{Desc}
+\begin{Desc}
+\item[Author:]liangdong \end{Desc}
+\begin{Desc}
+\item[Date:]2014/05/29 21:54:37 \end{Desc}
+\index{sdeque.c@{sdeque.c}!sdeque_front@{sdeque\_\-front}}
+\index{sdeque_front@{sdeque\_\-front}!sdeque.c@{sdeque.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int sdeque\_\-front (struct sdeque $\ast$ {\em sdeque}, void $\ast$$\ast$ {\em value})}\label{sdeque_8c_a4}
+
+
+\`{e}142183\aa{}143150\'{e}147190\`{e}!`168\aa{}164180\'{e}131168\c{c}154132value 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[\mbox{$\leftarrow$} {\em sdeque}]: struct sdeque$\ast$ \item[\mbox{$\leftarrow$} {\em value}]: void$\ast$$\ast$ , $\ast$value\`{e}162171\`{e}$\mu$139\aa{}128188\"{a}184186\c{c}148168\ae{}136183\ae{}149176\ae{}141174 \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]int \`{e}?`148\aa{}155158-1\`{e}!`168\c{c}164186\ae{}178!`\ae{}156137\aa{}133131\c{c}180160,0\`{e}!`168\c{c}164186\ae{}136144\aa{}138159 \end{Desc}
+\begin{Desc}
+\item[Return values:]
+\begin{description}
+\item[{\em @see}]\end{description}
+\end{Desc}
+\begin{Desc}
+\item[Author:]liangdong \end{Desc}
+\begin{Desc}
+\item[Date:]2014/05/29 21:55:51 \end{Desc}
+\index{sdeque.c@{sdeque.c}!sdeque_new@{sdeque\_\-new}}
+\index{sdeque_new@{sdeque\_\-new}!sdeque.c@{sdeque.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}struct sdeque$\ast$ sdeque\_\-new ()}\label{sdeque_8c_a0}
+
+
+\aa{}136155\aa{}187186\aa{}143140\aa{}144145\'{e}147190\`{e}!`168 
+
+\begin{Desc}
+\item[Returns:]struct sdeque$\ast$ \end{Desc}
+\begin{Desc}
+\item[Return values:]
+\begin{description}
+\item[{\em @see}]\end{description}
+\end{Desc}
+\begin{Desc}
+\item[Author:]liangdong \end{Desc}
+\begin{Desc}
+\item[Date:]2014/05/29 21:54:23 \end{Desc}
+\index{sdeque.c@{sdeque.c}!sdeque_pop_back@{sdeque\_\-pop\_\-back}}
+\index{sdeque_pop_back@{sdeque\_\-pop\_\-back}!sdeque.c@{sdeque.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int sdeque\_\-pop\_\-back (struct sdeque $\ast$ {\em sdeque})}\label{sdeque_8c_a6}
+
+
+\"{a}187142\'{e}147190\`{e}!`168\aa{}176190\'{e}131168\aa{}188185\aa{}135186\"{a}184128\"{a}184170value 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[\mbox{$\leftarrow$} {\em sdeque}]: struct sdeque$\ast$ \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]int \`{e}?`148\aa{}155158-1\`{e}!`168\c{c}164186\ae{}178!`\ae{}156137\aa{}133131\c{c}180160,0\`{e}!`168\c{c}164186\ae{}136144\aa{}138159 \end{Desc}
+\begin{Desc}
+\item[Return values:]
+\begin{description}
+\item[{\em @see}]\end{description}
+\end{Desc}
+\begin{Desc}
+\item[Author:]liangdong \end{Desc}
+\begin{Desc}
+\item[Date:]2014/05/29 21:57:07 \end{Desc}
+\index{sdeque.c@{sdeque.c}!sdeque_pop_front@{sdeque\_\-pop\_\-front}}
+\index{sdeque_pop_front@{sdeque\_\-pop\_\-front}!sdeque.c@{sdeque.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int sdeque\_\-pop\_\-front (struct sdeque $\ast$ {\em sdeque})}\label{sdeque_8c_a3}
+
+
+\"{a}187142\'{e}147190\`{e}!`168\aa{}164180\'{e}131168\aa{}188185\aa{}135186\"{a}184128\"{a}184170value 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[\mbox{$\leftarrow$} {\em sdeque}]: struct sdeque$\ast$ \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]int \`{e}?`148\aa{}155158-1\`{e}!`168\c{c}164186\ae{}178!`\ae{}156137\aa{}133131\c{c}180160,0\`{e}!`168\c{c}164186\ae{}136144\aa{}138159 \end{Desc}
+\begin{Desc}
+\item[Return values:]
+\begin{description}
+\item[{\em @see}]\end{description}
+\end{Desc}
+\begin{Desc}
+\item[Author:]liangdong \end{Desc}
+\begin{Desc}
+\item[Date:]2014/05/29 21:55:21 \end{Desc}
+\index{sdeque.c@{sdeque.c}!sdeque_push_back@{sdeque\_\-push\_\-back}}
+\index{sdeque_push_back@{sdeque\_\-push\_\-back}!sdeque.c@{sdeque.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void sdeque\_\-push\_\-back (struct sdeque $\ast$ {\em sdeque}, void $\ast$ {\em value})}\label{sdeque_8c_a5}
+
+
+\aa{}144145\'{e}147190\`{e}!`168\aa{}176190\'{e}131168\ae{}143146\aa{}133165\"{a}184128\"{a}184170value 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[\mbox{$\leftarrow$} {\em sdeque}]: struct sdeque$\ast$ \item[\mbox{$\leftarrow$} {\em value}]: void$\ast$ \aa{}143175\"{a}187165\"{a}184186NULL \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]void \end{Desc}
+\begin{Desc}
+\item[Return values:]
+\begin{description}
+\item[{\em @see}]\end{description}
+\end{Desc}
+\begin{Desc}
+\item[Author:]liangdong \end{Desc}
+\begin{Desc}
+\item[Date:]2014/05/29 21:56:41 \end{Desc}
+\index{sdeque.c@{sdeque.c}!sdeque_push_front@{sdeque\_\-push\_\-front}}
+\index{sdeque_push_front@{sdeque\_\-push\_\-front}!sdeque.c@{sdeque.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void sdeque\_\-push\_\-front (struct sdeque $\ast$ {\em sdeque}, void $\ast$ {\em value})}\label{sdeque_8c_a2}
+
+
+\aa{}144145\'{e}147190\`{e}!`168\aa{}164180\'{e}131168\ae{}143146\aa{}133165\ae{}149176\ae{}141174value 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[\mbox{$\leftarrow$} {\em sdeque}]: struct sdeque$\ast$ \item[\mbox{$\leftarrow$} {\em value}]: void$\ast$ \aa{}143175\"{a}187165\"{a}184186NULL \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]void \end{Desc}
+\begin{Desc}
+\item[Return values:]
+\begin{description}
+\item[{\em @see}]\end{description}
+\end{Desc}
+\begin{Desc}
+\item[Author:]liangdong \end{Desc}
+\begin{Desc}
+\item[Date:]2014/05/29 21:54:52 \end{Desc}
+\index{sdeque.c@{sdeque.c}!sdeque_size@{sdeque\_\-size}}
+\index{sdeque_size@{sdeque\_\-size}!sdeque.c@{sdeque.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}uint64\_\-t sdeque\_\-size (struct sdeque $\ast$ {\em sdeque})}\label{sdeque_8c_a8}
+
+
+\`{e}142183\aa{}143150\'{e}147190\`{e}!`168\aa{}133131\c{c}180160\"{a}184170\ae{}149176 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[\mbox{$\leftarrow$} {\em sdeque}]: struct sdeque$\ast$ \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]uint64\_\-t \end{Desc}
+\begin{Desc}
+\item[Return values:]
+\begin{description}
+\item[{\em @see}]\end{description}
+\end{Desc}
+\begin{Desc}
+\item[Author:]liangdong \end{Desc}
+\begin{Desc}
+\item[Date:]2014/05/29 21:59:08 \end{Desc}

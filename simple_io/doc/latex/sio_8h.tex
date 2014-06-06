@@ -1,0 +1,365 @@
+\section{sio.h File Reference}
+\label{sio_8h}\index{sio.h@{sio.h}}
+{\tt \#include $<$stdint.h$>$}\par
+{\tt \#include $<$sys/epoll.h$>$}\par
+{\tt \#include \char`\"{}sio\_\-timer.h\char`\"{}}\par
+\subsection*{Classes}
+\begin{CompactItemize}
+\item 
+struct {\bf sio\_\-fd}
+\item 
+struct {\bf sio}
+\end{CompactItemize}
+\subsection*{Typedefs}
+\begin{CompactItemize}
+\item 
+typedef void($\ast$ {\bf sio\_\-callback\_\-t} )(struct sio $\ast$sio, struct sio\_\-fd $\ast$sfd, enum sio\_\-event event, void $\ast$arg)\label{sio_8h_a0}
+
+\end{CompactItemize}
+\subsection*{Enumerations}
+\begin{CompactItemize}
+\item 
+enum {\bf sio\_\-event} \{ {\bf SIO\_\-READ}, 
+{\bf SIO\_\-WRITE}, 
+{\bf SIO\_\-ERROR}
+ \}
+\end{CompactItemize}
+\subsection*{Functions}
+\begin{CompactItemize}
+\item 
+sio $\ast$ {\bf sio\_\-new} ()
+\begin{CompactList}\small\item\em \aa{}136155\aa{}187186\"{a}184128\"{a}184170\ae{}150135\"{a}187182\ae{}143143\`{e}?`176\c{c}172166\c{c}174!`\c{c}144134\aa{}153168 \item\end{CompactList}\item 
+void {\bf sio\_\-free} (struct sio $\ast$sio)
+\begin{CompactList}\small\item\em \'{e}135138\ae{}148190\"{a}184128\"{a}184170\ae{}150135\"{a}187182\ae{}143143\`{e}?`176\c{c}172166\c{c}174!`\c{c}144134\aa{}153168, \`{e}176131\c{c}148168\aa{}137141\c{c}!`174\"{a}?`157\aa{}143150\ae{}182136\"{a}186134\ae{}137128\ae{}156137\ae{}179168\aa{}134140\aa{}156168\aa{}133182\"{a}184138\c{c}154132fd\aa{}146140timer, \aa{}144166\aa{}136153\"{a}188154\'{e}128160\ae{}136144\aa{}134133\aa{}173152\ae{}179132\ae{}188143. \item\end{CompactList}\item 
+sio\_\-fd $\ast$ {\bf sio\_\-add} (struct sio $\ast$sio, int fd, sio\_\-callback\_\-t callback, void $\ast$arg)
+\begin{CompactList}\small\item\em \ae{}179168\aa{}134140\"{a}184128\"{a}184170fd\aa{}136176\c{c}174!`\c{c}144134\aa{}153168 \item\end{CompactList}\item 
+void {\bf sio\_\-set} (struct sio $\ast$sio, struct sio\_\-fd $\ast$sfd, sio\_\-callback\_\-t callback, void $\ast$arg)
+\begin{CompactList}\small\item\em \ae{}155180\ae{}150176\"{a}184128\"{a}184170sio\_\-fd\c{c}154132\aa{}155158\`{e}176131\aa{}135189\ae{}149176\aa{}146140\c{c}148168\ae{}136183\aa{}143130\ae{}149176 \item\end{CompactList}\item 
+void {\bf sio\_\-del} (struct sio $\ast$sio, struct sio\_\-fd $\ast$sfd)
+\begin{CompactList}\small\item\em \aa{}143150\ae{}182136fd\c{c}154132\ae{}179168\aa{}134140\"{\i}188140\aa{}135189\ae{}149176\"{a}184128\ae{}151166\`{e}?`148\aa{}155158sio\_\-fd\"{a}184141\aa{}134141\ae{}156137\ae{}149136, fd\"{a}187141\ae{}151167\"{a}?`157\ae{}140129\ae{}137147\aa{}188128 \item\end{CompactList}\item 
+void {\bf sio\_\-watch\_\-write} (struct sio $\ast$sio, struct sio\_\-fd $\ast$sfd)
+\begin{CompactList}\small\item\em \c{c}155145\aa{}144172sio\_\-fd\c{c}154132\aa{}134153\"{a}186139\"{a}187182(\'{e}135141\aa{}164141\`{e}176131\c{c}148168\ae{}152175\aa{}174137\aa{}133168\c{c}154132) \item\end{CompactList}\item 
+void {\bf sio\_\-unwatch\_\-write} (struct sio $\ast$sio, struct sio\_\-fd $\ast$sfd)
+\begin{CompactList}\small\item\em \aa{}143150\ae{}182136\c{c}155145\aa{}144172sio\_\-fd\c{c}154132\aa{}134153\"{a}186139\"{a}187182(\'{e}135141\aa{}164141\`{e}176131\c{c}148168\ae{}152175\aa{}174137\aa{}133168\c{c}154132) \item\end{CompactList}\item 
+void {\bf sio\_\-watch\_\-read} (struct sio $\ast$sio, struct sio\_\-fd $\ast$sfd)
+\begin{CompactList}\small\item\em \c{c}155145\aa{}144172sio\_\-fd\c{c}154132\`{e}175187\"{a}186139\"{a}187182(\'{e}135141\aa{}164141\`{e}176131\c{c}148168\ae{}152175\aa{}174137\aa{}133168\c{c}154132) \item\end{CompactList}\item 
+void {\bf sio\_\-unwatch\_\-read} (struct sio $\ast$sio, struct sio\_\-fd $\ast$sfd)
+\begin{CompactList}\small\item\em \aa{}143150\ae{}182136\c{c}155145\aa{}144172sio\_\-fd\c{c}154132\`{e}175187\"{a}186139\"{a}187182(\'{e}135141\aa{}164141\`{e}176131\c{c}148168\ae{}152175\aa{}174137\aa{}133168\c{c}154132) \item\end{CompactList}\item 
+void {\bf sio\_\-run} (struct sio $\ast$sio, int timeout\_\-ms)
+\begin{CompactList}\small\item\em \ae{}140135\aa{}174154\`{e}182133\ae{}151182\ae{}151182\'{e}151180,\ae{}137167\`{e}!`140\"{a}184128\ae{}172!`\"{a}186139\"{a}187182\aa{}190170\c{c}142175\aa{}185182\`{e}?`148\aa{}155158 \item\end{CompactList}\item 
+void {\bf sio\_\-wakeup} (struct sio $\ast$sio)
+\begin{CompactList}\small\item\em \aa{}148164\'{e}134146\ae{}140130\`{e}$\mu$183\c{c}154132sio\_\-run, \c{c}186?`\c{c}168139\aa{}174137\aa{}133168\aa{}135189\ae{}149176, \aa{}184184\c{c}148168\"{a}186142\"{a}184142sio\c{c}186?`\c{c}168139\c{c}154132\`{e}183168\c{c}186?`\c{c}168139\'{e}128154\`{e}174175 \item\end{CompactList}\item 
+void {\bf sio\_\-start\_\-timer} (struct sio $\ast$sio, struct sio\_\-timer $\ast$timer, uint64\_\-t timeout\_\-ms, sio\_\-timer\_\-callback\_\-t callback, void $\ast$arg)
+\begin{CompactList}\small\item\em \aa{}144175\aa{}138168\aa{}174154\ae{}151182\aa{}153168, timer\aa{}134133\aa{}173152\c{c}148177\c{c}148168\ae{}136183\c{c}174!`\c{c}144134 \item\end{CompactList}\item 
+void {\bf sio\_\-stop\_\-timer} (struct sio $\ast$sio, struct sio\_\-timer $\ast$timer)
+\begin{CompactList}\small\item\em \aa{}129156\ae{}173162\aa{}174154\ae{}151182\aa{}153168, \aa{}129156\ae{}173162\aa{}144142timer\aa{}134133\aa{}173152\aa{}143175\"{a}187165\c{c}148177\c{c}148168\ae{}136183\'{e}135138\ae{}148190\ae{}136150\`{e}128133\'{e}135141\c{c}148168 \item\end{CompactList}\end{CompactItemize}
+
+
+\subsection{Detailed Description}
+\begin{Desc}
+\item[Author:]liangdong({\tt liangdong01@baidu.com}) \end{Desc}
+\begin{Desc}
+\item[Date:]2014/03/29 16:38:34 \end{Desc}
+\begin{Desc}
+\item[Version:]\$Revision\$ \end{Desc}
+
+
+\subsection{Function Documentation}
+\index{sio.h@{sio.h}!sio_add@{sio\_\-add}}
+\index{sio_add@{sio\_\-add}!sio.h@{sio.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}struct sio\_\-fd$\ast$ sio\_\-add (struct sio $\ast$ {\em sio}, int {\em fd}, sio\_\-callback\_\-t {\em callback}, void $\ast$ {\em arg})}\label{sio_8h_a6}
+
+
+\ae{}179168\aa{}134140\"{a}184128\"{a}184170fd\aa{}136176\c{c}174!`\c{c}144134\aa{}153168 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[\mbox{$\leftarrow$} {\em sio}]: \ae{}143143\`{e}?`176\c{c}172166\c{c}174!`\c{c}144134\aa{}153168, \"{a}184141\`{e}131189\"{a}184186\c{c}169186 \item[\mbox{$\leftarrow$} {\em fd}]: \ae{}179168\aa{}134140\c{c}154132fd, \aa{}?`133\'{e}!`187$>$=0 \item[\mbox{$\leftarrow$} {\em callback}]: \"{a}186139\"{a}187182\aa{}155158\`{e}176131\aa{}135189\ae{}149176, \"{a}184141\`{e}131189\"{a}184186\c{c}169186 \item[\mbox{$\leftarrow$} {\em arg}]: \c{c}148168\ae{}136183\aa{}143130\ae{}149176, \aa{}143175\"{a}187165\"{a}184186\c{c}169186 \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]struct sio\_\-fd$\ast$ \end{Desc}
+\begin{Desc}
+\item[Return values:]
+\begin{description}
+\item[{\em \aa{}164177\`{e}180165\`{e}?`148\aa{}155158NULL}]\end{description}
+\end{Desc}
+\begin{Desc}
+\item[See also:]\end{Desc}
+\begin{Desc}
+\item[Author:]liangdong \end{Desc}
+\begin{Desc}
+\item[Date:]2014/03/29 17:24:05 \end{Desc}
+\index{sio.h@{sio.h}!sio_del@{sio\_\-del}}
+\index{sio_del@{sio\_\-del}!sio.h@{sio.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void sio\_\-del (struct sio $\ast$ {\em sio}, struct sio\_\-fd $\ast$ {\em sfd})}\label{sio_8h_a8}
+
+
+\aa{}143150\ae{}182136fd\c{c}154132\ae{}179168\aa{}134140\"{\i}188140\aa{}135189\ae{}149176\"{a}184128\ae{}151166\`{e}?`148\aa{}155158sio\_\-fd\"{a}184141\aa{}134141\ae{}156137\ae{}149136, fd\"{a}187141\ae{}151167\"{a}?`157\ae{}140129\ae{}137147\aa{}188128 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[\mbox{$\leftarrow$} {\em sio}]: \ae{}143143\`{e}?`176\c{c}172166\c{c}174!`\c{c}144134\aa{}153168\"{\i}188140\"{a}184141\`{e}131189\"{a}184186\c{c}169186 \item[\mbox{$\leftarrow$} {\em sfd}]: \aa{}?`133\'{e}!`187\ae{}152175sio\_\-add\`{e}?`148\aa{}155158\c{c}154132sio\_\-fd \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]void \end{Desc}
+\begin{Desc}
+\item[Return values:]
+\begin{description}
+\item[{\em @see}]\end{description}
+\end{Desc}
+\begin{Desc}
+\item[Author:]liangdong \end{Desc}
+\begin{Desc}
+\item[Date:]2014/03/29 17:27:52 \end{Desc}
+\index{sio.h@{sio.h}!sio_free@{sio\_\-free}}
+\index{sio_free@{sio\_\-free}!sio.h@{sio.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void sio\_\-free (struct sio $\ast$ {\em sio})}\label{sio_8h_a5}
+
+
+\'{e}135138\ae{}148190\"{a}184128\"{a}184170\ae{}150135\"{a}187182\ae{}143143\`{e}?`176\c{c}172166\c{c}174!`\c{c}144134\aa{}153168, \`{e}176131\c{c}148168\aa{}137141\c{c}!`174\"{a}?`157\aa{}143150\ae{}182136\"{a}186134\ae{}137128\ae{}156137\ae{}179168\aa{}134140\aa{}156168\aa{}133182\"{a}184138\c{c}154132fd\aa{}146140timer, \aa{}144166\aa{}136153\"{a}188154\'{e}128160\ae{}136144\aa{}134133\aa{}173152\ae{}179132\ae{}188143. 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[\mbox{$\leftarrow$} {\em sio}]: struct sio$\ast$ \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]void \end{Desc}
+\begin{Desc}
+\item[Return values:]
+\begin{description}
+\item[{\em @see}]\end{description}
+\end{Desc}
+\begin{Desc}
+\item[Author:]liangdong \end{Desc}
+\begin{Desc}
+\item[Date:]2014/03/29 17:22:25 \end{Desc}
+\index{sio.h@{sio.h}!sio_new@{sio\_\-new}}
+\index{sio_new@{sio\_\-new}!sio.h@{sio.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}struct sio$\ast$ sio\_\-new ()}\label{sio_8h_a4}
+
+
+\aa{}136155\aa{}187186\"{a}184128\"{a}184170\ae{}150135\"{a}187182\ae{}143143\`{e}?`176\c{c}172166\c{c}174!`\c{c}144134\aa{}153168 
+
+\begin{Desc}
+\item[Returns:]struct sio$\ast$ \end{Desc}
+\begin{Desc}
+\item[Return values:]
+\begin{description}
+\item[{\em \aa{}136155\aa{}187186\aa{}164177\`{e}180165\`{e}?`148\aa{}155158NULL}]\end{description}
+\end{Desc}
+\begin{Desc}
+\item[See also:]\end{Desc}
+\begin{Desc}
+\item[Author:]liangdong \end{Desc}
+\begin{Desc}
+\item[Date:]2014/03/29 17:21:37 \end{Desc}
+\index{sio.h@{sio.h}!sio_run@{sio\_\-run}}
+\index{sio_run@{sio\_\-run}!sio.h@{sio.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void sio\_\-run (struct sio $\ast$ {\em sio}, int {\em timeout\_\-ms})}\label{sio_8h_a13}
+
+
+\ae{}140135\aa{}174154\`{e}182133\ae{}151182\ae{}151182\'{e}151180,\ae{}137167\`{e}!`140\"{a}184128\ae{}172!`\"{a}186139\"{a}187182\aa{}190170\c{c}142175\aa{}185182\`{e}?`148\aa{}155158 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[\mbox{$\leftarrow$} {\em sio}]: struct sio$\ast$ \item[\mbox{$\leftarrow$} {\em timeout\_\-ms}]: epoll\_\-wait\c{c}154132\`{e}182133\ae{}151182\ae{}151182\'{e}151180, \ae{}175171\c{c}167146 \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]void \end{Desc}
+\begin{Desc}
+\item[Return values:]
+\begin{description}
+\item[{\em @see}]\end{description}
+\end{Desc}
+\begin{Desc}
+\item[Author:]liangdong \end{Desc}
+\begin{Desc}
+\item[Date:]2014/03/29 20:20:59 \end{Desc}
+\index{sio.h@{sio.h}!sio_set@{sio\_\-set}}
+\index{sio_set@{sio\_\-set}!sio.h@{sio.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void sio\_\-set (struct sio $\ast$ {\em sio}, struct sio\_\-fd $\ast$ {\em sfd}, sio\_\-callback\_\-t {\em callback}, void $\ast$ {\em arg})}\label{sio_8h_a7}
+
+
+\ae{}155180\ae{}150176\"{a}184128\"{a}184170sio\_\-fd\c{c}154132\aa{}155158\`{e}176131\aa{}135189\ae{}149176\aa{}146140\c{c}148168\ae{}136183\aa{}143130\ae{}149176 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[\mbox{$\leftarrow$} {\em sio}]: \ae{}143143\`{e}?`176\c{c}172166\c{c}174!`\c{c}144134\aa{}153168, \"{a}184141\`{e}131189\"{a}184186\c{c}169186 \item[\mbox{$\leftarrow$} {\em sfd}]: \aa{}?`133\'{e}!`187\ae{}152175sio\_\-add\`{e}?`148\aa{}155158\c{c}154132sio\_\-fd \item[\mbox{$\leftarrow$} {\em callback}]: \"{a}186139\"{a}187182\aa{}155158\`{e}176131\aa{}135189\ae{}149176, \"{a}184141\`{e}131189\"{a}184186\c{c}169186 \item[\mbox{$\leftarrow$} {\em arg}]: \c{c}148168\ae{}136183\aa{}143130\ae{}149176, \aa{}143175\"{a}187165\"{a}184186\c{c}169186 \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]void \end{Desc}
+\begin{Desc}
+\item[Return values:]
+\begin{description}
+\item[{\em @see}]\end{description}
+\end{Desc}
+\begin{Desc}
+\item[Author:]liangdong \end{Desc}
+\begin{Desc}
+\item[Date:]2014/03/29 17:25:53 \end{Desc}
+\index{sio.h@{sio.h}!sio_start_timer@{sio\_\-start\_\-timer}}
+\index{sio_start_timer@{sio\_\-start\_\-timer}!sio.h@{sio.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void sio\_\-start\_\-timer (struct sio $\ast$ {\em sio}, struct sio\_\-timer $\ast$ {\em timer}, uint64\_\-t {\em timeout\_\-ms}, sio\_\-timer\_\-callback\_\-t {\em callback}, void $\ast$ {\em arg})}\label{sio_8h_a15}
+
+
+\aa{}144175\aa{}138168\aa{}174154\ae{}151182\aa{}153168, timer\aa{}134133\aa{}173152\c{c}148177\c{c}148168\ae{}136183\c{c}174!`\c{c}144134 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[\mbox{$\leftarrow$} {\em sio}]: struct sio$\ast$ \item[\mbox{$\leftarrow$} {\em timer}]: struct sio\_\-timer$\ast$ \item[\mbox{$\leftarrow$} {\em timeout\_\-ms}]: uint64\_\-t \ae{}175171\c{c}167146 \item[\mbox{$\leftarrow$} {\em callback}]: sio\_\-timer\_\-callback\_\-t \item[\mbox{$\leftarrow$} {\em arg}]: void$\ast$ \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]void \end{Desc}
+\begin{Desc}
+\item[Return values:]
+\begin{description}
+\item[{\em @see}]\end{description}
+\end{Desc}
+\begin{Desc}
+\item[Author:]liangdong \end{Desc}
+\begin{Desc}
+\item[Date:]2014/03/31 10:51:26 \end{Desc}
+\index{sio.h@{sio.h}!sio_stop_timer@{sio\_\-stop\_\-timer}}
+\index{sio_stop_timer@{sio\_\-stop\_\-timer}!sio.h@{sio.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void sio\_\-stop\_\-timer (struct sio $\ast$ {\em sio}, struct sio\_\-timer $\ast$ {\em timer})}\label{sio_8h_a16}
+
+
+\aa{}129156\ae{}173162\aa{}174154\ae{}151182\aa{}153168, \aa{}129156\ae{}173162\aa{}144142timer\aa{}134133\aa{}173152\aa{}143175\"{a}187165\c{c}148177\c{c}148168\ae{}136183\'{e}135138\ae{}148190\ae{}136150\`{e}128133\'{e}135141\c{c}148168 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[\mbox{$\leftarrow$} {\em sio}]: struct sio$\ast$ \item[\mbox{$\leftarrow$} {\em timer}]: struct sio\_\-timer$\ast$ \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]void \end{Desc}
+\begin{Desc}
+\item[Return values:]
+\begin{description}
+\item[{\em @see}]\end{description}
+\end{Desc}
+\begin{Desc}
+\item[Author:]liangdong \end{Desc}
+\begin{Desc}
+\item[Date:]2014/03/31 10:51:52 \end{Desc}
+\index{sio.h@{sio.h}!sio_unwatch_read@{sio\_\-unwatch\_\-read}}
+\index{sio_unwatch_read@{sio\_\-unwatch\_\-read}!sio.h@{sio.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void sio\_\-unwatch\_\-read (struct sio $\ast$ {\em sio}, struct sio\_\-fd $\ast$ {\em sfd})}\label{sio_8h_a12}
+
+
+\aa{}143150\ae{}182136\c{c}155145\aa{}144172sio\_\-fd\c{c}154132\`{e}175187\"{a}186139\"{a}187182(\'{e}135141\aa{}164141\`{e}176131\c{c}148168\ae{}152175\aa{}174137\aa{}133168\c{c}154132) 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[\mbox{$\leftarrow$} {\em sio}]: struct sio$\ast$ \item[\mbox{$\leftarrow$} {\em sfd}]: struct sio\_\-fd$\ast$ \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]void \end{Desc}
+\begin{Desc}
+\item[Return values:]
+\begin{description}
+\item[{\em @see}]\end{description}
+\end{Desc}
+\begin{Desc}
+\item[Author:]liangdong \end{Desc}
+\begin{Desc}
+\item[Date:]2014/03/29 17:35:24 \end{Desc}
+\index{sio.h@{sio.h}!sio_unwatch_write@{sio\_\-unwatch\_\-write}}
+\index{sio_unwatch_write@{sio\_\-unwatch\_\-write}!sio.h@{sio.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void sio\_\-unwatch\_\-write (struct sio $\ast$ {\em sio}, struct sio\_\-fd $\ast$ {\em sfd})}\label{sio_8h_a10}
+
+
+\aa{}143150\ae{}182136\c{c}155145\aa{}144172sio\_\-fd\c{c}154132\aa{}134153\"{a}186139\"{a}187182(\'{e}135141\aa{}164141\`{e}176131\c{c}148168\ae{}152175\aa{}174137\aa{}133168\c{c}154132) 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[\mbox{$\leftarrow$} {\em sio}]: struct sio$\ast$ \item[\mbox{$\leftarrow$} {\em sfd}]: struct sio\_\-fd$\ast$ \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]void \end{Desc}
+\begin{Desc}
+\item[Return values:]
+\begin{description}
+\item[{\em @see}]\end{description}
+\end{Desc}
+\begin{Desc}
+\item[Author:]liangdong \end{Desc}
+\begin{Desc}
+\item[Date:]2014/03/29 17:34:31 \end{Desc}
+\index{sio.h@{sio.h}!sio_wakeup@{sio\_\-wakeup}}
+\index{sio_wakeup@{sio\_\-wakeup}!sio.h@{sio.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void sio\_\-wakeup (struct sio $\ast$ {\em sio})}\label{sio_8h_a14}
+
+
+\aa{}148164\'{e}134146\ae{}140130\`{e}$\mu$183\c{c}154132sio\_\-run, \c{c}186?`\c{c}168139\aa{}174137\aa{}133168\aa{}135189\ae{}149176, \aa{}184184\c{c}148168\"{a}186142\"{a}184142sio\c{c}186?`\c{c}168139\c{c}154132\`{e}183168\c{c}186?`\c{c}168139\'{e}128154\`{e}174175 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[\mbox{$\leftarrow$} {\em sio}]: struct sio$\ast$ \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]void \end{Desc}
+\begin{Desc}
+\item[Return values:]
+\begin{description}
+\item[{\em @see}]\end{description}
+\end{Desc}
+\begin{Desc}
+\item[Author:]liangdong \end{Desc}
+\begin{Desc}
+\item[Date:]2014/03/29 21:07:20 \end{Desc}
+\index{sio.h@{sio.h}!sio_watch_read@{sio\_\-watch\_\-read}}
+\index{sio_watch_read@{sio\_\-watch\_\-read}!sio.h@{sio.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void sio\_\-watch\_\-read (struct sio $\ast$ {\em sio}, struct sio\_\-fd $\ast$ {\em sfd})}\label{sio_8h_a11}
+
+
+\c{c}155145\aa{}144172sio\_\-fd\c{c}154132\`{e}175187\"{a}186139\"{a}187182(\'{e}135141\aa{}164141\`{e}176131\c{c}148168\ae{}152175\aa{}174137\aa{}133168\c{c}154132) 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[\mbox{$\leftarrow$} {\em sio}]: struct sio$\ast$ \item[\mbox{$\leftarrow$} {\em sfd}]: struct sio\_\-fd$\ast$ \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]void \end{Desc}
+\begin{Desc}
+\item[Return values:]
+\begin{description}
+\item[{\em @see}]\end{description}
+\end{Desc}
+\begin{Desc}
+\item[Author:]liangdong \end{Desc}
+\begin{Desc}
+\item[Date:]2014/03/29 17:35:06 \end{Desc}
+\index{sio.h@{sio.h}!sio_watch_write@{sio\_\-watch\_\-write}}
+\index{sio_watch_write@{sio\_\-watch\_\-write}!sio.h@{sio.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void sio\_\-watch\_\-write (struct sio $\ast$ {\em sio}, struct sio\_\-fd $\ast$ {\em sfd})}\label{sio_8h_a9}
+
+
+\c{c}155145\aa{}144172sio\_\-fd\c{c}154132\aa{}134153\"{a}186139\"{a}187182(\'{e}135141\aa{}164141\`{e}176131\c{c}148168\ae{}152175\aa{}174137\aa{}133168\c{c}154132) 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[\mbox{$\leftarrow$} {\em sio}]: struct sio$\ast$ \item[\mbox{$\leftarrow$} {\em sfd}]: struct sio\_\-fd$\ast$ \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]void \end{Desc}
+\begin{Desc}
+\item[Return values:]
+\begin{description}
+\item[{\em @see}]\end{description}
+\end{Desc}
+\begin{Desc}
+\item[Author:]liangdong \end{Desc}
+\begin{Desc}
+\item[Date:]2014/03/29 17:34:10 \end{Desc}

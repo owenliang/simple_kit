@@ -1,0 +1,197 @@
+\section{slog.h File Reference}
+\label{slog_8h}\index{slog.h@{slog.h}}
+{\tt \#include $<$stdint.h$>$}\par
+{\tt \#include $<$pthread.h$>$}\par
+{\tt \#include $<$sys/stat.h$>$}\par
+\subsection*{Classes}
+\begin{CompactItemize}
+\item 
+struct {\bf slog}
+\end{CompactItemize}
+\subsection*{Defines}
+\begin{CompactItemize}
+\item 
+\#define {\bf SLOG}(level, fmt,)
+\item 
+\#define {\bf SLOG\_\-GB}(n)\ (1024ULL $\ast$ 1024 $\ast$ 1024 $\ast$ n)\label{slog_8h_a1}
+
+\item 
+\#define {\bf SLOG\_\-MB}(n)\ (1024ULL $\ast$ 1024 $\ast$ n)\label{slog_8h_a2}
+
+\end{CompactItemize}
+\subsection*{Enumerations}
+\begin{CompactItemize}
+\item 
+enum {\bf slog\_\-level} \{ \par
+{\bf SLOG\_\-LEVEL\_\-FATAL}, 
+{\bf SLOG\_\-LEVEL\_\-ERROR}, 
+{\bf SLOG\_\-LEVEL\_\-WARN}, 
+{\bf SLOG\_\-LEVEL\_\-INFO}, 
+\par
+{\bf SLOG\_\-LEVEL\_\-DEBUG}
+ \}
+\end{CompactItemize}
+\subsection*{Functions}
+\begin{CompactItemize}
+\item 
+int {\bf slog\_\-open} (const char $\ast$dir, const char $\ast$name, enum slog\_\-level level, uint64\_\-t rotate\_\-size)
+\begin{CompactList}\small\item\em \aa{}136157\aa{}167139\aa{}140150slog\aa{}141149\"{a}190139, \"{a}184128\"{a}184170\`{e}?`155\c{c}168139\aa{}143170\`{e}131189\`{e}176131\c{c}148168\"{a}184128\ae{}172!`, fork\c{c}154132\aa{}173144\`{e}?`155\c{c}168139\"{a}184141\'{e}156128\'{e}135141\ae{}150176\`{e}176131\c{c}148168 \item\end{CompactList}\item 
+int {\bf slog\_\-reopen} ()
+\begin{CompactList}\small\item\em fork\aa{}144142\c{c}154132\aa{}173144\`{e}?`155\c{c}168139\aa{}?`133\'{e}!`187\`{e}176131\c{c}148168\"{\i}188140\aa{}144166\aa{}136153\"{a}188154\aa{}175188\`{e}135180\aa{}164154\`{e}?`155\c{c}168139\ae{}147141\"{a}189156\ae{}151165\aa{}?`151\ae{}150135\"{a}187182\aa{}188149\`{e}$\mu$183\ae{}151165\aa{}?`151\ae{}150135\"{a}187182\`{e}166134\c{c}155150\"{a}184162\aa{}164177 \item\end{CompactList}\item 
+void {\bf slog\_\-close} ()
+\begin{CompactList}\small\item\em \aa{}133179\'{e}151173slog\aa{}141149\"{a}190139\"{\i}188140\"{a}184128\"{a}184170\`{e}?`155\c{c}168139\aa{}143170\`{e}131189\`{e}176131\c{c}148168\"{a}184128\ae{}172!`\"{\i}188140fork\c{c}154132\aa{}173144\`{e}?`155\c{c}168139\"{a}185159\'{e}156128\`{e}166129\`{e}176131\c{c}148168 \item\end{CompactList}\item 
+void {\bf slog\_\-write} (enum slog\_\-level level, const char $\ast$file, int line, const char $\ast$function, const char $\ast$fmt,...)
+\begin{CompactList}\small\item\em \ae{}137147\aa{}141176\"{a}184128\ae{}157!`\ae{}151165\aa{}?`151\"{\i}188140\c{c}148168\ae{}136183\'{e}128154\`{e}?`135\aa{}174143\ae{}137147\aa{}141176\ae{}151165\aa{}?`151\"{a}184141\'{e}156128\`{e}166129\c{c}155180\ae{}142165\ae{}147141\"{a}189156\ae{}173164\ae{}142165\aa{}143163 \item\end{CompactList}\item 
+void {\bf slog\_\-rotate} ()
+\begin{CompactList}\small\item\em \c{c}171139\aa{}141179\`{e}189172\ae{}!`163\aa{}189147\aa{}137141\ae{}173163\aa{}156168\aa{}134153\aa{}133165\c{c}154132\ae{}151165\aa{}?`151\ae{}150135\"{a}187182 \item\end{CompactList}\item 
+void {\bf slog\_\-change\_\-level} (enum slog\_\-level level)
+\begin{CompactList}\small\item\em \aa{}138168\ae{}128129\"{a}?`174\ae{}148185\ae{}151165\aa{}?`151\c{c}186167\aa{}136171\"{\i}188140\aa{}144142\c{c}187173\aa{}134153\aa{}133165\c{c}154132\ae{}151165\aa{}?`151\aa{}176134\"{a}188154\ae{}160185\ae{}141174\ae{}150176\c{c}154132\c{c}186167\aa{}136171\`{e}?`155\`{e}!`140\`{e}?`135\ae{}187164 \item\end{CompactList}\end{CompactItemize}
+
+
+\subsection{Detailed Description}
+\begin{Desc}
+\item[Author:]liangdong({\tt liangdong01@baidu.com}) \end{Desc}
+\begin{Desc}
+\item[Date:]2014/06/03 18:57:27 \end{Desc}
+\begin{Desc}
+\item[Version:]\$Revision\$ \end{Desc}
+
+
+\subsection{Define Documentation}
+\index{slog.h@{slog.h}!SLOG@{SLOG}}
+\index{SLOG@{SLOG}!slog.h@{slog.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}\#define SLOG(level, fmt)}\label{slog_8h_a0}
+
+
+{\bf Value:}
+
+\footnotesize\begin{verbatim}do { \
+        slog_write(SLOG_LEVEL_##level, __FILE__, __LINE__, __FUNCTION__, fmt, ##__VA_ARGS__); \
+    } while(0)
+\end{verbatim}\normalsize 
+
+
+\subsection{Function Documentation}
+\index{slog.h@{slog.h}!slog_change_level@{slog\_\-change\_\-level}}
+\index{slog_change_level@{slog\_\-change\_\-level}!slog.h@{slog.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void slog\_\-change\_\-level (enum slog\_\-level {\em level})}\label{slog_8h_a13}
+
+
+\aa{}138168\ae{}128129\"{a}?`174\ae{}148185\ae{}151165\aa{}?`151\c{c}186167\aa{}136171\"{\i}188140\aa{}144142\c{c}187173\aa{}134153\aa{}133165\c{c}154132\ae{}151165\aa{}?`151\aa{}176134\"{a}188154\ae{}160185\ae{}141174\ae{}150176\c{c}154132\c{c}186167\aa{}136171\`{e}?`155\`{e}!`140\`{e}?`135\ae{}187164 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[\mbox{$\leftarrow$} {\em level}]: enum slog\_\-level \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]void \end{Desc}
+\begin{Desc}
+\item[Return values:]
+\begin{description}
+\item[{\em @see}]\end{description}
+\end{Desc}
+\begin{Desc}
+\item[Author:]liangdong \end{Desc}
+\begin{Desc}
+\item[Date:]2014/06/03 15:06:16 \end{Desc}
+\index{slog.h@{slog.h}!slog_close@{slog\_\-close}}
+\index{slog_close@{slog\_\-close}!slog.h@{slog.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void slog\_\-close ()}\label{slog_8h_a10}
+
+
+\aa{}133179\'{e}151173slog\aa{}141149\"{a}190139\"{\i}188140\"{a}184128\"{a}184170\`{e}?`155\c{c}168139\aa{}143170\`{e}131189\`{e}176131\c{c}148168\"{a}184128\ae{}172!`\"{\i}188140fork\c{c}154132\aa{}173144\`{e}?`155\c{c}168139\"{a}185159\'{e}156128\`{e}166129\`{e}176131\c{c}148168 
+
+\begin{Desc}
+\item[Returns:]void \end{Desc}
+\begin{Desc}
+\item[Return values:]
+\begin{description}
+\item[{\em @see}]\end{description}
+\end{Desc}
+\begin{Desc}
+\item[Author:]liangdong \end{Desc}
+\begin{Desc}
+\item[Date:]2014/06/03 15:02:56 \end{Desc}
+\index{slog.h@{slog.h}!slog_open@{slog\_\-open}}
+\index{slog_open@{slog\_\-open}!slog.h@{slog.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int slog\_\-open (const char $\ast$ {\em dir}, const char $\ast$ {\em name}, enum slog\_\-level {\em level}, uint64\_\-t {\em rotate\_\-size})}\label{slog_8h_a8}
+
+
+\aa{}136157\aa{}167139\aa{}140150slog\aa{}141149\"{a}190139, \"{a}184128\"{a}184170\`{e}?`155\c{c}168139\aa{}143170\`{e}131189\`{e}176131\c{c}148168\"{a}184128\ae{}172!`, fork\c{c}154132\aa{}173144\`{e}?`155\c{c}168139\"{a}184141\'{e}156128\'{e}135141\ae{}150176\`{e}176131\c{c}148168 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[\mbox{$\leftarrow$} {\em dir}]: const char$\ast$ \ae{}151165\aa{}?`151\c{c}155174\aa{}189149, \"{a}188154\`{e}135170\aa{}138168\aa{}136155\aa{}187186, \'{e}156128\"{a}?`157\`{e}175129\ae{}157131\'{e}153144. \item[\mbox{$\leftarrow$} {\em name}]: const char$\ast$ \ae{}151165\aa{}?`151\aa{}144141\c{c}167176, \"{a}184128\`{e}136172\ae{}160185\ae{}141174\ae{}156141\aa{}138!`\aa{}144141\c{c}167176\ae{}140135\aa{}174154. \item[\mbox{$\leftarrow$} {\em level}]: enum slog\_\-level \ae{}151165\aa{}?`151\c{c}186167\aa{}136171, \aa{}176143\"{a}186142\c{c}187153\aa{}174154\c{c}186167\aa{}136171\c{c}154132\ae{}151165\aa{}?`151\"{a}184141\"{a}188154\`{e}162171\ae{}137147\aa{}141176 \item[\mbox{$\leftarrow$} {\em rotate\_\-size}]: uint64\_\-t \aa{}141149\"{a}184128\ae{}150135\"{a}187182\aa{}164167\aa{}176143\'{e}153144\aa{}136182\"{\i}188140\`{e}182133\`{e}?`135\'{e}153144\aa{}136182\"{a}188154\`{e}162171\`{e}189172\ae{}!`163\aa{}173152\aa{}130168 \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]int \end{Desc}
+\begin{Desc}
+\item[Return values:]
+\begin{description}
+\item[{\em @see}]\end{description}
+\end{Desc}
+\begin{Desc}
+\item[Author:]liangdong \end{Desc}
+\begin{Desc}
+\item[Date:]2014/06/03 15:02:52 \end{Desc}
+\index{slog.h@{slog.h}!slog_reopen@{slog\_\-reopen}}
+\index{slog_reopen@{slog\_\-reopen}!slog.h@{slog.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int slog\_\-reopen ()}\label{slog_8h_a9}
+
+
+fork\aa{}144142\c{c}154132\aa{}173144\`{e}?`155\c{c}168139\aa{}?`133\'{e}!`187\`{e}176131\c{c}148168\"{\i}188140\aa{}144166\aa{}136153\"{a}188154\aa{}175188\`{e}135180\aa{}164154\`{e}?`155\c{c}168139\ae{}147141\"{a}189156\ae{}151165\aa{}?`151\ae{}150135\"{a}187182\aa{}188149\`{e}$\mu$183\ae{}151165\aa{}?`151\ae{}150135\"{a}187182\`{e}166134\c{c}155150\"{a}184162\aa{}164177 
+
+\begin{Desc}
+\item[Returns:]int \end{Desc}
+\begin{Desc}
+\item[Return values:]
+\begin{description}
+\item[{\em @see}]\aa{}155160\"{a}184186\c{c}187167\ae{}137?`\c{c}154132\'{e}148129\ae{}150135\"{a}187182fd\aa{}164154\`{e}?`155\c{c}168139\ae{}151160\ae{}179149\"{a}186146\ae{}150165\"{\i}188140\ae{}137128\"{a}187165\aa{}173144\`{e}?`155\c{c}168139\aa{}?`133\'{e}!`187\'{e}135141\ae{}150176\ae{}137147\aa{}188128 \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Author:]liangdong \end{Desc}
+\begin{Desc}
+\item[Date:]2014/06/03 15:24:38 \end{Desc}
+\index{slog.h@{slog.h}!slog_rotate@{slog\_\-rotate}}
+\index{slog_rotate@{slog\_\-rotate}!slog.h@{slog.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void slog\_\-rotate ()}\label{slog_8h_a12}
+
+
+\c{c}171139\aa{}141179\`{e}189172\ae{}!`163\aa{}189147\aa{}137141\ae{}173163\aa{}156168\aa{}134153\aa{}133165\c{c}154132\ae{}151165\aa{}?`151\ae{}150135\"{a}187182 
+
+\begin{Desc}
+\item[Returns:]void \end{Desc}
+\begin{Desc}
+\item[Return values:]
+\begin{description}
+\item[{\em @see}]\aa{}166130\ae{}158156\ae{}156137\aa{}164154\`{e}?`155\c{c}168139\aa{}144140\ae{}151182\aa{}134153\ae{}151165\aa{}?`151\"{\i}188140\aa{}143170\'{e}156128\`{e}166129\'{e}128154\`{e}?`135\"{a}184128\"{a}184170\`{e}?`155\c{c}168139\`{e}176131\c{c}148168\aa{}141179\aa{}143175\~{a}128130 \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Author:]liangdong \end{Desc}
+\begin{Desc}
+\item[Date:]2014/06/03 15:03:05 \end{Desc}
+\index{slog.h@{slog.h}!slog_write@{slog\_\-write}}
+\index{slog_write@{slog\_\-write}!slog.h@{slog.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void slog\_\-write (enum slog\_\-level {\em level}, const char $\ast$ {\em file}, int {\em line}, const char $\ast$ {\em function}, const char $\ast$ {\em fmt},  {\em ...})}\label{slog_8h_a11}
+
+
+\ae{}137147\aa{}141176\"{a}184128\ae{}157!`\ae{}151165\aa{}?`151\"{\i}188140\c{c}148168\ae{}136183\'{e}128154\`{e}?`135\aa{}174143\ae{}137147\aa{}141176\ae{}151165\aa{}?`151\"{a}184141\'{e}156128\`{e}166129\c{c}155180\ae{}142165\ae{}147141\"{a}189156\ae{}173164\ae{}142165\aa{}143163 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[\mbox{$\leftarrow$} {\em level}]: enum slog\_\-level \`{e}175165\ae{}151165\aa{}?`151\c{c}154132\c{c}186167\aa{}136171 \item[\mbox{$\leftarrow$} {\em file}]: const char$\ast$ \`{e}176131\c{c}148168\`{e}128133\ae{}137128\aa{}156168\ae{}150135\"{a}187182 \item[\mbox{$\leftarrow$} {\em line}]: int \`{e}176131\c{c}148168\`{e}128133\ae{}137128\aa{}156168\ae{}150135\"{a}187182\`{e}!`140\aa{}143183 \item[\mbox{$\leftarrow$} {\em function}]: const char$\ast$ \`{e}176131\c{c}148168\`{e}128133\ae{}137128\aa{}177158\c{c}154132\aa{}135189\ae{}149176 \item[\mbox{$\leftarrow$} {\em fmt}]: const char$\ast$ \ae{}160188\aa{}188143\aa{}140150\aa{}173151\c{c}172166\"{a}184178 \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]void \end{Desc}
+\begin{Desc}
+\item[Return values:]
+\begin{description}
+\item[{\em @see}]\end{description}
+\end{Desc}
+\begin{Desc}
+\item[Author:]liangdong \end{Desc}
+\begin{Desc}
+\item[Date:]2014/06/03 15:03:00 \end{Desc}

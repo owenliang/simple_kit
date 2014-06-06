@@ -1,0 +1,1 @@
+Hello simple_log

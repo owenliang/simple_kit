@@ -1,0 +1,432 @@
+\section{slist.c File Reference}
+\label{slist_8c}\index{slist.c@{slist.c}}
+{\tt \#include $<$stdlib.h$>$}\par
+{\tt \#include $<$string.h$>$}\par
+{\tt \#include $<$time.h$>$}\par
+{\tt \#include \char`\"{}slist.h\char`\"{}}\par
+\subsection*{Functions}
+\begin{CompactItemize}
+\item 
+void {\bf \_\-slist\_\-free\_\-node} (struct slist\_\-node $\ast$node)\label{slist_8c_a1}
+
+\item 
+slist $\ast$ {\bf slist\_\-new} (uint32\_\-t height)
+\begin{CompactList}\small\item\em \aa{}136155\aa{}187186\"{a}184128\"{a}184170\'{e}171152\aa{}186166\"{a}184141\`{e}182133\`{e}?`135height\c{c}154132\`{e}183179\`{e}!`168 \item\end{CompactList}\item 
+void {\bf slist\_\-free} (struct slist $\ast$slist)
+\begin{CompactList}\small\item\em \'{e}135138\ae{}148190\`{e}183179\`{e}!`168 \item\end{CompactList}\item 
+int {\bf slist\_\-insert} (struct slist $\ast$slist, const char $\ast$key, uint32\_\-t key\_\-len, void $\ast$value)
+\begin{CompactList}\small\item\em \ae{}143146\aa{}133165\"{a}184128\"{a}184170\'{e}149?`\aa{}186166key\_\-len\c{c}154132key, \aa{}133182\aa{}128188\"{a}184186value, \ae{}142165\aa{}143163\"{a}188154\aa{}173152\aa{}130168key\c{c}154132\aa{}137175\ae{}156172\`{e}128140\"{a}184141\ae{}152175\`{e}135170\`{e}186171. \item\end{CompactList}\item 
+int {\bf slist\_\-erase} (struct slist $\ast$slist, const char $\ast$key, uint32\_\-t key\_\-len)
+\begin{CompactList}\small\item\em \aa{}136160\'{e}153164key\aa{}175185\aa{}186148\c{c}154132\c{c}187147\c{c}130185 \item\end{CompactList}\item 
+int {\bf slist\_\-find} (struct slist $\ast$slist, const char $\ast$key, uint32\_\-t key\_\-len, void $\ast$$\ast$value)
+\begin{CompactList}\small\item\em \ae{}159165\ae{}137190key\aa{}175185\aa{}186148\c{c}154132value \item\end{CompactList}\item 
+int {\bf slist\_\-front} (struct slist $\ast$slist, const char $\ast$$\ast$key, uint32\_\-t $\ast$key\_\-len, void $\ast$$\ast$value)
+\begin{CompactList}\small\item\em \`{e}?`148\aa{}155158\`{e}183179\`{e}!`168\"{a}184173\ae{}156128\aa{}176143\c{c}154132key\aa{}146140value \item\end{CompactList}\item 
+int {\bf slist\_\-pop\_\-front} (struct slist $\ast$slist)
+\begin{CompactList}\small\item\em \aa{}188185\aa{}135186\`{e}183179\`{e}!`168\"{a}184173\ae{}156128\aa{}176143\c{c}154132key \item\end{CompactList}\item 
+int {\bf slist\_\-back} (struct slist $\ast$slist, const char $\ast$$\ast$key, uint32\_\-t $\ast$key\_\-len, void $\ast$$\ast$value)
+\begin{CompactList}\small\item\em \`{e}?`148\aa{}155158\`{e}183179\`{e}!`168\"{a}184173\ae{}156128\aa{}164167\c{c}154132key\aa{}146140value \item\end{CompactList}\item 
+int {\bf slist\_\-pop\_\-back} (struct slist $\ast$slist)
+\begin{CompactList}\small\item\em \aa{}188185\aa{}135186\`{e}183179\`{e}!`168\"{a}184173\ae{}156128\aa{}164167\c{c}154132key \item\end{CompactList}\item 
+uint64\_\-t {\bf slist\_\-size} (struct slist $\ast$slist)
+\item 
+void {\bf slist\_\-begin\_\-iterate} (struct slist $\ast$slist)
+\begin{CompactList}\small\item\em \'{e}135141\c{c}189174\ae{}173163\aa{}144145\`{e}?`173\"{a}187163\aa{}153168(key\"{a}187142\aa{}176143\aa{}136176\aa{}164167) \item\end{CompactList}\item 
+int {\bf slist\_\-iterate} (struct slist $\ast$slist, const char $\ast$$\ast$key, uint32\_\-t $\ast$key\_\-len, void $\ast$$\ast$value)
+\begin{CompactList}\small\item\em \`{e}?`148\aa{}155158\`{e}?`173\"{a}187163\aa{}153168\aa{}189147\aa{}137141\ae{}140135\aa{}144145\c{c}154132key,value,\aa{}185182\"{a}187164\`{e}?`173\"{a}187163\aa{}153168\ae{}173163\aa{}144145\c{c}167187\aa{}138168\"{a}184128\ae{}173165 \item\end{CompactList}\item 
+void {\bf slist\_\-end\_\-iterate} (struct slist $\ast$slist)
+\begin{CompactList}\small\item\em \aa{}133179\'{e}151173\ae{}173163\aa{}144145\`{e}?`173\"{a}187163\aa{}153168 \item\end{CompactList}\item 
+void {\bf slist\_\-begin\_\-riterate} (struct slist $\ast$slist)
+\begin{CompactList}\small\item\em \'{e}135141\c{c}189174\aa{}143141\aa{}144145\`{e}?`173\"{a}187163\aa{}153168(key\"{a}187142\aa{}164167\aa{}136176\aa{}176143) \item\end{CompactList}\item 
+int {\bf slist\_\-riterate} (struct slist $\ast$slist, const char $\ast$$\ast$key, uint32\_\-t $\ast$key\_\-len, void $\ast$$\ast$value)
+\begin{CompactList}\small\item\em \`{e}?`148\aa{}155158\`{e}?`173\"{a}187163\aa{}153168\aa{}189147\aa{}137141\ae{}140135\aa{}144145\c{c}154132key,value,\aa{}185182\"{a}187164\`{e}?`173\"{a}187163\aa{}153168\aa{}143141\aa{}144145\c{c}167187\aa{}138168\"{a}184128\ae{}173165 \item\end{CompactList}\item 
+void {\bf slist\_\-end\_\-riterate} (struct slist $\ast$slist)
+\begin{CompactList}\small\item\em \aa{}133179\'{e}151173\aa{}143141\aa{}144145\`{e}?`173\"{a}187163\aa{}153168 \item\end{CompactList}\end{CompactItemize}
+
+
+\subsection{Detailed Description}
+\begin{Desc}
+\item[Author:]liangdong({\tt liangdong01@baidu.com}) \end{Desc}
+\begin{Desc}
+\item[Date:]2014/05/26 17:42:29 \end{Desc}
+\begin{Desc}
+\item[Version:]\$Revision\$ \end{Desc}
+
+
+\subsection{Function Documentation}
+\index{slist.c@{slist.c}!slist_back@{slist\_\-back}}
+\index{slist_back@{slist\_\-back}!slist.c@{slist.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int slist\_\-back (struct slist $\ast$ {\em slist}, const char $\ast$$\ast$ {\em key}, uint32\_\-t $\ast$ {\em key\_\-len}, void $\ast$$\ast$ {\em value})}\label{slist_8c_a14}
+
+
+\`{e}?`148\aa{}155158\`{e}183179\`{e}!`168\"{a}184173\ae{}156128\aa{}164167\c{c}154132key\aa{}146140value 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[\mbox{$\leftarrow$} {\em slist}]: struct slist$\ast$ \item[\mbox{$\leftarrow$} {\em key}]: const char$\ast$$\ast$ \'{e}157158NULL\aa{}136153\`{e}$\mu$139\aa{}128188$\ast$key \item[\mbox{$\leftarrow$} {\em key\_\-len}]: uint32\_\-t$\ast$ \'{e}157158NULL\aa{}136153\`{e}$\mu$139\aa{}128188$\ast$key\_\-len\"{a}184186key\'{e}149?`\aa{}186166 \item[\mbox{$\leftarrow$} {\em value}]: void$\ast$$\ast$ \'{e}157158NULL\aa{}136153\`{e}$\mu$139\aa{}128188$\ast$value\"{a}184186\aa{}175185\aa{}186148\ae{}149176\ae{}141174 \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]int \`{e}?`148\aa{}1551580\`{e}!`168\c{c}164186\aa{}190151\aa{}136176\aa{}164180\c{c}187147\c{c}130185,\`{e}?`148\aa{}155158-1\`{e}!`168\c{c}164186\'{e}147190\`{e}!`168\"{a}184186\c{c}169186 \end{Desc}
+\begin{Desc}
+\item[Return values:]
+\begin{description}
+\item[{\em \ae{}179168\ae{}132143$\ast$key\ae{}140135\aa{}144145\aa{}134133\'{e}131168\"{a}189?`\c{c}148168\c{c}154132\aa{}134133\aa{}173152,\aa{}156168\`{e}138130\c{c}130185\aa{}136160\'{e}153164\aa{}144142\aa{}134133\aa{}173152\ae{}151160\ae{}149136.}]\end{description}
+\end{Desc}
+\begin{Desc}
+\item[See also:]\end{Desc}
+\begin{Desc}
+\item[Author:]liangdong \end{Desc}
+\begin{Desc}
+\item[Date:]2014/05/26 19:26:46 \end{Desc}
+\index{slist.c@{slist.c}!slist_begin_iterate@{slist\_\-begin\_\-iterate}}
+\index{slist_begin_iterate@{slist\_\-begin\_\-iterate}!slist.c@{slist.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void slist\_\-begin\_\-iterate (struct slist $\ast$ {\em slist})}\label{slist_8c_a17}
+
+
+\'{e}135141\c{c}189174\ae{}173163\aa{}144145\`{e}?`173\"{a}187163\aa{}153168(key\"{a}187142\aa{}176143\aa{}136176\aa{}164167) 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[\mbox{$\leftarrow$} {\em slist}]: struct slist$\ast$ \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]void \end{Desc}
+\begin{Desc}
+\item[Return values:]
+\begin{description}
+\item[{\em @see}]\aa{}134133\'{e}131168\aa{}174158\c{c}142176\"{a}187133\"{a}187133\aa{}176134\`{e}?`173\"{a}187163\aa{}153168\ae{}140135\aa{}144145head\"{a}185139\aa{}144142\c{c}154132\c{c}172172\"{a}184128\"{a}184170\`{e}138130\c{c}130185,\ae{}137128\"{a}187165\aa{}156168\"{a}187187\"{a}189149\ae{}131133\aa{}134$\mu$\"{a}184139\`{e}176131\c{c}148168\'{e}131189\ae{}152175\aa{}174137\aa{}133168\c{c}154132. \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Author:]liangdong \end{Desc}
+\begin{Desc}
+\item[Date:]2014/05/27 14:45:53 \end{Desc}
+\index{slist.c@{slist.c}!slist_begin_riterate@{slist\_\-begin\_\-riterate}}
+\index{slist_begin_riterate@{slist\_\-begin\_\-riterate}!slist.c@{slist.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void slist\_\-begin\_\-riterate (struct slist $\ast$ {\em slist})}\label{slist_8c_a20}
+
+
+\'{e}135141\c{c}189174\aa{}143141\aa{}144145\`{e}?`173\"{a}187163\aa{}153168(key\"{a}187142\aa{}164167\aa{}136176\aa{}176143) 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[\mbox{$\leftarrow$} {\em slist}]: struct slist$\ast$ \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]void \end{Desc}
+\begin{Desc}
+\item[Return values:]
+\begin{description}
+\item[{\em @see}]\end{description}
+\end{Desc}
+\begin{Desc}
+\item[Author:]liangdong \end{Desc}
+\begin{Desc}
+\item[Date:]2014/05/27 14:49:19 \end{Desc}
+\index{slist.c@{slist.c}!slist_end_iterate@{slist\_\-end\_\-iterate}}
+\index{slist_end_iterate@{slist\_\-end\_\-iterate}!slist.c@{slist.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void slist\_\-end\_\-iterate (struct slist $\ast$ {\em slist})}\label{slist_8c_a19}
+
+
+\aa{}133179\'{e}151173\ae{}173163\aa{}144145\`{e}?`173\"{a}187163\aa{}153168 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[\mbox{$\leftarrow$} {\em slist}]: struct slist$\ast$ \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]void \end{Desc}
+\begin{Desc}
+\item[Return values:]
+\begin{description}
+\item[{\em @see}]\aa{}134133\'{e}131168\aa{}174158\c{c}142176\"{a}187133\"{a}187133\aa{}176134\`{e}?`173\"{a}187163\aa{}153168\ae{}140135\aa{}144145\c{c}154132\`{e}138130\c{c}130185\c{c}189174\"{a}184186NULL,\ae{}137128\"{a}187165\aa{}156168\"{a}187187\"{a}189149\ae{}131133\aa{}134$\mu$\"{a}184139\`{e}176131\c{c}148168\'{e}131189\ae{}152175\aa{}174137\aa{}133168\c{c}154132. \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Author:]liangdong \end{Desc}
+\begin{Desc}
+\item[Date:]2014/05/27 14:47:24 \end{Desc}
+\index{slist.c@{slist.c}!slist_end_riterate@{slist\_\-end\_\-riterate}}
+\index{slist_end_riterate@{slist\_\-end\_\-riterate}!slist.c@{slist.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void slist\_\-end\_\-riterate (struct slist $\ast$ {\em slist})}\label{slist_8c_a22}
+
+
+\aa{}133179\'{e}151173\aa{}143141\aa{}144145\`{e}?`173\"{a}187163\aa{}153168 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[\mbox{$\leftarrow$} {\em slist}]: struct slist$\ast$ \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]void \end{Desc}
+\begin{Desc}
+\item[Return values:]
+\begin{description}
+\item[{\em @see}]\aa{}134133\'{e}131168\aa{}174158\c{c}142176\"{a}187133\"{a}187133\aa{}176134\`{e}?`173\"{a}187163\aa{}153168\ae{}140135\aa{}144145\c{c}154132\`{e}138130\c{c}130185\c{c}189174\"{a}184186NULL,\ae{}137128\"{a}187165\aa{}156168\"{a}187187\"{a}189149\ae{}131133\aa{}134$\mu$\"{a}184139\`{e}176131\c{c}148168\'{e}131189\ae{}152175\aa{}174137\aa{}133168\c{c}154132. \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Author:]liangdong \end{Desc}
+\begin{Desc}
+\item[Date:]2014/05/27 14:50:39 \end{Desc}
+\index{slist.c@{slist.c}!slist_erase@{slist\_\-erase}}
+\index{slist_erase@{slist\_\-erase}!slist.c@{slist.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int slist\_\-erase (struct slist $\ast$ {\em slist}, const char $\ast$ {\em key}, uint32\_\-t {\em key\_\-len})}\label{slist_8c_a10}
+
+
+\aa{}136160\'{e}153164key\aa{}175185\aa{}186148\c{c}154132\c{c}187147\c{c}130185 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[\mbox{$\leftarrow$} {\em slist}]: struct slist$\ast$ \item[\mbox{$\leftarrow$} {\em key}]: const char$\ast$ \"{a}184141\`{e}131189\"{a}184186NULL \item[\mbox{$\leftarrow$} {\em key\_\-len}]: uint32\_\-t \"{a}184141\`{e}131189\"{a}1841860 \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]int \`{e}?`148\aa{}1551580\`{e}!`168\c{c}164186\aa{}136160\'{e}153164\ae{}136144\aa{}138159,\`{e}?`148\aa{}155158-1\`{e}!`168\c{c}164186key\"{a}184141\aa{}173152\aa{}156168 \end{Desc}
+\begin{Desc}
+\item[Return values:]
+\begin{description}
+\item[{\em @see}]\end{description}
+\end{Desc}
+\begin{Desc}
+\item[Author:]liangdong \end{Desc}
+\begin{Desc}
+\item[Date:]2014/05/26 18:06:03 \end{Desc}
+\index{slist.c@{slist.c}!slist_find@{slist\_\-find}}
+\index{slist_find@{slist\_\-find}!slist.c@{slist.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int slist\_\-find (struct slist $\ast$ {\em slist}, const char $\ast$ {\em key}, uint32\_\-t {\em key\_\-len}, void $\ast$$\ast$ {\em value})}\label{slist_8c_a11}
+
+
+\ae{}159165\ae{}137190key\aa{}175185\aa{}186148\c{c}154132value 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[\mbox{$\leftarrow$} {\em slist}]: struct slist$\ast$ \item[\mbox{$\leftarrow$} {\em key}]: const char$\ast$ \"{a}184141\`{e}131189\"{a}184186NULL \item[\mbox{$\leftarrow$} {\em key\_\-len}]: uint32\_\-t \"{a}184141\`{e}131189\"{a}1841860 \item[\mbox{$\leftarrow$} {\em value}]: void$\ast$$\ast$ \"{a}184141\"{a}184186NULL\aa{}136153\`{e}$\mu$139\aa{}128188$\ast$value\"{a}184186\aa{}175185\aa{}186148\ae{}149176\ae{}141174 \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]int \`{e}?`148\aa{}1551580\`{e}!`168\c{c}164186\ae{}159165\ae{}137190\ae{}136144\aa{}138159,\`{e}?`148\aa{}155158-1\`{e}!`168\c{c}164186key\"{a}184141\aa{}173152\aa{}156168 \end{Desc}
+\begin{Desc}
+\item[Return values:]
+\begin{description}
+\item[{\em @see}]\end{description}
+\end{Desc}
+\begin{Desc}
+\item[Author:]liangdong \end{Desc}
+\begin{Desc}
+\item[Date:]2014/05/26 18:06:56 \end{Desc}
+\index{slist.c@{slist.c}!slist_free@{slist\_\-free}}
+\index{slist_free@{slist\_\-free}!slist.c@{slist.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void slist\_\-free (struct slist $\ast$ {\em slist})}\label{slist_8c_a3}
+
+
+\'{e}135138\ae{}148190\`{e}183179\`{e}!`168 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[\mbox{$\leftarrow$} {\em slist}]: struct slist$\ast$ \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]void \end{Desc}
+\begin{Desc}
+\item[Return values:]
+\begin{description}
+\item[{\em @see}]\end{description}
+\end{Desc}
+\begin{Desc}
+\item[Author:]liangdong \end{Desc}
+\begin{Desc}
+\item[Date:]2014/05/26 18:02:22 \end{Desc}
+\index{slist.c@{slist.c}!slist_front@{slist\_\-front}}
+\index{slist_front@{slist\_\-front}!slist.c@{slist.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int slist\_\-front (struct slist $\ast$ {\em slist}, const char $\ast$$\ast$ {\em key}, uint32\_\-t $\ast$ {\em key\_\-len}, void $\ast$$\ast$ {\em value})}\label{slist_8c_a12}
+
+
+\`{e}?`148\aa{}155158\`{e}183179\`{e}!`168\"{a}184173\ae{}156128\aa{}176143\c{c}154132key\aa{}146140value 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[\mbox{$\leftarrow$} {\em slist}]: struct slist$\ast$ \item[\mbox{$\leftarrow$} {\em key}]: const char$\ast$$\ast$ \'{e}157158NULL\aa{}136153\`{e}$\mu$139\aa{}128188$\ast$key,\ae{}179168\ae{}132143$\ast$key\ae{}140135\aa{}144145\`{e}138130\c{c}130185\aa{}134133\'{e}131168\aa{}134133\aa{}173152. \item[\mbox{$\leftarrow$} {\em key\_\-len}]: uint32\_\-t$\ast$ \'{e}157158NULL\aa{}136153\`{e}$\mu$139\aa{}128188$\ast$key\_\-len\"{a}184186key\'{e}149?`\aa{}186166 \item[\mbox{$\leftarrow$} {\em value}]: void$\ast$$\ast$ \'{e}157158NULL\aa{}136153\`{e}$\mu$139\aa{}128188$\ast$value\"{a}184186\aa{}175185\aa{}186148\ae{}149176\ae{}141174 \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]int \`{e}?`148\aa{}1551580\`{e}!`168\c{c}164186\aa{}190151\aa{}136176\aa{}164180\c{c}187147\c{c}130185,\`{e}?`148\aa{}155158-1\`{e}!`168\c{c}164186\'{e}147190\`{e}!`168\"{a}184186\c{c}169186 \end{Desc}
+\begin{Desc}
+\item[Return values:]
+\begin{description}
+\item[{\em @see}]\end{description}
+\end{Desc}
+\begin{Desc}
+\item[Author:]liangdong \end{Desc}
+\begin{Desc}
+\item[Date:]2014/05/26 18:09:32 \end{Desc}
+\index{slist.c@{slist.c}!slist_insert@{slist\_\-insert}}
+\index{slist_insert@{slist\_\-insert}!slist.c@{slist.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int slist\_\-insert (struct slist $\ast$ {\em slist}, const char $\ast$ {\em key}, uint32\_\-t {\em key\_\-len}, void $\ast$ {\em value})}\label{slist_8c_a7}
+
+
+\ae{}143146\aa{}133165\"{a}184128\"{a}184170\'{e}149?`\aa{}186166key\_\-len\c{c}154132key, \aa{}133182\aa{}128188\"{a}184186value, \ae{}142165\aa{}143163\"{a}188154\aa{}173152\aa{}130168key\c{c}154132\aa{}137175\ae{}156172\`{e}128140\"{a}184141\ae{}152175\`{e}135170\`{e}186171. 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[\mbox{$\leftarrow$} {\em slist}]: struct slist$\ast$ \item[\mbox{$\leftarrow$} {\em key}]: const char$\ast$ \"{a}184141\`{e}131189\"{a}184186NULL \item[\mbox{$\leftarrow$} {\em key\_\-len}]: uint32\_\-t \"{a}184141\`{e}131189\"{a}1841860 \item[\mbox{$\leftarrow$} {\em value}]: void$\ast$ \aa{}143175\"{a}187165\"{a}184186NULL \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]int \`{e}?`148\aa{}1551580\`{e}!`168\c{c}164186\ae{}143146\aa{}133165\ae{}136144\aa{}138159,\`{e}?`148\aa{}155158-1\`{e}!`168\c{c}164186key\aa{}183178\aa{}173152\aa{}156168 \end{Desc}
+\begin{Desc}
+\item[Return values:]
+\begin{description}
+\item[{\em @see}]\end{description}
+\end{Desc}
+\begin{Desc}
+\item[Author:]liangdong \end{Desc}
+\begin{Desc}
+\item[Date:]2014/05/26 18:02:38 \end{Desc}
+\index{slist.c@{slist.c}!slist_iterate@{slist\_\-iterate}}
+\index{slist_iterate@{slist\_\-iterate}!slist.c@{slist.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int slist\_\-iterate (struct slist $\ast$ {\em slist}, const char $\ast$$\ast$ {\em key}, uint32\_\-t $\ast$ {\em key\_\-len}, void $\ast$$\ast$ {\em value})}\label{slist_8c_a18}
+
+
+\`{e}?`148\aa{}155158\`{e}?`173\"{a}187163\aa{}153168\aa{}189147\aa{}137141\ae{}140135\aa{}144145\c{c}154132key,value,\aa{}185182\"{a}187164\`{e}?`173\"{a}187163\aa{}153168\ae{}173163\aa{}144145\c{c}167187\aa{}138168\"{a}184128\ae{}173165 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[\mbox{$\leftarrow$} {\em slist}]: struct slist$\ast$ \item[\mbox{$\leftarrow$} {\em key}]: const char$\ast$$\ast$ \item[\mbox{$\leftarrow$} {\em key\_\-len}]: uint32\_\-t$\ast$ \item[\mbox{$\leftarrow$} {\em value}]: void$\ast$$\ast$ \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]int \end{Desc}
+\begin{Desc}
+\item[Return values:]
+\begin{description}
+\item[{\em \`{e}?`148\aa{}155158-1\`{e}!`168\c{c}164186\`{e}?`173\"{a}187163\c{c}187147\ae{}157159,\`{e}?`148\aa{}1551580\`{e}!`168\c{c}164186\`{e}?`173\"{a}187163\ae{}136144\aa{}138159}]\end{description}
+\end{Desc}
+\begin{Desc}
+\item[See also:]\ae{}173163\aa{}144145\`{e}?`173\"{a}187163\aa{}153168\aa{}146140\aa{}143141\aa{}144145\`{e}?`173\"{a}187163\aa{}153168\ae{}152175\aa{}189188\ae{}173164\c{c}139172\c{c}171139\c{c}154132,\aa{}143175\"{a}187165\aa{}144140\ae{}151182\ae{}137147\aa{}188128\"{a}184142\c{c}167187\aa{}138168. \end{Desc}
+\begin{Desc}
+\item[Author:]liangdong \end{Desc}
+\begin{Desc}
+\item[Date:]2014/05/27 14:46:21 \end{Desc}
+\index{slist.c@{slist.c}!slist_new@{slist\_\-new}}
+\index{slist_new@{slist\_\-new}!slist.c@{slist.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}struct slist$\ast$ slist\_\-new (uint32\_\-t {\em height})}\label{slist_8c_a2}
+
+
+\aa{}136155\aa{}187186\"{a}184128\"{a}184170\'{e}171152\aa{}186166\"{a}184141\`{e}182133\`{e}?`135height\c{c}154132\`{e}183179\`{e}!`168 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[\mbox{$\leftarrow$} {\em height}]: uint32\_\-t, \aa{}166130\ae{}158156\"{a}1841860\aa{}136153\`{e}156149\aa{}140150\"{a}184186\ae{}153174\'{e}128154\'{e}147190\`{e}!`168, \aa{}187186\`{e}174174\aa{}128188\"{a}184141\`{e}182133\`{e}?`13532. \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]struct slist$\ast$ \end{Desc}
+\begin{Desc}
+\item[Return values:]
+\begin{description}
+\item[{\em \`{e}?`148\aa{}155158NULL\`{e}!`168\c{c}164186\aa{}136155\aa{}187186\aa{}164177\`{e}180165}]\end{description}
+\end{Desc}
+\begin{Desc}
+\item[See also:]\end{Desc}
+\begin{Desc}
+\item[Author:]liangdong \end{Desc}
+\begin{Desc}
+\item[Date:]2014/05/26 18:02:07 \end{Desc}
+\index{slist.c@{slist.c}!slist_pop_back@{slist\_\-pop\_\-back}}
+\index{slist_pop_back@{slist\_\-pop\_\-back}!slist.c@{slist.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int slist\_\-pop\_\-back (struct slist $\ast$ {\em slist})}\label{slist_8c_a15}
+
+
+\aa{}188185\aa{}135186\`{e}183179\`{e}!`168\"{a}184173\ae{}156128\aa{}164167\c{c}154132key 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[\mbox{$\leftarrow$} {\em slist}]: struct slist$\ast$ \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]int \end{Desc}
+\begin{Desc}
+\item[Return values:]
+\begin{description}
+\item[{\em \`{e}?`148\aa{}1551580\`{e}!`168\c{c}164186\ae{}136144\aa{}138159,\`{e}?`148\aa{}155158-1\`{e}!`168\c{c}164186\'{e}147190\`{e}!`168\"{a}184186\c{c}169186}]\end{description}
+\end{Desc}
+\begin{Desc}
+\item[See also:]\end{Desc}
+\begin{Desc}
+\item[Author:]liangdong \end{Desc}
+\begin{Desc}
+\item[Date:]2014/05/26 19:32:07 \end{Desc}
+\index{slist.c@{slist.c}!slist_pop_front@{slist\_\-pop\_\-front}}
+\index{slist_pop_front@{slist\_\-pop\_\-front}!slist.c@{slist.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int slist\_\-pop\_\-front (struct slist $\ast$ {\em slist})}\label{slist_8c_a13}
+
+
+\aa{}188185\aa{}135186\`{e}183179\`{e}!`168\"{a}184173\ae{}156128\aa{}176143\c{c}154132key 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[\mbox{$\leftarrow$} {\em slist}]: struct slist$\ast$ \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]int \`{e}?`148\aa{}1551580\`{e}!`168\c{c}164186\ae{}136144\aa{}138159,\`{e}?`148\aa{}155158-1\`{e}!`168\c{c}164186\'{e}147190\`{e}!`168\"{a}184186\c{c}169186 \end{Desc}
+\begin{Desc}
+\item[Return values:]
+\begin{description}
+\item[{\em @see}]\end{description}
+\end{Desc}
+\begin{Desc}
+\item[Author:]liangdong \end{Desc}
+\begin{Desc}
+\item[Date:]2014/05/26 18:11:24 \end{Desc}
+\index{slist.c@{slist.c}!slist_riterate@{slist\_\-riterate}}
+\index{slist_riterate@{slist\_\-riterate}!slist.c@{slist.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int slist\_\-riterate (struct slist $\ast$ {\em slist}, const char $\ast$$\ast$ {\em key}, uint32\_\-t $\ast$ {\em key\_\-len}, void $\ast$$\ast$ {\em value})}\label{slist_8c_a21}
+
+
+\`{e}?`148\aa{}155158\`{e}?`173\"{a}187163\aa{}153168\aa{}189147\aa{}137141\ae{}140135\aa{}144145\c{c}154132key,value,\aa{}185182\"{a}187164\`{e}?`173\"{a}187163\aa{}153168\aa{}143141\aa{}144145\c{c}167187\aa{}138168\"{a}184128\ae{}173165 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[\mbox{$\leftarrow$} {\em slist}]: struct slist$\ast$ \item[\mbox{$\leftarrow$} {\em key}]: const char$\ast$$\ast$ \item[\mbox{$\leftarrow$} {\em key\_\-len}]: uint32\_\-t$\ast$ \item[\mbox{$\leftarrow$} {\em value}]: void$\ast$$\ast$ \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]int \end{Desc}
+\begin{Desc}
+\item[Return values:]
+\begin{description}
+\item[{\em \`{e}?`148\aa{}155158-1\`{e}!`168\c{c}164186\`{e}?`173\"{a}187163\c{c}187147\ae{}157159,\`{e}?`148\aa{}1551580\`{e}!`168\c{c}164186\`{e}?`173\"{a}187163\ae{}136144\aa{}138159}]\end{description}
+\end{Desc}
+\begin{Desc}
+\item[See also:]\aa{}134133\'{e}131168\aa{}174158\c{c}142176\"{a}187133\"{a}187133\aa{}176134\`{e}?`173\"{a}187163\aa{}153168\ae{}140135\aa{}144145\c{c}154132\`{e}138130\c{c}130185\c{c}189174\"{a}184186NULL,\ae{}137128\"{a}187165\aa{}156168\"{a}187187\"{a}189149\ae{}131133\aa{}134$\mu$\"{a}184139\`{e}176131\c{c}148168\'{e}131189\ae{}152175\aa{}174137\aa{}133168\c{c}154132. \end{Desc}
+\begin{Desc}
+\item[Author:]liangdong \end{Desc}
+\begin{Desc}
+\item[Date:]2014/05/27 14:49:32 \end{Desc}
+\index{slist.c@{slist.c}!slist_size@{slist\_\-size}}
+\index{slist_size@{slist\_\-size}!slist.c@{slist.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}uint64\_\-t slist\_\-size (struct slist $\ast$ {\em slist})}\label{slist_8c_a16}
+
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[\mbox{$\leftarrow$} {\em slist}]: struct slist$\ast$ \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]uint64\_\-t \end{Desc}
+\begin{Desc}
+\item[Return values:]
+\begin{description}
+\item[{\em @see}]\end{description}
+\end{Desc}
+\begin{Desc}
+\item[Author:]liangdong \end{Desc}
+\begin{Desc}
+\item[Date:]2014/05/26 18:13:14 \end{Desc}

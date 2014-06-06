@@ -1,0 +1,325 @@
+\section{sconfig.h File Reference}
+\label{sconfig_8h}\index{sconfig.h@{sconfig.h}}
+{\tt \#include $<$stdint.h$>$}\par
+\subsection*{Classes}
+\begin{CompactItemize}
+\item 
+struct {\bf sconfig}
+\end{CompactItemize}
+\subsection*{Functions}
+\begin{CompactItemize}
+\item 
+sconfig $\ast$ {\bf sconfig\_\-new} (const char $\ast$filename)
+\begin{CompactList}\small\item\em \`{e}167163\ae{}158144filename\'{e}133141\c{c}189174\ae{}150135\"{a}187182,\aa{}185182\`{e}?`148\aa{}155158struct sconfig. \item\end{CompactList}\item 
+void {\bf sconfig\_\-free} (struct sconfig $\ast$sconf)
+\begin{CompactList}\small\item\em \aa{}133179\'{e}151173\'{e}133141\c{c}189174\c{c}187147\ae{}158132 \item\end{CompactList}\item 
+int {\bf sconfig\_\-reload} (struct sconfig $\ast$sconf)
+\begin{CompactList}\small\item\em \'{e}135141\ae{}150176\aa{}138160\`{e}189189\'{e}133141\c{c}189174\ae{}150135\"{a}187182,\aa{}166130\ae{}158156\aa{}138160\`{e}189189\aa{}164177\`{e}180165\"{a}184141\"{a}188154\aa{}189177\aa{}147141\aa{}189147\aa{}137141\'{e}133141\c{c}189174. \item\end{CompactList}\item 
+int {\bf sconfig\_\-read\_\-str} (struct sconfig $\ast$sconf, const char $\ast$name, const char $\ast$$\ast$value)
+\begin{CompactList}\small\item\em \`{e}174?`\'{e}151174name\'{e}133141\c{c}189174\'{e}!`185\aa{}185182\"{a}187165str\aa{}189162\aa{}188143\`{e}$\mu$139\aa{}128188\aa{}136176$\ast$value \item\end{CompactList}\item 
+int {\bf sconfig\_\-read\_\-int32} (struct sconfig $\ast$sconf, const char $\ast$name, int32\_\-t $\ast$value)
+\begin{CompactList}\small\item\em \`{e}174?`\'{e}151174name\'{e}133141\c{c}189174\'{e}!`185\aa{}185182\"{a}187165int32\aa{}189162\aa{}188143\`{e}$\mu$139\aa{}128188\aa{}136176$\ast$value \item\end{CompactList}\item 
+int {\bf sconfig\_\-read\_\-uint32} (struct sconfig $\ast$sconf, const char $\ast$name, uint32\_\-t $\ast$value)
+\begin{CompactList}\small\item\em \`{e}174?`\'{e}151174name\'{e}133141\c{c}189174\'{e}!`185\aa{}185182\"{a}187165uint32\aa{}189162\aa{}188143\`{e}$\mu$139\aa{}128188\aa{}136176$\ast$value \item\end{CompactList}\item 
+int {\bf sconfig\_\-read\_\-int64} (struct sconfig $\ast$sconf, const char $\ast$name, int64\_\-t $\ast$value)
+\begin{CompactList}\small\item\em \`{e}174?`\'{e}151174name\'{e}133141\c{c}189174\'{e}!`185\aa{}185182\"{a}187165int64\aa{}189162\aa{}188143\`{e}$\mu$139\aa{}128188\aa{}136176$\ast$value \item\end{CompactList}\item 
+int {\bf sconfig\_\-read\_\-uint64} (struct sconfig $\ast$sconf, const char $\ast$name, uint64\_\-t $\ast$value)
+\begin{CompactList}\small\item\em \`{e}174?`\'{e}151174name\'{e}133141\c{c}189174\'{e}!`185\aa{}185182\"{a}187165uint64\aa{}189162\aa{}188143\`{e}$\mu$139\aa{}128188\aa{}136176$\ast$value \item\end{CompactList}\item 
+int {\bf sconfig\_\-read\_\-double} (struct sconfig $\ast$sconf, const char $\ast$name, double $\ast$value)
+\begin{CompactList}\small\item\em \`{e}174?`\'{e}151174name\'{e}133141\c{c}189174\'{e}!`185\aa{}185182\"{a}187165double\aa{}189162\aa{}188143\`{e}$\mu$139\aa{}128188\aa{}136176$\ast$value \item\end{CompactList}\item 
+void {\bf sconfig\_\-begin\_\-iterate} (struct sconfig $\ast$sconf)
+\begin{CompactList}\small\item\em \aa{}136157\aa{}167139\aa{}140150\`{e}?`173\"{a}187163\aa{}153168, \c{c}148168\"{a}186142\`{e}174?`\'{e}151174\ae{}137128\ae{}156137\'{e}133141\c{c}189174\'{e}!`185 \item\end{CompactList}\item 
+int {\bf sconfig\_\-iterate} (struct sconfig $\ast$sconf, const char $\ast$$\ast$name, const char $\ast$$\ast$value)
+\begin{CompactList}\small\item\em \aa{}143145\`{e}$\mu$183\"{a}184128\ae{}172!`\`{e}?`173\"{a}187163, \`{e}142183\aa{}143150\"{a}184139\"{a}184128\ae{}157!`\'{e}133141\c{c}189174\'{e}!`185 \item\end{CompactList}\item 
+void {\bf sconfig\_\-end\_\-iterate} (struct sconfig $\ast$sconf)
+\begin{CompactList}\small\item\em \c{c}187147\ae{}157159\`{e}?`173\"{a}187163\aa{}153168 \item\end{CompactList}\end{CompactItemize}
+
+
+\subsection{Detailed Description}
+\begin{Desc}
+\item[Author:]liangdong({\tt liangdong01@baidu.com}) \end{Desc}
+\begin{Desc}
+\item[Date:]2014/05/31 09:41:47 \end{Desc}
+\begin{Desc}
+\item[Version:]\$Revision\$ \end{Desc}
+
+
+\subsection{Function Documentation}
+\index{sconfig.h@{sconfig.h}!sconfig_begin_iterate@{sconfig\_\-begin\_\-iterate}}
+\index{sconfig_begin_iterate@{sconfig\_\-begin\_\-iterate}!sconfig.h@{sconfig.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void sconfig\_\-begin\_\-iterate (struct sconfig $\ast$ {\em sconf})}\label{sconfig_8h_a9}
+
+
+\aa{}136157\aa{}167139\aa{}140150\`{e}?`173\"{a}187163\aa{}153168, \c{c}148168\"{a}186142\`{e}174?`\'{e}151174\ae{}137128\ae{}156137\'{e}133141\c{c}189174\'{e}!`185 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[\mbox{$\leftarrow$} {\em sconf}]: struct sconfig$\ast$ \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]void \end{Desc}
+\begin{Desc}
+\item[Return values:]
+\begin{description}
+\item[{\em @see}]\aa{}156168sconfig\_\-reload\aa{}144142,\'{e}156128\`{e}166129\'{e}135141\ae{}150176\`{e}176131\c{c}148168\`{e}175165\aa{}135189\ae{}149176,\aa{}144166\aa{}136153\ae{}151160\ae{}179149\`{e}?`173\"{a}187163\ae{}150176\c{c}154132\'{e}133141\c{c}189174 \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Author:]liangdong \end{Desc}
+\begin{Desc}
+\item[Date:]2014/05/31 17:13:02 \end{Desc}
+\index{sconfig.h@{sconfig.h}!sconfig_end_iterate@{sconfig\_\-end\_\-iterate}}
+\index{sconfig_end_iterate@{sconfig\_\-end\_\-iterate}!sconfig.h@{sconfig.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void sconfig\_\-end\_\-iterate (struct sconfig $\ast$ {\em sconf})}\label{sconfig_8h_a11}
+
+
+\c{c}187147\ae{}157159\`{e}?`173\"{a}187163\aa{}153168 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[\mbox{$\leftarrow$} {\em sconf}]: struct sconfig$\ast$ \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]void \end{Desc}
+\begin{Desc}
+\item[Return values:]
+\begin{description}
+\item[{\em \"{a}184128\ae{}151166\c{c}187147\ae{}157159\`{e}?`173\"{a}187163\aa{}153168,\ae{}142165\"{a}184139\ae{}157165\c{c}154132sconfig\_\-iterate\"{a}188154\`{e}?`148\aa{}155158-1}]\end{description}
+\end{Desc}
+\begin{Desc}
+\item[See also:]\aa{}133179\"{a}186142\`{e}?`173\"{a}187163\aa{}153168\c{c}154132\c{c}137185\ae{}128167,\aa{}143175\"{a}187165\aa{}143130\`{e}128131simple\_\-skiplist\`{e}?`173\"{a}187163\aa{}153168. \end{Desc}
+\begin{Desc}
+\item[Author:]liangdong \end{Desc}
+\begin{Desc}
+\item[Date:]2014/05/31 17:15:29 \end{Desc}
+\index{sconfig.h@{sconfig.h}!sconfig_free@{sconfig\_\-free}}
+\index{sconfig_free@{sconfig\_\-free}!sconfig.h@{sconfig.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void sconfig\_\-free (struct sconfig $\ast$ {\em sconf})}\label{sconfig_8h_a1}
+
+
+\aa{}133179\'{e}151173\'{e}133141\c{c}189174\c{c}187147\ae{}158132 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[\mbox{$\leftarrow$} {\em sconf}]: struct sconfig$\ast$ \"{a}184141\`{e}131189\"{a}184186NULL \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]void \end{Desc}
+\begin{Desc}
+\item[Return values:]
+\begin{description}
+\item[{\em @see}]\end{description}
+\end{Desc}
+\begin{Desc}
+\item[Author:]liangdong \end{Desc}
+\begin{Desc}
+\item[Date:]2014/05/31 15:39:09 \end{Desc}
+\index{sconfig.h@{sconfig.h}!sconfig_iterate@{sconfig\_\-iterate}}
+\index{sconfig_iterate@{sconfig\_\-iterate}!sconfig.h@{sconfig.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int sconfig\_\-iterate (struct sconfig $\ast$ {\em sconf}, const char $\ast$$\ast$ {\em name}, const char $\ast$$\ast$ {\em value})}\label{sconfig_8h_a10}
+
+
+\aa{}143145\`{e}$\mu$183\"{a}184128\ae{}172!`\`{e}?`173\"{a}187163, \`{e}142183\aa{}143150\"{a}184139\"{a}184128\ae{}157!`\'{e}133141\c{c}189174\'{e}!`185 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[\mbox{$\leftarrow$} {\em sconf}]: struct sconfig$\ast$ \"{a}184141\`{e}131189\"{a}184186NULL \item[\mbox{$\leftarrow$} {\em name}]: const char$\ast$$\ast$ \aa{}143175\"{a}187165\"{a}184186NULL \item[\mbox{$\leftarrow$} {\em value}]: const char$\ast$$\ast$ \aa{}143175\"{a}187165\"{a}184186NULL \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]int \`{e}?`148\aa{}155158-1\`{e}!`168\c{c}164186\`{e}?`173\"{a}187163\c{c}187147\ae{}157159, \`{e}?`148\aa{}1551580\`{e}!`168\c{c}164186\`{e}?`173\"{a}187163\ae{}136144\aa{}138159 \end{Desc}
+\begin{Desc}
+\item[Return values:]
+\begin{description}
+\item[{\em @see}]\end{description}
+\end{Desc}
+\begin{Desc}
+\item[Author:]liangdong \end{Desc}
+\begin{Desc}
+\item[Date:]2014/05/31 17:14:36 \end{Desc}
+\index{sconfig.h@{sconfig.h}!sconfig_new@{sconfig\_\-new}}
+\index{sconfig_new@{sconfig\_\-new}!sconfig.h@{sconfig.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}struct sconfig$\ast$ sconfig\_\-new (const char $\ast$ {\em filename})}\label{sconfig_8h_a0}
+
+
+\`{e}167163\ae{}158144filename\'{e}133141\c{c}189174\ae{}150135\"{a}187182,\aa{}185182\`{e}?`148\aa{}155158struct sconfig. 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[\mbox{$\leftarrow$} {\em filename}]: const char$\ast$ \aa{}174140\ae{}149180\'{e}133141\c{c}189174\ae{}150135\"{a}187182\`{e}183175\aa{}190132,\"{a}184141\`{e}131189\"{a}184186NULL \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]struct sconfig$\ast$ \`{e}167163\ae{}158144\aa{}164177\`{e}180165\`{e}?`148\aa{}155158NULL \end{Desc}
+\begin{Desc}
+\item[Return values:]
+\begin{description}
+\item[{\em @see}]\end{description}
+\end{Desc}
+\begin{Desc}
+\item[Author:]liangdong \end{Desc}
+\begin{Desc}
+\item[Date:]2014/05/31 15:38:02 \end{Desc}
+\index{sconfig.h@{sconfig.h}!sconfig_read_double@{sconfig\_\-read\_\-double}}
+\index{sconfig_read_double@{sconfig\_\-read\_\-double}!sconfig.h@{sconfig.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int sconfig\_\-read\_\-double (struct sconfig $\ast$ {\em sconf}, const char $\ast$ {\em name}, double $\ast$ {\em value})}\label{sconfig_8h_a8}
+
+
+\`{e}174?`\'{e}151174name\'{e}133141\c{c}189174\'{e}!`185\aa{}185182\"{a}187165double\aa{}189162\aa{}188143\`{e}$\mu$139\aa{}128188\aa{}136176$\ast$value 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[\mbox{$\leftarrow$} {\em sconf}]: struct sconfig$\ast$ \"{a}184141\`{e}131189\"{a}184186NULL \item[\mbox{$\leftarrow$} {\em name}]: const char$\ast$ \"{a}184141\`{e}131189\"{a}184186NULL \item[\mbox{$\leftarrow$} {\em value}]: const char$\ast$$\ast$ \"{a}184141\`{e}131189\"{a}184186NULL \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]int \`{e}?`148\aa{}155158-1\`{e}!`168\c{c}164186\aa{}164177\`{e}180165,0\`{e}!`168\c{c}164186\ae{}136144\aa{}138159 \end{Desc}
+\begin{Desc}
+\item[Return values:]
+\begin{description}
+\item[{\em @see}]\end{description}
+\end{Desc}
+\begin{Desc}
+\item[Author:]liangdong \end{Desc}
+\begin{Desc}
+\item[Date:]2014/05/31 15:40:38 \end{Desc}
+\index{sconfig.h@{sconfig.h}!sconfig_read_int32@{sconfig\_\-read\_\-int32}}
+\index{sconfig_read_int32@{sconfig\_\-read\_\-int32}!sconfig.h@{sconfig.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int sconfig\_\-read\_\-int32 (struct sconfig $\ast$ {\em sconf}, const char $\ast$ {\em name}, int32\_\-t $\ast$ {\em value})}\label{sconfig_8h_a4}
+
+
+\`{e}174?`\'{e}151174name\'{e}133141\c{c}189174\'{e}!`185\aa{}185182\"{a}187165int32\aa{}189162\aa{}188143\`{e}$\mu$139\aa{}128188\aa{}136176$\ast$value 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[\mbox{$\leftarrow$} {\em sconf}]: struct sconfig$\ast$ \"{a}184141\`{e}131189\"{a}184186NULL \item[\mbox{$\leftarrow$} {\em name}]: const char$\ast$ \"{a}184141\`{e}131189\"{a}184186NULL \item[\mbox{$\leftarrow$} {\em value}]: const char$\ast$$\ast$ \"{a}184141\`{e}131189\"{a}184186NULL \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]int \`{e}?`148\aa{}155158-1\`{e}!`168\c{c}164186\aa{}164177\`{e}180165,0\`{e}!`168\c{c}164186\ae{}136144\aa{}138159 \end{Desc}
+\begin{Desc}
+\item[Return values:]
+\begin{description}
+\item[{\em @see}]\end{description}
+\end{Desc}
+\begin{Desc}
+\item[Author:]liangdong \end{Desc}
+\begin{Desc}
+\item[Date:]2014/05/31 15:40:38 \end{Desc}
+\index{sconfig.h@{sconfig.h}!sconfig_read_int64@{sconfig\_\-read\_\-int64}}
+\index{sconfig_read_int64@{sconfig\_\-read\_\-int64}!sconfig.h@{sconfig.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int sconfig\_\-read\_\-int64 (struct sconfig $\ast$ {\em sconf}, const char $\ast$ {\em name}, int64\_\-t $\ast$ {\em value})}\label{sconfig_8h_a6}
+
+
+\`{e}174?`\'{e}151174name\'{e}133141\c{c}189174\'{e}!`185\aa{}185182\"{a}187165int64\aa{}189162\aa{}188143\`{e}$\mu$139\aa{}128188\aa{}136176$\ast$value 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[\mbox{$\leftarrow$} {\em sconf}]: struct sconfig$\ast$ \"{a}184141\`{e}131189\"{a}184186NULL \item[\mbox{$\leftarrow$} {\em name}]: const char$\ast$ \"{a}184141\`{e}131189\"{a}184186NULL \item[\mbox{$\leftarrow$} {\em value}]: const char$\ast$$\ast$ \"{a}184141\`{e}131189\"{a}184186NULL \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]int \`{e}?`148\aa{}155158-1\`{e}!`168\c{c}164186\aa{}164177\`{e}180165,0\`{e}!`168\c{c}164186\ae{}136144\aa{}138159 \end{Desc}
+\begin{Desc}
+\item[Return values:]
+\begin{description}
+\item[{\em @see}]\end{description}
+\end{Desc}
+\begin{Desc}
+\item[Author:]liangdong \end{Desc}
+\begin{Desc}
+\item[Date:]2014/05/31 15:40:38 \end{Desc}
+\index{sconfig.h@{sconfig.h}!sconfig_read_str@{sconfig\_\-read\_\-str}}
+\index{sconfig_read_str@{sconfig\_\-read\_\-str}!sconfig.h@{sconfig.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int sconfig\_\-read\_\-str (struct sconfig $\ast$ {\em sconf}, const char $\ast$ {\em name}, const char $\ast$$\ast$ {\em value})}\label{sconfig_8h_a3}
+
+
+\`{e}174?`\'{e}151174name\'{e}133141\c{c}189174\'{e}!`185\aa{}185182\"{a}187165str\aa{}189162\aa{}188143\`{e}$\mu$139\aa{}128188\aa{}136176$\ast$value 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[\mbox{$\leftarrow$} {\em sconf}]: struct sconfig$\ast$ \"{a}184141\`{e}131189\"{a}184186NULL \item[\mbox{$\leftarrow$} {\em name}]: const char$\ast$ \"{a}184141\`{e}131189\"{a}184186NULL \item[\mbox{$\leftarrow$} {\em value}]: const char$\ast$$\ast$ \"{a}184141\`{e}131189\"{a}184186NULL \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]int \`{e}?`148\aa{}155158-1\`{e}!`168\c{c}164186\aa{}164177\`{e}180165,0\`{e}!`168\c{c}164186\ae{}136144\aa{}138159 \end{Desc}
+\begin{Desc}
+\item[Return values:]
+\begin{description}
+\item[{\em @see}]\end{description}
+\end{Desc}
+\begin{Desc}
+\item[Author:]liangdong \end{Desc}
+\begin{Desc}
+\item[Date:]2014/05/31 15:40:38 \end{Desc}
+\index{sconfig.h@{sconfig.h}!sconfig_read_uint32@{sconfig\_\-read\_\-uint32}}
+\index{sconfig_read_uint32@{sconfig\_\-read\_\-uint32}!sconfig.h@{sconfig.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int sconfig\_\-read\_\-uint32 (struct sconfig $\ast$ {\em sconf}, const char $\ast$ {\em name}, uint32\_\-t $\ast$ {\em value})}\label{sconfig_8h_a5}
+
+
+\`{e}174?`\'{e}151174name\'{e}133141\c{c}189174\'{e}!`185\aa{}185182\"{a}187165uint32\aa{}189162\aa{}188143\`{e}$\mu$139\aa{}128188\aa{}136176$\ast$value 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[\mbox{$\leftarrow$} {\em sconf}]: struct sconfig$\ast$ \"{a}184141\`{e}131189\"{a}184186NULL \item[\mbox{$\leftarrow$} {\em name}]: const char$\ast$ \"{a}184141\`{e}131189\"{a}184186NULL \item[\mbox{$\leftarrow$} {\em value}]: const char$\ast$$\ast$ \"{a}184141\`{e}131189\"{a}184186NULL \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]int \`{e}?`148\aa{}155158-1\`{e}!`168\c{c}164186\aa{}164177\`{e}180165,0\`{e}!`168\c{c}164186\ae{}136144\aa{}138159 \end{Desc}
+\begin{Desc}
+\item[Return values:]
+\begin{description}
+\item[{\em @see}]\end{description}
+\end{Desc}
+\begin{Desc}
+\item[Author:]liangdong \end{Desc}
+\begin{Desc}
+\item[Date:]2014/05/31 15:40:38 \end{Desc}
+\index{sconfig.h@{sconfig.h}!sconfig_read_uint64@{sconfig\_\-read\_\-uint64}}
+\index{sconfig_read_uint64@{sconfig\_\-read\_\-uint64}!sconfig.h@{sconfig.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int sconfig\_\-read\_\-uint64 (struct sconfig $\ast$ {\em sconf}, const char $\ast$ {\em name}, uint64\_\-t $\ast$ {\em value})}\label{sconfig_8h_a7}
+
+
+\`{e}174?`\'{e}151174name\'{e}133141\c{c}189174\'{e}!`185\aa{}185182\"{a}187165uint64\aa{}189162\aa{}188143\`{e}$\mu$139\aa{}128188\aa{}136176$\ast$value 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[\mbox{$\leftarrow$} {\em sconf}]: struct sconfig$\ast$ \"{a}184141\`{e}131189\"{a}184186NULL \item[\mbox{$\leftarrow$} {\em name}]: const char$\ast$ \"{a}184141\`{e}131189\"{a}184186NULL \item[\mbox{$\leftarrow$} {\em value}]: const char$\ast$$\ast$ \"{a}184141\`{e}131189\"{a}184186NULL \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]int \`{e}?`148\aa{}155158-1\`{e}!`168\c{c}164186\aa{}164177\`{e}180165,0\`{e}!`168\c{c}164186\ae{}136144\aa{}138159 \end{Desc}
+\begin{Desc}
+\item[Return values:]
+\begin{description}
+\item[{\em @see}]\end{description}
+\end{Desc}
+\begin{Desc}
+\item[Author:]liangdong \end{Desc}
+\begin{Desc}
+\item[Date:]2014/05/31 15:40:38 \end{Desc}
+\index{sconfig.h@{sconfig.h}!sconfig_reload@{sconfig\_\-reload}}
+\index{sconfig_reload@{sconfig\_\-reload}!sconfig.h@{sconfig.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int sconfig\_\-reload (struct sconfig $\ast$ {\em sconf})}\label{sconfig_8h_a2}
+
+
+\'{e}135141\ae{}150176\aa{}138160\`{e}189189\'{e}133141\c{c}189174\ae{}150135\"{a}187182,\aa{}166130\ae{}158156\aa{}138160\`{e}189189\aa{}164177\`{e}180165\"{a}184141\"{a}188154\aa{}189177\aa{}147141\aa{}189147\aa{}137141\'{e}133141\c{c}189174. 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[\mbox{$\leftarrow$} {\em sconf}]: struct sconfig$\ast$ \"{a}184141\`{e}131189\"{a}184186NULL \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]int \`{e}?`148\aa{}155158-1\`{e}!`168\c{c}164186\aa{}138160\`{e}189189\aa{}164177\`{e}180165,\`{e}?`148\aa{}1551580\`{e}!`168\c{c}164186\ae{}136144\aa{}138159 \end{Desc}
+\begin{Desc}
+\item[Return values:]
+\begin{description}
+\item[{\em @see}]\end{description}
+\end{Desc}
+\begin{Desc}
+\item[Author:]liangdong \end{Desc}
+\begin{Desc}
+\item[Date:]2014/05/31 15:39:55 \end{Desc}

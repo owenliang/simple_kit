@@ -1,0 +1,276 @@
+\section{sio\_\-buffer.c File Reference}
+\label{sio__buffer_8c}\index{sio_buffer.c@{sio\_\-buffer.c}}
+{\tt \#include $<$stdlib.h$>$}\par
+{\tt \#include $<$string.h$>$}\par
+{\tt \#include \char`\"{}sio\_\-buffer.h\char`\"{}}\par
+\subsection*{Defines}
+\begin{CompactItemize}
+\item 
+\#define {\bf SIO\_\-BUFFER\_\-INIT\_\-CAPACITY}\ 16384\label{sio__buffer_8c_a0}
+
+\item 
+\#define {\bf SIO\_\-BUFFER\_\-SHRINK\_\-CAPACITY}\ 1048576\label{sio__buffer_8c_a1}
+
+\end{CompactItemize}
+\subsection*{Functions}
+\begin{CompactItemize}
+\item 
+sio\_\-buffer $\ast$ {\bf sio\_\-buffer\_\-new} ()
+\begin{CompactList}\small\item\em \aa{}136155\aa{}187186sio\_\-buffer \item\end{CompactList}\item 
+void {\bf sio\_\-buffer\_\-free} (struct sio\_\-buffer $\ast$sbuf)
+\begin{CompactList}\small\item\em \'{e}135138\ae{}148190sio\_\-buffer \item\end{CompactList}\item 
+void {\bf sio\_\-buffer\_\-reserve} (struct sio\_\-buffer $\ast$sbuf, uint64\_\-t size)
+\begin{CompactList}\small\item\em \c{c}!`174\"{a}?`157\c{c}188147\aa{}134178\aa{}140186\aa{}176190\'{e}131168\c{c}149153\ae{}156137\`{e}135179\aa{}176145size\aa{}173151\`{e}138130\c{c}154132\c{c}169186\'{e}151178\c{c}169186\'{e}151180 \item\end{CompactList}\item 
+void {\bf sio\_\-buffer\_\-append} (struct sio\_\-buffer $\ast$sbuf, const char $\ast$data, uint64\_\-t size)
+\begin{CompactList}\small\item\em \aa{}144145\c{c}188147\aa{}134178\aa{}140186\aa{}176190\'{e}131168\`{e}?`189\aa{}138160\ae{}149176\ae{}141174 \item\end{CompactList}\item 
+void {\bf sio\_\-buffer\_\-seek} (struct sio\_\-buffer $\ast$sbuf, uint64\_\-t size)
+\begin{CompactList}\small\item\em \aa{}176134\c{c}188147\aa{}134178\aa{}140186\aa{}176190\ae{}140135\'{e}146136\aa{}144145\aa{}144142\c{c}167187\aa{}138168size\aa{}173151\`{e}138130 \item\end{CompactList}\item 
+void {\bf sio\_\-buffer\_\-erase} (struct sio\_\-buffer $\ast$sbuf, uint64\_\-t size)
+\begin{CompactList}\small\item\em \"{a}187142\c{c}188147\aa{}134178\aa{}140186\aa{}164180\'{e}131168\aa{}136160\'{e}153164size\aa{}173151\`{e}138130\ae{}149176\ae{}141174 \item\end{CompactList}\item 
+uint64\_\-t {\bf sio\_\-buffer\_\-length} (struct sio\_\-buffer $\ast$sbuf)
+\begin{CompactList}\small\item\em \`{e}?`148\aa{}155158\c{c}188147\aa{}134178\aa{}140186\ae{}149176\ae{}141174\ae{}174$\mu$\'{e}149?`\aa{}186166 \item\end{CompactList}\item 
+uint64\_\-t {\bf sio\_\-buffer\_\-capacity} (struct sio\_\-buffer $\ast$sbuf)
+\begin{CompactList}\small\item\em \`{e}?`148\aa{}155158\c{c}188147\aa{}134178\aa{}140186\ae{}128187\aa{}164167\aa{}176143 \item\end{CompactList}\item 
+void {\bf sio\_\-buffer\_\-space} (struct sio\_\-buffer $\ast$sbuf, char $\ast$$\ast$space, uint64\_\-t $\ast$size)
+\begin{CompactList}\small\item\em \`{e}?`148\aa{}155158\c{c}169186\'{e}151178\aa{}140186\aa{}159159\c{c}154132\aa{}156176\aa{}157128\aa{}146140\'{e}149?`\aa{}186166, \'{e}156128\`{e}166129\c{c}148168\ae{}136183\`{e}176131\c{c}148168sio\_\-buffer\_\-reserve\'{e}162132\aa{}136134\'{e}133141 \item\end{CompactList}\item 
+void {\bf sio\_\-buffer\_\-data} (struct sio\_\-buffer $\ast$sbuf, char $\ast$$\ast$data, uint64\_\-t $\ast$size)
+\begin{CompactList}\small\item\em \`{e}?`148\aa{}155158\ae{}149176\ae{}141174\ae{}174$\mu$\c{c}154132\'{e}166150\aa{}156176\aa{}157128\aa{}146140\'{e}149?`\aa{}186166 \item\end{CompactList}\end{CompactItemize}
+
+
+\subsection{Detailed Description}
+\begin{Desc}
+\item[Author:]liangdong({\tt liangdong01@baidu.com}) \end{Desc}
+\begin{Desc}
+\item[Date:]2014/03/30 16:24:49 \end{Desc}
+\begin{Desc}
+\item[Version:]\$Revision\$ \end{Desc}
+
+
+\subsection{Function Documentation}
+\index{sio_buffer.c@{sio\_\-buffer.c}!sio_buffer_append@{sio\_\-buffer\_\-append}}
+\index{sio_buffer_append@{sio\_\-buffer\_\-append}!sio_buffer.c@{sio\_\-buffer.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void sio\_\-buffer\_\-append (struct sio\_\-buffer $\ast$ {\em sbuf}, const char $\ast$ {\em data}, uint64\_\-t {\em size})}\label{sio__buffer_8c_a5}
+
+
+\aa{}144145\c{c}188147\aa{}134178\aa{}140186\aa{}176190\'{e}131168\`{e}?`189\aa{}138160\ae{}149176\ae{}141174 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[\mbox{$\leftarrow$} {\em sbuf}]: struct sio\_\-buffer$\ast$ \item[\mbox{$\leftarrow$} {\em data}]: const char$\ast$ \item[\mbox{$\leftarrow$} {\em size}]: uint64\_\-t \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]void \end{Desc}
+\begin{Desc}
+\item[Return values:]
+\begin{description}
+\item[{\em @see}]\end{description}
+\end{Desc}
+\begin{Desc}
+\item[Author:]liangdong \end{Desc}
+\begin{Desc}
+\item[Date:]2014/03/30 16:43:43 \end{Desc}
+\index{sio_buffer.c@{sio\_\-buffer.c}!sio_buffer_capacity@{sio\_\-buffer\_\-capacity}}
+\index{sio_buffer_capacity@{sio\_\-buffer\_\-capacity}!sio_buffer.c@{sio\_\-buffer.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}uint64\_\-t sio\_\-buffer\_\-capacity (struct sio\_\-buffer $\ast$ {\em sbuf})}\label{sio__buffer_8c_a9}
+
+
+\`{e}?`148\aa{}155158\c{c}188147\aa{}134178\aa{}140186\ae{}128187\aa{}164167\aa{}176143 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[\mbox{$\leftarrow$} {\em sbuf}]: struct sio\_\-buffer$\ast$ \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]uint64\_\-t \end{Desc}
+\begin{Desc}
+\item[Return values:]
+\begin{description}
+\item[{\em @see}]\end{description}
+\end{Desc}
+\begin{Desc}
+\item[Author:]liangdong \end{Desc}
+\begin{Desc}
+\item[Date:]2014/03/30 17:00:51 \end{Desc}
+\index{sio_buffer.c@{sio\_\-buffer.c}!sio_buffer_data@{sio\_\-buffer\_\-data}}
+\index{sio_buffer_data@{sio\_\-buffer\_\-data}!sio_buffer.c@{sio\_\-buffer.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void sio\_\-buffer\_\-data (struct sio\_\-buffer $\ast$ {\em sbuf}, char $\ast$$\ast$ {\em data}, uint64\_\-t $\ast$ {\em size})}\label{sio__buffer_8c_a11}
+
+
+\`{e}?`148\aa{}155158\ae{}149176\ae{}141174\ae{}174$\mu$\c{c}154132\'{e}166150\aa{}156176\aa{}157128\aa{}146140\'{e}149?`\aa{}186166 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[\mbox{$\leftarrow$} {\em sbuf}]: struct sio\_\-buffer$\ast$ \item[\mbox{$\leftarrow$} {\em data}]: \"{a}184141\'{e}156128\`{e}166129\aa{}143175\"{a}187165\"{a}188160\aa{}133165NULL \item[\mbox{$\leftarrow$} {\em size}]: \"{a}184141\'{e}156128\`{e}166129\aa{}143175\"{a}187165\"{a}188160\aa{}133165NULL \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]void \end{Desc}
+\begin{Desc}
+\item[Return values:]
+\begin{description}
+\item[{\em @see}]\end{description}
+\end{Desc}
+\begin{Desc}
+\item[Author:]liangdong \end{Desc}
+\begin{Desc}
+\item[Date:]2014/03/30 17:07:51 \end{Desc}
+\index{sio_buffer.c@{sio\_\-buffer.c}!sio_buffer_erase@{sio\_\-buffer\_\-erase}}
+\index{sio_buffer_erase@{sio\_\-buffer\_\-erase}!sio_buffer.c@{sio\_\-buffer.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void sio\_\-buffer\_\-erase (struct sio\_\-buffer $\ast$ {\em sbuf}, uint64\_\-t {\em size})}\label{sio__buffer_8c_a7}
+
+
+\"{a}187142\c{c}188147\aa{}134178\aa{}140186\aa{}164180\'{e}131168\aa{}136160\'{e}153164size\aa{}173151\`{e}138130\ae{}149176\ae{}141174 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[\mbox{$\leftarrow$} {\em sbuf}]: struct sio\_\-buffer$\ast$ \item[\mbox{$\leftarrow$} {\em size}]: uint64\_\-t \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]void \end{Desc}
+\begin{Desc}
+\item[Return values:]
+\begin{description}
+\item[{\em @see}]\end{description}
+\end{Desc}
+\begin{Desc}
+\item[Author:]liangdong \end{Desc}
+\begin{Desc}
+\item[Date:]2014/03/30 16:43:21 \end{Desc}
+\index{sio_buffer.c@{sio\_\-buffer.c}!sio_buffer_free@{sio\_\-buffer\_\-free}}
+\index{sio_buffer_free@{sio\_\-buffer\_\-free}!sio_buffer.c@{sio\_\-buffer.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void sio\_\-buffer\_\-free (struct sio\_\-buffer $\ast$ {\em sbuf})}\label{sio__buffer_8c_a3}
+
+
+\'{e}135138\ae{}148190sio\_\-buffer 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[\mbox{$\leftarrow$} {\em sbuf}]: struct sio\_\-buffer$\ast$ \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]void \end{Desc}
+\begin{Desc}
+\item[Return values:]
+\begin{description}
+\item[{\em @see}]\end{description}
+\end{Desc}
+\begin{Desc}
+\item[Author:]liangdong \end{Desc}
+\begin{Desc}
+\item[Date:]2014/03/30 16:30:40 \end{Desc}
+\index{sio_buffer.c@{sio\_\-buffer.c}!sio_buffer_length@{sio\_\-buffer\_\-length}}
+\index{sio_buffer_length@{sio\_\-buffer\_\-length}!sio_buffer.c@{sio\_\-buffer.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}uint64\_\-t sio\_\-buffer\_\-length (struct sio\_\-buffer $\ast$ {\em sbuf})}\label{sio__buffer_8c_a8}
+
+
+\`{e}?`148\aa{}155158\c{c}188147\aa{}134178\aa{}140186\ae{}149176\ae{}141174\ae{}174$\mu$\'{e}149?`\aa{}186166 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[\mbox{$\leftarrow$} {\em sbuf}]: struct sio\_\-buffer$\ast$ \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]uint64\_\-t \end{Desc}
+\begin{Desc}
+\item[Return values:]
+\begin{description}
+\item[{\em @see}]\end{description}
+\end{Desc}
+\begin{Desc}
+\item[Author:]liangdong \end{Desc}
+\begin{Desc}
+\item[Date:]2014/03/30 17:00:36 \end{Desc}
+\index{sio_buffer.c@{sio\_\-buffer.c}!sio_buffer_new@{sio\_\-buffer\_\-new}}
+\index{sio_buffer_new@{sio\_\-buffer\_\-new}!sio_buffer.c@{sio\_\-buffer.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}struct sio\_\-buffer$\ast$ sio\_\-buffer\_\-new ()}\label{sio__buffer_8c_a2}
+
+
+\aa{}136155\aa{}187186sio\_\-buffer 
+
+\begin{Desc}
+\item[Returns:]struct sio\_\-buffer$\ast$ \end{Desc}
+\begin{Desc}
+\item[Return values:]
+\begin{description}
+\item[{\em @see}]\end{description}
+\end{Desc}
+\begin{Desc}
+\item[Author:]liangdong \end{Desc}
+\begin{Desc}
+\item[Date:]2014/03/30 16:30:25 \end{Desc}
+\index{sio_buffer.c@{sio\_\-buffer.c}!sio_buffer_reserve@{sio\_\-buffer\_\-reserve}}
+\index{sio_buffer_reserve@{sio\_\-buffer\_\-reserve}!sio_buffer.c@{sio\_\-buffer.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void sio\_\-buffer\_\-reserve (struct sio\_\-buffer $\ast$ {\em sbuf}, uint64\_\-t {\em size})}\label{sio__buffer_8c_a4}
+
+
+\c{c}!`174\"{a}?`157\c{c}188147\aa{}134178\aa{}140186\aa{}176190\'{e}131168\c{c}149153\ae{}156137\`{e}135179\aa{}176145size\aa{}173151\`{e}138130\c{c}154132\c{c}169186\'{e}151178\c{c}169186\'{e}151180 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[\mbox{$\leftarrow$} {\em sbuf}]: struct sio\_\-buffer$\ast$ \item[\mbox{$\leftarrow$} {\em size}]: uint64\_\-t \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]void \end{Desc}
+\begin{Desc}
+\item[Return values:]
+\begin{description}
+\item[{\em @see}]\end{description}
+\end{Desc}
+\begin{Desc}
+\item[Author:]liangdong \end{Desc}
+\begin{Desc}
+\item[Date:]2014/03/30 16:43:05 \end{Desc}
+\index{sio_buffer.c@{sio\_\-buffer.c}!sio_buffer_seek@{sio\_\-buffer\_\-seek}}
+\index{sio_buffer_seek@{sio\_\-buffer\_\-seek}!sio_buffer.c@{sio\_\-buffer.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void sio\_\-buffer\_\-seek (struct sio\_\-buffer $\ast$ {\em sbuf}, uint64\_\-t {\em size})}\label{sio__buffer_8c_a6}
+
+
+\aa{}176134\c{c}188147\aa{}134178\aa{}140186\aa{}176190\ae{}140135\'{e}146136\aa{}144145\aa{}144142\c{c}167187\aa{}138168size\aa{}173151\`{e}138130 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[\mbox{$\leftarrow$} {\em sbuf}]: struct sio\_\-buffer$\ast$ \item[\mbox{$\leftarrow$} {\em size}]: uint64\_\-t \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]void \end{Desc}
+\begin{Desc}
+\item[Return values:]
+\begin{description}
+\item[{\em @see}]\end{description}
+\end{Desc}
+\begin{Desc}
+\item[Author:]liangdong \end{Desc}
+\begin{Desc}
+\item[Date:]2014/03/30 17:12:08 \end{Desc}
+\index{sio_buffer.c@{sio\_\-buffer.c}!sio_buffer_space@{sio\_\-buffer\_\-space}}
+\index{sio_buffer_space@{sio\_\-buffer\_\-space}!sio_buffer.c@{sio\_\-buffer.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void sio\_\-buffer\_\-space (struct sio\_\-buffer $\ast$ {\em sbuf}, char $\ast$$\ast$ {\em space}, uint64\_\-t $\ast$ {\em size})}\label{sio__buffer_8c_a10}
+
+
+\`{e}?`148\aa{}155158\c{c}169186\'{e}151178\aa{}140186\aa{}159159\c{c}154132\aa{}156176\aa{}157128\aa{}146140\'{e}149?`\aa{}186166, \'{e}156128\`{e}166129\c{c}148168\ae{}136183\`{e}176131\c{c}148168sio\_\-buffer\_\-reserve\'{e}162132\aa{}136134\'{e}133141 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[\mbox{$\leftarrow$} {\em sbuf}]: struct sio\_\-buffer$\ast$ \item[\mbox{$\leftarrow$} {\em space}]: \aa{}166130\ae{}158156\"{a}184141\'{e}156128\`{e}166129\aa{}143175\"{a}187165\"{a}188160\aa{}133165NULL \item[\mbox{$\leftarrow$} {\em size}]: \aa{}166130\ae{}158156\"{a}184141\'{e}156128\`{e}166129\aa{}143175\"{a}187165\"{a}188160\aa{}133165NULL \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]void \end{Desc}
+\begin{Desc}
+\item[Return values:]
+\begin{description}
+\item[{\em $\ast$space\"{a}184186\c{c}169186\'{e}151178\aa{}140186\aa{}159159\'{e}166150\aa{}156176\aa{}157128,$\ast$size\"{a}184186\c{c}169186\'{e}151178\aa{}140186\aa{}159159\'{e}149?`\aa{}186166}]\end{description}
+\end{Desc}
+\begin{Desc}
+\item[See also:]\end{Desc}
+\begin{Desc}
+\item[Author:]liangdong \end{Desc}
+\begin{Desc}
+\item[Date:]2014/03/30 17:05:01 \end{Desc}
