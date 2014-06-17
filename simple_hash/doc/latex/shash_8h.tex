@@ -1,0 +1,254 @@
+\section{shash.h File Reference}
+\label{shash_8h}\index{shash.h@{shash.h}}
+{\tt \#include $<$stdint.h$>$}\par
+\subsection*{Classes}
+\begin{CompactItemize}
+\item 
+struct {\bf shash\_\-node}
+\item 
+struct {\bf shash}
+\end{CompactItemize}
+\subsection*{Defines}
+\begin{CompactItemize}
+\item 
+\#define {\bf SHASH\_\-INIT\_\-NUM\_\-BUCKETS}\ 9\label{shash_8h_a0}
+
+\item 
+\#define {\bf SHASH\_\-MAX\_\-NUM\_\-BUCKETS}\ 63\label{shash_8h_a1}
+
+\end{CompactItemize}
+\subsection*{Functions}
+\begin{CompactItemize}
+\item 
+shash $\ast$ {\bf shash\_\-new} ()
+\begin{CompactList}\small\item\em \aa{}136155\aa{}187186\aa{}147136\aa{}184140\`{e}!`168 \item\end{CompactList}\item 
+void {\bf shash\_\-free} (struct shash $\ast$shash)
+\begin{CompactList}\small\item\em \'{e}135138\ae{}148190\aa{}147136\aa{}184140\`{e}!`168 \item\end{CompactList}\item 
+int {\bf shash\_\-insert} (struct shash $\ast$shash, const char $\ast$key, uint32\_\-t key\_\-len, void $\ast$value)
+\begin{CompactList}\small\item\em \ae{}143146\aa{}133165\'{e}149?`\aa{}186166\"{a}184186key\_\-len\c{c}154132\'{e}148174, \aa{}175185\aa{}186148\aa{}128188\"{a}184186value \item\end{CompactList}\item 
+int {\bf shash\_\-erase} (struct shash $\ast$shash, const char $\ast$key, uint32\_\-t key\_\-len)
+\begin{CompactList}\small\item\em \aa{}136160\'{e}153164\'{e}149?`\aa{}186166\"{a}184186key\_\-len\c{c}154132key \item\end{CompactList}\item 
+int {\bf shash\_\-find} (struct shash $\ast$shash, const char $\ast$key, uint32\_\-t key\_\-len, void $\ast$$\ast$value)
+\begin{CompactList}\small\item\em \ae{}159165\ae{}137190key\_\-len\'{e}149?`\aa{}186166\c{c}154132key \item\end{CompactList}\item 
+void {\bf shash\_\-begin\_\-iterate} (struct shash $\ast$shash)
+\begin{CompactList}\small\item\em \aa{}136157\aa{}167139\aa{}140150\`{e}?`173\"{a}187163\aa{}153168 \item\end{CompactList}\item 
+int {\bf shash\_\-iterate} (struct shash $\ast$shash, const char $\ast$$\ast$key, uint32\_\-t $\ast$key\_\-len, void $\ast$$\ast$value)
+\begin{CompactList}\small\item\em \`{e}?`173\"{a}187163\"{a}184139\"{a}184128\"{a}184170key,value \item\end{CompactList}\item 
+void {\bf shash\_\-end\_\-iterate} (struct shash $\ast$shash)
+\begin{CompactList}\small\item\em \aa{}133179\'{e}151173\`{e}?`173\"{a}187163\aa{}153168 \item\end{CompactList}\item 
+uint64\_\-t {\bf shash\_\-size} (struct shash $\ast$shash)
+\begin{CompactList}\small\item\em \`{e}?`148\aa{}155158\aa{}147136\aa{}184140\ae{}128187\aa{}133131\c{c}180160\"{a}184170\ae{}149176 \item\end{CompactList}\end{CompactItemize}
+
+
+\subsection{Detailed Description}
+\begin{Desc}
+\item[Author:]liangdong({\tt liangdong01@baidu.com}) \end{Desc}
+\begin{Desc}
+\item[Date:]2014/06/16 19:18:40 \end{Desc}
+\begin{Desc}
+\item[Version:]\$Revision\$ \end{Desc}
+
+
+\subsection{Function Documentation}
+\index{shash.h@{shash.h}!shash_begin_iterate@{shash\_\-begin\_\-iterate}}
+\index{shash_begin_iterate@{shash\_\-begin\_\-iterate}!shash.h@{shash.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void shash\_\-begin\_\-iterate (struct shash $\ast$ {\em shash})}\label{shash_8h_a7}
+
+
+\aa{}136157\aa{}167139\aa{}140150\`{e}?`173\"{a}187163\aa{}153168 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[\mbox{$\leftarrow$} {\em shash}]: struct shash$\ast$ \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]void \end{Desc}
+\begin{Desc}
+\item[Return values:]
+\begin{description}
+\item[{\em @see}]\end{description}
+\end{Desc}
+\begin{Desc}
+\item[Author:]liangdong \end{Desc}
+\begin{Desc}
+\item[Date:]2014/06/17 13:36:42 \end{Desc}
+\index{shash.h@{shash.h}!shash_end_iterate@{shash\_\-end\_\-iterate}}
+\index{shash_end_iterate@{shash\_\-end\_\-iterate}!shash.h@{shash.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void shash\_\-end\_\-iterate (struct shash $\ast$ {\em shash})}\label{shash_8h_a9}
+
+
+\aa{}133179\'{e}151173\`{e}?`173\"{a}187163\aa{}153168 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[\mbox{$\leftarrow$} {\em shash}]: struct shash$\ast$ \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]void \end{Desc}
+\begin{Desc}
+\item[Return values:]
+\begin{description}
+\item[{\em @see}]\end{description}
+\end{Desc}
+\begin{Desc}
+\item[Author:]liangdong \end{Desc}
+\begin{Desc}
+\item[Date:]2014/06/17 13:36:48 \end{Desc}
+\index{shash.h@{shash.h}!shash_erase@{shash\_\-erase}}
+\index{shash_erase@{shash\_\-erase}!shash.h@{shash.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int shash\_\-erase (struct shash $\ast$ {\em shash}, const char $\ast$ {\em key}, uint32\_\-t {\em key\_\-len})}\label{shash_8h_a5}
+
+
+\aa{}136160\'{e}153164\'{e}149?`\aa{}186166\"{a}184186key\_\-len\c{c}154132key 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[\mbox{$\leftarrow$} {\em shash}]: struct shash$\ast$ \item[\mbox{$\leftarrow$} {\em key}]: const char$\ast$ \"{a}184141\`{e}131189\"{a}184186NULL \item[\mbox{$\leftarrow$} {\em key\_\-len}]: uint32\_\-t \"{a}184141\`{e}131189\"{a}1841860 \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]int \`{e}?`148\aa{}155158-1\`{e}!`168\c{c}164186Key\"{a}184141\aa{}173152\aa{}156168\"{\i}188140\`{e}?`148\aa{}1551580\`{e}!`168\c{c}164186\aa{}136160\'{e}153164\ae{}136144\aa{}138159 \end{Desc}
+\begin{Desc}
+\item[Return values:]
+\begin{description}
+\item[{\em @see}]\end{description}
+\end{Desc}
+\begin{Desc}
+\item[Author:]liangdong \end{Desc}
+\begin{Desc}
+\item[Date:]2014/06/17 13:36:35 \end{Desc}
+\index{shash.h@{shash.h}!shash_find@{shash\_\-find}}
+\index{shash_find@{shash\_\-find}!shash.h@{shash.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int shash\_\-find (struct shash $\ast$ {\em shash}, const char $\ast$ {\em key}, uint32\_\-t {\em key\_\-len}, void $\ast$$\ast$ {\em value})}\label{shash_8h_a6}
+
+
+\ae{}159165\ae{}137190key\_\-len\'{e}149?`\aa{}186166\c{c}154132key 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[\mbox{$\leftarrow$} {\em shash}]: struct shash$\ast$ \item[\mbox{$\leftarrow$} {\em key}]: const char$\ast$ \"{a}184141\`{e}131189\"{a}184186NULL \item[\mbox{$\leftarrow$} {\em key\_\-len}]: uint32\_\-t \"{a}184141\`{e}131189\"{a}1841860 \item[\mbox{$\leftarrow$} {\em value}]: void$\ast$$\ast$ \`{e}?`148\aa{}155158value, \aa{}143175\"{a}187165\"{a}184186NULL \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]int \`{e}?`148\aa{}155158-1\`{e}!`168\c{c}164186key\"{a}184141\aa{}173152\aa{}156168\"{\i}188140\`{e}?`148\aa{}1551580\`{e}!`168\c{c}164186\ae{}159165\ae{}137190\ae{}136144\aa{}138159 \end{Desc}
+\begin{Desc}
+\item[Return values:]
+\begin{description}
+\item[{\em @see}]\end{description}
+\end{Desc}
+\begin{Desc}
+\item[Author:]liangdong \end{Desc}
+\begin{Desc}
+\item[Date:]2014/06/17 13:36:39 \end{Desc}
+\index{shash.h@{shash.h}!shash_free@{shash\_\-free}}
+\index{shash_free@{shash\_\-free}!shash.h@{shash.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void shash\_\-free (struct shash $\ast$ {\em shash})}\label{shash_8h_a3}
+
+
+\'{e}135138\ae{}148190\aa{}147136\aa{}184140\`{e}!`168 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[\mbox{$\leftarrow$} {\em shash}]: struct shash$\ast$ \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]void \end{Desc}
+\begin{Desc}
+\item[Return values:]
+\begin{description}
+\item[{\em @see}]\end{description}
+\end{Desc}
+\begin{Desc}
+\item[Author:]liangdong \end{Desc}
+\begin{Desc}
+\item[Date:]2014/06/17 13:36:26 \end{Desc}
+\index{shash.h@{shash.h}!shash_insert@{shash\_\-insert}}
+\index{shash_insert@{shash\_\-insert}!shash.h@{shash.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int shash\_\-insert (struct shash $\ast$ {\em shash}, const char $\ast$ {\em key}, uint32\_\-t {\em key\_\-len}, void $\ast$ {\em value})}\label{shash_8h_a4}
+
+
+\ae{}143146\aa{}133165\'{e}149?`\aa{}186166\"{a}184186key\_\-len\c{c}154132\'{e}148174, \aa{}175185\aa{}186148\aa{}128188\"{a}184186value 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[\mbox{$\leftarrow$} {\em shash}]: struct shash$\ast$ \item[\mbox{$\leftarrow$} {\em key}]: const char$\ast$ \"{a}184141\`{e}131189\"{a}184186NULL \item[\mbox{$\leftarrow$} {\em key\_\-len}]: uint32\_\-t \"{a}184141\`{e}131189\"{a}1841860 \item[\mbox{$\leftarrow$} {\em value}]: void$\ast$ \aa{}143175\"{a}187165\"{a}184186NULL \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]int \`{e}?`148\aa{}155158-1\`{e}!`168\c{c}164186key\aa{}183178\aa{}173152\aa{}156168\"{\i}188140\`{e}?`148\aa{}1551580\`{e}!`168\c{c}164186\ae{}143146\aa{}133165\ae{}136144\aa{}138159 \end{Desc}
+\begin{Desc}
+\item[Return values:]
+\begin{description}
+\item[{\em @see}]\aa{}134133\'{e}131168\aa{}173152\aa{}130168key\c{c}154132\aa{}137175\ae{}156172 \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Author:]liangdong \end{Desc}
+\begin{Desc}
+\item[Date:]2014/06/17 13:36:31 \end{Desc}
+\index{shash.h@{shash.h}!shash_iterate@{shash\_\-iterate}}
+\index{shash_iterate@{shash\_\-iterate}!shash.h@{shash.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int shash\_\-iterate (struct shash $\ast$ {\em shash}, const char $\ast$$\ast$ {\em key}, uint32\_\-t $\ast$ {\em key\_\-len}, void $\ast$$\ast$ {\em value})}\label{shash_8h_a8}
+
+
+\`{e}?`173\"{a}187163\"{a}184139\"{a}184128\"{a}184170key,value 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[\mbox{$\leftarrow$} {\em shash}]: struct shash$\ast$ \item[\mbox{$\leftarrow$} {\em key}]: const char$\ast$$\ast$ \aa{}143175\"{a}187165\"{a}184186NULL \item[\mbox{$\leftarrow$} {\em key\_\-len}]: uint32\_\-t$\ast$ \aa{}143175\"{a}187165\"{a}184186NULL \item[\mbox{$\leftarrow$} {\em value}]: void$\ast$$\ast$ \aa{}143175\"{a}187165\"{a}184186NULL \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]int \`{e}?`148\aa{}155158-1\`{e}!`168\c{c}164186\`{e}?`173\"{a}187163\c{c}187147\ae{}157159\"{\i}188140\`{e}?`148\aa{}1551580\`{e}!`168\c{c}164186\`{e}?`173\"{a}187163\ae{}136144\aa{}138159 \end{Desc}
+\begin{Desc}
+\item[Return values:]
+\begin{description}
+\item[{\em @see}]\end{description}
+\end{Desc}
+\begin{Desc}
+\item[Author:]liangdong \end{Desc}
+\begin{Desc}
+\item[Date:]2014/06/17 13:36:44 \end{Desc}
+\index{shash.h@{shash.h}!shash_new@{shash\_\-new}}
+\index{shash_new@{shash\_\-new}!shash.h@{shash.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}struct shash$\ast$ shash\_\-new ()}\label{shash_8h_a2}
+
+
+\aa{}136155\aa{}187186\aa{}147136\aa{}184140\`{e}!`168 
+
+\begin{Desc}
+\item[Returns:]struct shash$\ast$ \end{Desc}
+\begin{Desc}
+\item[Return values:]
+\begin{description}
+\item[{\em @see}]\end{description}
+\end{Desc}
+\begin{Desc}
+\item[Author:]liangdong \end{Desc}
+\begin{Desc}
+\item[Date:]2014/06/17 13:36:24 \end{Desc}
+\index{shash.h@{shash.h}!shash_size@{shash\_\-size}}
+\index{shash_size@{shash\_\-size}!shash.h@{shash.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}uint64\_\-t shash\_\-size (struct shash $\ast$ {\em shash})}\label{shash_8h_a10}
+
+
+\`{e}?`148\aa{}155158\aa{}147136\aa{}184140\ae{}128187\aa{}133131\c{c}180160\"{a}184170\ae{}149176 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[\mbox{$\leftarrow$} {\em shash}]: struct shash$\ast$ \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]uint64\_\-t \end{Desc}
+\begin{Desc}
+\item[Return values:]
+\begin{description}
+\item[{\em @see}]\end{description}
+\end{Desc}
+\begin{Desc}
+\item[Author:]liangdong \end{Desc}
+\begin{Desc}
+\item[Date:]2014/06/17 13:36:52 \end{Desc}
