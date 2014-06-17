@@ -85,12 +85,26 @@ void begin_iterate_when_rehash()
     shash_free(shash);
 }
 
+void erase_not_exists(struct shash *shash)
+{
+    assert(shash_erase(shash, "1", 2) == -1);
+    assert(shash_erase(shash, "2", 2) == -1);
+}
+
+void find_not_exists(struct shash *shash)
+{
+    assert(shash_find(shash, "1", 2, NULL) == -1);
+    assert(shash_find(shash, "2", 2, NULL) == -1);
+}
+
 int main(int argc, char **argv)
 {
     struct shash *shash = shash_new();
     insert_range(shash, 102400);
     find_range(shash, 102400);
     erase_iterate(shash, 102400);
+    erase_not_exists(shash);
+    find_not_exists(shash);
     shash_free(shash);
     begin_iterate_when_rehash();
     return 0;
