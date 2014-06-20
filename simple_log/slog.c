@@ -183,9 +183,9 @@ void slog_write(enum slog_level level, const char *file, int line, const char *f
     char header[1024];
     int header_len;
     if (level > SLOG_LEVEL_INFO) {
-        header_len = snprintf(header, sizeof(header), "[%04d-%02d-%02d %02d:%02d:%02d.%06ld] %-5s %s (%s:%d) [%ld] ",
+        header_len = snprintf(header, sizeof(header), "[%04d-%02d-%02d %02d:%02d:%02d.%06ld] %-5s [%ld] (%s %s:%d) ",
                 tm.tm_year + 1900, tm.tm_mon + 1, tm.tm_mday, tm.tm_hour, tm.tm_min, tm.tm_sec, tv.tv_usec,
-                level_desc[level], function, file, line, syscall(SYS_gettid));
+                level_desc[level], syscall(SYS_gettid), function, file, line);
     } else {
         header_len = snprintf(header, sizeof(header), "[%04d-%02d-%02d %02d:%02d:%02d.%06ld] %-5s [%ld] ",
                 tm.tm_year + 1900, tm.tm_mon + 1, tm.tm_mday, tm.tm_hour, tm.tm_min, tm.tm_sec, tv.tv_usec,
