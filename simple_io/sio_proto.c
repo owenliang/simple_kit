@@ -419,7 +419,7 @@ int sio_proto_rmessage_unserialize(struct sio_proto_rmessage *msg, const char *b
     msg->header.body_len = body_len;
     msg->meta_num = meta_num;
     msg->meta_arr = meta_arr;
-	return msg_len;
+    return msg_len;
 }
 
 int sio_proto_rmessage_get_boolean(struct sio_proto_rmessage *msg, uint32_t index, uint8_t *boolean)
