@@ -13,6 +13,8 @@ dist:
 	make dist -f $(release)
 test_sio:
 	make test_sio -f $(release)
+test_sio_proto:
+	make test_sio_proto -f $(release)
 test_sio_stream_fork_server:
 	make test_sio_stream_fork_server -f $(release)
 test_sio_stream_server:

@@ -43,11 +43,12 @@ LDFLAGS('-lpthread -lrt')
 #CONFIGS_32('lib2/ullib')
 #CONFIGS_64('lib2-64/ullib')
 
-user_sources='sio.c sio_stream.c sio_buffer.c sio_timer.c sio_dgram.c'
-user_headers='sio.h sio_stream.h sio_buffer.h sio_timer.h sio_dgram.h'
+user_sources='sio.c sio_stream.c sio_buffer.c sio_timer.c sio_dgram.c sio_proto.c'
+user_headers='sio.h sio_stream.h sio_buffer.h sio_timer.h sio_dgram.h sio_proto.h'
 
 #可执行文件
 Application('test_sio',Sources('test_sio.c libsio.a'), Prefixes('libsio.a'), )
+Application('test_sio_proto',Sources('test_sio_proto.c libsio.a'), Prefixes('libsio.a'), )
 Application('test_sio_stream_fork_server',Sources('test_sio_stream_fork_server.c libsio.a'), Prefixes('libsio.a'), )
 Application('test_sio_stream_server',Sources('test_sio_stream_server.cpp libsio.a'), Prefixes('libsio.a'), )
 Application('test_sio_stream_multi_server',Sources('test_sio_stream_multi_server.cpp libsio.a'), Prefixes('libsio.a'), )
