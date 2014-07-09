@@ -32,11 +32,11 @@ CCP_FLAGS=
 
 
 #COMAKE UUID
-COMAKE_MD5=e5fe6e472c903710ab270818f03cea71  COMAKE
+COMAKE_MD5=f5523f7894084842ce19bbcae820605d  COMAKE
 
 
 .PHONY:all
-all:comake2_makefile_check test_sio test_sio_proto test_sio_stream_fork_server test_sio_stream_server test_sio_stream_multi_server test_sio_stream_client test_sio_dgram_server test_sio_dgram_client libsio.a 
+all:comake2_makefile_check test_sio test_sio_stream_fork_server test_sio_stream_server test_sio_stream_multi_server test_sio_stream_client test_sio_dgram_server test_sio_dgram_client libsio.a 
 	@echo "[[1;32;40mCOMAKE:BUILD[0m][Target:'[1;32;40mall[0m']"
 	@echo "make all done"
 
@@ -58,8 +58,6 @@ clean:ccpclean
 	@echo "[[1;32;40mCOMAKE:BUILD[0m][Target:'[1;32;40mclean[0m']"
 	rm -rf test_sio
 	rm -rf ./output/bin/test_sio
-	rm -rf test_sio_proto
-	rm -rf ./output/bin/test_sio_proto
 	rm -rf test_sio_stream_fork_server
 	rm -rf ./output/bin/test_sio_stream_fork_server
 	rm -rf test_sio_stream_server
@@ -79,9 +77,7 @@ clean:ccpclean
 	rm -rf ./output/include/sio_buffer.h
 	rm -rf ./output/include/sio_timer.h
 	rm -rf ./output/include/sio_dgram.h
-	rm -rf ./output/include/sio_proto.h
 	rm -rf test_sio_test_sio.o
-	rm -rf test_sio_proto_test_sio_proto.o
 	rm -rf test_sio_stream_fork_server_test_sio_stream_fork_server.o
 	rm -rf test_sio_stream_server_test_sio_stream_server.o
 	rm -rf test_sio_stream_multi_server_test_sio_stream_multi_server.o
@@ -93,7 +89,6 @@ clean:ccpclean
 	rm -rf sio_sio_buffer.o
 	rm -rf sio_sio_timer.o
 	rm -rf sio_sio_dgram.o
-	rm -rf sio_sio_proto.o
 
 .PHONY:dist
 dist:
@@ -121,16 +116,6 @@ test_sio:libsio.a \
   -lrt -Xlinker "-)" -o test_sio
 	mkdir -p ./output/bin
 	cp -f --link test_sio ./output/bin
-
-test_sio_proto:libsio.a \
-  test_sio_proto_test_sio_proto.o \
-  libsio.a
-	@echo "[[1;32;40mCOMAKE:BUILD[0m][Target:'[1;32;40mtest_sio_proto[0m']"
-	$(CXX) test_sio_proto_test_sio_proto.o \
-  libsio.a -Xlinker "-("   -lpthread \
-  -lrt -Xlinker "-)" -o test_sio_proto
-	mkdir -p ./output/bin
-	cp -f --link test_sio_proto ./output/bin
 
 test_sio_stream_fork_server:libsio.a \
   test_sio_stream_fork_server_test_sio_stream_fork_server.o \
@@ -197,35 +182,27 @@ libsio.a:sio_sio.o \
   sio_sio_buffer.o \
   sio_sio_timer.o \
   sio_sio_dgram.o \
-  sio_sio_proto.o \
   sio.h \
   sio_stream.h \
   sio_buffer.h \
   sio_timer.h \
-  sio_dgram.h \
-  sio_proto.h
+  sio_dgram.h
 	@echo "[[1;32;40mCOMAKE:BUILD[0m][Target:'[1;32;40mlibsio.a[0m']"
 	ar crs libsio.a sio_sio.o \
   sio_sio_stream.o \
   sio_sio_buffer.o \
   sio_sio_timer.o \
-  sio_sio_dgram.o \
-  sio_sio_proto.o
+  sio_sio_dgram.o
 	mkdir -p ./output/lib
 	cp -f --link libsio.a ./output/lib
 	mkdir -p ./output/include
-	cp -f --link sio.h sio_stream.h sio_buffer.h sio_timer.h sio_dgram.h sio_proto.h ./output/include
+	cp -f --link sio.h sio_stream.h sio_buffer.h sio_timer.h sio_dgram.h ./output/include
 
 test_sio_test_sio.o:test_sio.c \
   sio.h \
   sio_timer.h
 	@echo "[[1;32;40mCOMAKE:BUILD[0m][Target:'[1;32;40mtest_sio_test_sio.o[0m']"
 	$(CC) -c $(INCPATH) $(DEP_INCPATH) $(CPPFLAGS) $(CFLAGS)  -o test_sio_test_sio.o test_sio.c
-
-test_sio_proto_test_sio_proto.o:test_sio_proto.c \
-  sio_proto.h
-	@echo "[[1;32;40mCOMAKE:BUILD[0m][Target:'[1;32;40mtest_sio_proto_test_sio_proto.o[0m']"
-	$(CC) -c $(INCPATH) $(DEP_INCPATH) $(CPPFLAGS) $(CFLAGS)  -o test_sio_proto_test_sio_proto.o test_sio_proto.c
 
 test_sio_stream_fork_server_test_sio_stream_fork_server.o:test_sio_stream_fork_server.c \
   sio.h \
@@ -303,11 +280,6 @@ sio_sio_dgram.o:sio_dgram.c \
   sio_dgram.h
 	@echo "[[1;32;40mCOMAKE:BUILD[0m][Target:'[1;32;40msio_sio_dgram.o[0m']"
 	$(CC) -c $(INCPATH) $(DEP_INCPATH) $(CPPFLAGS) $(CFLAGS)  -o sio_sio_dgram.o sio_dgram.c
-
-sio_sio_proto.o:sio_proto.c \
-  sio_proto.h
-	@echo "[[1;32;40mCOMAKE:BUILD[0m][Target:'[1;32;40msio_sio_proto.o[0m']"
-	$(CC) -c $(INCPATH) $(DEP_INCPATH) $(CPPFLAGS) $(CFLAGS)  -o sio_sio_proto.o sio_proto.c
 
 endif #ifeq ($(shell uname -m),i686)
 
