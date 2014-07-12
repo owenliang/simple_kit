@@ -20,6 +20,7 @@
 #include <unistd.h>
 #include <errno.h>
 #include <sys/wait.h>
+#include <sys/types.h>
 #include "slog.h"
 
 static void *level_writer(void *arg)
