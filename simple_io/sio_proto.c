@@ -287,12 +287,6 @@ static void _sio_proto_rmessage_extract_bytes_adjust(const char **src, char *des
     *src += len;
 }
 
-static void _sio_proto_rmessage_extract_bytes_not_adjust(const char **src, char *dest, uint32_t len)
-{
-    memcpy(dest, *src, len);
-    *src += len;
-}
-
 static int _sio_proto_rmessage_extract_string(const char **reader, uint32_t *len, uint32_t *left)
 {
 	_sio_proto_rmessage_extract_bytes_adjust(reader, (char *)len, 4);
@@ -326,7 +320,7 @@ static int _sio_proto_rmessage_build_with_meta(uint32_t meta_len, struct sio_pro
 			if (meta_arr[i].type == SIO_PROTO_FLOAT && str_len < 1024) {
 				char strf[1024] = {0};
 				memcpy(strf, reader, str_len);
-				meta_arr[i].value.f = strtof(reader, NULL);
+				meta_arr[i].value.f = strtod(reader, NULL); /* strtof only exists in C99 */
 			} else if (meta_arr[i].type == SIO_PROTO_DOUBLE && str_len < 1024) {
 				char strd[1024] = {0};
 				memcpy(strd, reader, str_len);
