@@ -1,18 +1,3 @@
-/***************************************************************************
- * 
- * Copyright (c) 2014 Baidu.com, Inc. All Rights Reserved
- * $Id$ 
- * 
- **************************************************************************/
- 
- /**
- * @file sio_proto.h
- * @author liangdong(liangdong01@baidu.com)
- * @date 2014/07/07 17:15:08
- * @version $Revision$ 
- * @brief 
- *  
- **/
 #ifndef SIMPLE_IO_SIO_PROTO_H
 #define SIMPLE_IO_SIO_PROTO_H
 

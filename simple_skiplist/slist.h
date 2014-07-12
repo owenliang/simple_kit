@@ -1,18 +1,3 @@
-/***************************************************************************
- * 
- * Copyright (c) 2014 Baidu.com, Inc. All Rights Reserved
- * $Id$ 
- * 
- **************************************************************************/
- 
- /**
- * @file slist.h
- * @author liangdong(liangdong01@baidu.com)
- * @date 2014/05/26 17:41:41
- * @version $Revision$ 
- * @brief 
- *  
- **/
 #ifndef SIMPLE_SKIPLIST_SLIST_H
 #define SIMPLE_SKIPLIST_SLIST_H
 

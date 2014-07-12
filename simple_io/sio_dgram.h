@@ -1,18 +1,3 @@
-/***************************************************************************
- * 
- * Copyright (c) 2014 Baidu.com, Inc. All Rights Reserved
- * $Id$ 
- * 
- **************************************************************************/
- 
- /**
- * @file sio_dgram.h
- * @author liangdong(liangdong01@baidu.com)
- * @date 2014/03/31 13:32:45
- * @version $Revision$ 
- * @brief 
- *  
- **/
 #ifndef SIMPLE_IO_SIO_DGRAM_H
 #define SIMPLE_IO_SIO_DGRAM_H
 

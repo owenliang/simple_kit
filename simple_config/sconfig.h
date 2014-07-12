@@ -1,18 +1,3 @@
-/***************************************************************************
- * 
- * Copyright (c) 2014 Baidu.com, Inc. All Rights Reserved
- * $Id$ 
- * 
- **************************************************************************/
- 
- /**
- * @file sconfig.h
- * @author liangdong(liangdong01@baidu.com)
- * @date 2014/05/31 09:41:47
- * @version $Revision$ 
- * @brief 
- *  
- **/
 #ifndef SIMPLE_CONFIG_SCONFIG_H
 #define SIMPLE_CONFIG_SCONFIG_H
 

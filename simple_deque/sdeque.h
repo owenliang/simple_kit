@@ -1,18 +1,3 @@
-/***************************************************************************
- * 
- * Copyright (c) 2014 Baidu.com, Inc. All Rights Reserved
- * $Id$ 
- * 
- **************************************************************************/
- 
- /**
- * @file sdeque.h
- * @author liangdong(liangdong01@baidu.com)
- * @date 2014/05/27 20:32:30
- * @version $Revision$ 
- * @brief 
- *  
- **/
 #ifndef SIMPLE_DEQUE_SDEQUE_H
 #define SIMPLE_DEQUE_SDEQUE_H
 

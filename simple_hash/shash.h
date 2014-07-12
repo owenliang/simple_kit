@@ -1,18 +1,3 @@
-/***************************************************************************
- * 
- * Copyright (c) 2014 Baidu.com, Inc. All Rights Reserved
- * $Id$ 
- * 
- **************************************************************************/
- 
- /**
- * @file shash.h
- * @author liangdong(liangdong01@baidu.com)
- * @date 2014/06/16 19:18:40
- * @version $Revision$ 
- * @brief 
- *  
- **/
 #ifndef SIMPLE_HASH_SHASH_H
 #define SIMPLE_HASH_SHASH_H
 

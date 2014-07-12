@@ -1,18 +1,3 @@
-/***************************************************************************
- * 
- * Copyright (c) 2014 Baidu.com, Inc. All Rights Reserved
- * $Id$ 
- * 
- **************************************************************************/
- 
- /**
- * @file sio_buffer.h
- * @author liangdong(liangdong01@baidu.com)
- * @date 2014/03/30 16:24:16
- * @version $Revision$ 
- * @brief 
- *  
- **/
 #ifndef SIMPLE_IO_SIO_BUFFER_H
 #define SIMPLE_IO_SIO_BUFFER_H
 

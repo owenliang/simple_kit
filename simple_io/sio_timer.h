@@ -1,18 +1,3 @@
-/***************************************************************************
- * 
- * Copyright (c) 2014 Baidu.com, Inc. All Rights Reserved
- * $Id$ 
- * 
- **************************************************************************/
- 
- /**
- * @file sio_timer.h
- * @author liangdong(liangdong01@baidu.com)
- * @date 2014/03/31 09:48:05
- * @version $Revision$ 
- * @brief 
- *  
- **/
 #ifndef SIMPLE_IO_SIO_TIMER_H
 #define SIMPLE_IO_SIO_TIMER_H
 

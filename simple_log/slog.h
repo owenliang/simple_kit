@@ -1,18 +1,3 @@
-/***************************************************************************
- * 
- * Copyright (c) 2014 Baidu.com, Inc. All Rights Reserved
- * $Id$ 
- * 
- **************************************************************************/
- 
- /**
- * @file slog.h
- * @author liangdong(liangdong01@baidu.com)
- * @date 2014/06/03 18:57:27
- * @version $Revision$ 
- * @brief 
- *  
- **/
 #ifndef SIMPLE_LOG_SLOG_H
 #define SIMPLE_LOG_SLOG_H
 
