@@ -40,7 +40,7 @@ int main(int argc, char **argv)
     sio_proto_wmessage_put_uint64(&wmsg, 5);
     sio_proto_wmessage_put_float(&wmsg, 2.542);
     sio_proto_wmessage_put_double(&wmsg, 2.12345);
-    sio_proto_wmessage_put_string(&wmsg, "hello", 5);
+    sio_proto_wmessage_put_string(&wmsg, "hello", 6);
 
     char *buf;
     uint32_t len;
