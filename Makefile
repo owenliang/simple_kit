@@ -23,6 +23,9 @@ TEST_SRC_C = simple_hash/test_shash.c simple_skiplist/test_slist.c \
 TEST_SRC_CPP = simple_io/test_sio_stream_client.cpp simple_io/test_sio_stream_multi_server.cpp \
 		   simple_io/test_sio_stream_server.cpp
 
+# 测试用例
+TEST_CASE = simple_config/test_cases
+
 # 头文件
 HEADERS = $(SRC:.c=.h)
 
@@ -42,11 +45,14 @@ all:$(OBJECTS)
 	mkdir -p $(OUTPUT_DIR)/include
 	mkdir -p $(OUTPUT_DIR)/lib
 	$(AR) -r $(OUTPUT_DIR)/lib/libskit.a $^
-	cp $(HEADERS) $(OUTPUT_DIR)/include
+	cp -f $(HEADERS) $(OUTPUT_DIR)/include
 
 # 生成测试程序
 test:$(TEST_BIN_C) $(TEST_BIN_CPP)
 	mkdir -p $(OUTPUT_DIR)/test
+	cp -rf $(TEST_CASE) $(TEST_BIN_C) $(TEST_BIN_CPP) $(OUTPUT_DIR)/test
+
+$(TEST_BIN_C) $(TEST_BIN_CPP):all
 
 # 令隐式推导检查.h变化
 %.o:%.c %.h
