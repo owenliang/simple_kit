@@ -17,7 +17,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <errno.h>
-#include <time.h>
+#include <sys/time.h>
 #include <unistd.h>
 #include <fcntl.h>
 #include <signal.h>
@@ -147,10 +147,10 @@ void sio_unwatch_read(struct sio *sio, struct sio_fd *sfd)
 
 static void _sio_timer_run(struct sio *sio)
 {
-    struct timespec ts; 
-    clock_gettime(CLOCK_MONOTONIC, &ts);
+    struct timeval tv;
+    gettimeofday(&tv, NULL);
 
-    uint64_t now = ts.tv_sec * 1000 + ts.tv_nsec / 1000000;
+    uint64_t now = tv.tv_sec * 1000 + tv.tv_usec / 1000;
 
     while (sio_timer_size(sio->st_mgr)) {
         struct sio_timer *timer = sio_timer_top(sio->st_mgr);
@@ -197,10 +197,10 @@ void sio_wakeup(struct sio *sio)
 
 void sio_start_timer(struct sio *sio, struct sio_timer *timer, uint64_t timeout_ms, sio_timer_callback_t callback, void *arg)
 {
-    struct timespec ts; 
-    clock_gettime(CLOCK_MONOTONIC, &ts);
+    struct timeval tv;
+    gettimeofday(&tv, NULL);
 
-    uint64_t expire = ts.tv_sec * 1000 + ts.tv_nsec / 1000000 + timeout_ms; 
+    uint64_t expire = tv.tv_sec * 1000 + tv.tv_usec / 1000 + timeout_ms;
 
     timer->expire = expire;
     timer->user_callback = callback; 
