@@ -397,28 +397,32 @@ int sio_proto_rmessage_get_int8(struct sio_proto_rmessage *msg, uint32_t index, 
 {
     if (index >= msg->header.meta_len || msg->meta_arr[index].type != SIO_PROTO_INT8)
         return -1;
-    *i8 = msg->meta_arr[index].value.i8;
+    if (i8)
+    	*i8 = msg->meta_arr[index].value.i8;
     return 0;
 }
 int sio_proto_rmessage_get_uint8(struct sio_proto_rmessage *msg, uint32_t index, uint8_t *u8)
 {
     if (index >= msg->header.meta_len || msg->meta_arr[index].type != SIO_PROTO_UINT8)
         return -1;
-    *u8 = msg->meta_arr[index].value.u8;
+    if (u8)
+    	*u8 = msg->meta_arr[index].value.u8;
     return 0;
 }
 int sio_proto_rmessage_get_int16(struct sio_proto_rmessage *msg, uint32_t index, int16_t *i16)
 {
     if (index >= msg->header.meta_len || msg->meta_arr[index].type != SIO_PROTO_INT16)
         return -1;
-    *i16 = msg->meta_arr[index].value.i16;
+    if (i16)
+    	*i16 = msg->meta_arr[index].value.i16;
     return 0;
 }
 int sio_proto_rmessage_get_uint16(struct sio_proto_rmessage *msg, uint32_t index, uint16_t *u16)
 {
     if (index >= msg->header.meta_len || msg->meta_arr[index].type != SIO_PROTO_UINT16)
         return -1;
-    *u16 = msg->meta_arr[index].value.u16;
+    if (u16)
+    	*u16 = msg->meta_arr[index].value.u16;
     return 0;
 }
 
@@ -426,7 +430,8 @@ int sio_proto_rmessage_get_int32(struct sio_proto_rmessage *msg, uint32_t index,
 {
     if (index >= msg->header.meta_len || msg->meta_arr[index].type != SIO_PROTO_INT32)
         return -1;
-    *i32 = msg->meta_arr[index].value.i32;
+    if (i32)
+    	*i32 = msg->meta_arr[index].value.i32;
     return 0;
 }
 
@@ -434,7 +439,8 @@ int sio_proto_rmessage_get_uint32(struct sio_proto_rmessage *msg, uint32_t index
 {
     if (index >= msg->header.meta_len || msg->meta_arr[index].type != SIO_PROTO_UINT32)
         return -1;
-    *u32 = msg->meta_arr[index].value.u32;
+    if (u32)
+    	*u32 = msg->meta_arr[index].value.u32;
     return 0;
 }
 
@@ -442,7 +448,8 @@ int sio_proto_rmessage_get_int64(struct sio_proto_rmessage *msg, uint32_t index,
 {
     if (index >= msg->header.meta_len || msg->meta_arr[index].type != SIO_PROTO_INT64)
         return -1;
-    *i64 = msg->meta_arr[index].value.i64;
+    if (i64)
+    	*i64 = msg->meta_arr[index].value.i64;
     return 0;
 }
 
@@ -450,7 +457,8 @@ int sio_proto_rmessage_get_uint64(struct sio_proto_rmessage *msg, uint32_t index
 {
     if (index >= msg->header.meta_len || msg->meta_arr[index].type != SIO_PROTO_UINT64)
         return -1;
-    *u64 = msg->meta_arr[index].value.u64;
+    if (u64)
+    	*u64 = msg->meta_arr[index].value.u64;
     return 0;
 }
 
@@ -458,7 +466,8 @@ int sio_proto_rmessage_get_float(struct sio_proto_rmessage *msg, uint32_t index,
 {
     if (index >= msg->header.meta_len|| msg->meta_arr[index].type != SIO_PROTO_FLOAT)
         return -1;
-    *f = msg->meta_arr[index].value.f;
+    if (f)
+    	*f = msg->meta_arr[index].value.f;
     return 0;
 }
 
@@ -466,7 +475,8 @@ int sio_proto_rmessage_get_double(struct sio_proto_rmessage *msg, uint32_t index
 {
     if (index >= msg->header.meta_len || msg->meta_arr[index].type != SIO_PROTO_DOUBLE)
         return -1;
-    *d = msg->meta_arr[index].value.d;
+    if (d)
+    	*d = msg->meta_arr[index].value.d;
     return 0;
 }
 
@@ -474,8 +484,10 @@ int sio_proto_rmessage_get_string(struct sio_proto_rmessage *msg, uint32_t index
 {
     if (index >= msg->header.meta_len || msg->meta_arr[index].type != SIO_PROTO_STRING)
         return -1;
-    *string = msg->meta_arr[index].value.string.buf;
-    *len = msg->meta_arr[index].value.string.len;
+    if (string)
+    	*string = msg->meta_arr[index].value.string.buf;
+    if (len)
+    	*len = msg->meta_arr[index].value.string.len;
     return 0;
 }
 
