@@ -23,6 +23,7 @@
 #include <sys/wait.h>
 #include "sio.h"
 #include "sio_stream.h"
+
 static void sio_stream_callback(struct sio *sio, struct sio_stream *stream, enum sio_stream_event event, void *arg)
 {
     printf("%u accept\n", getpid());
