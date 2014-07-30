@@ -17,38 +17,57 @@
 */
 
 #include <stdio.h>
+#include <string.h>
+#include <signal.h>
 #include "sio.h"
 #include "sio_dgram.h"
 
 static void on_dgram(struct sio *sio, struct sio_dgram *sdgram, struct sockaddr_in *source, char *data, uint64_t size, void *arg)
 {
-    printf("%.*s", (int)size, data);
-    if (sio_dgram_response(sio, sdgram, source, data, size) == -1) {
-        printf("sio_dgram_response:-1\n");
+    printf("on_dgram=%.*s", (int)size, data);
+    if (sio_dgram_response(sio, sdgram, source, "pong", 5) == -1) {
+        printf("sio_dgram_response=-1\n");
     }
+}
+static char server_quit = 0;
+
+static void sio_dgram_quit_handler(int signo)
+{
+    server_quit = 1;
+}
+
+static void sio_dgram_server_signal()
+{
+    struct sigaction act;
+    memset(&act, 0, sizeof(act));
+    act.sa_handler = sio_dgram_quit_handler;
+    sigaction(SIGINT, &act, NULL);
+    sigaction(SIGTERM, &act, NULL);
 }
 
 int main(int argc, char **argv)
 {
+    sio_dgram_server_signal();
+
     struct sio *sio = sio_new();
     if (!sio) {
-        printf("sio_new fails\n");
+        printf("sio_new=NULL\n");
         return -1;
     }
 
     struct sio_dgram *sdgram = sio_dgram_open(sio, "0.0.0.0", 8990, on_dgram, NULL);
     if (!sdgram) {
-        printf("sio_dgram_open fails\n");
+        printf("sio_dgram_open=NULL\n");
         sio_free(sio);
         return -1;
     }
 
-    int i;
-    for (i = 0; i < 20; ++i) {
+    while (!server_quit)
         sio_run(sio, 1000);
-    }
+
     sio_dgram_close(sio, sdgram);
     sio_free(sio);
+    printf("dgram_server=quit\n");
     return 0;
 }
 
