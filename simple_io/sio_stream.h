@@ -170,7 +170,7 @@ uint64_t sio_stream_pending(struct sio_stream *stream);
  * @author liangdong
  * @date 2014/08/01 13:42:35
 **/
-int sio_stream_peer_address(struct sio_stream *stream, char *address, uint64_t len, uint16_t *port);
+int sio_stream_peer_address(struct sio_stream *stream, char *address, uint32_t len, uint16_t *port);
 
 #ifdef __cplusplus
 }

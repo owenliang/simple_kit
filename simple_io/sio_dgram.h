@@ -25,7 +25,7 @@ struct sio_dgram {
 };
 
 /**
- * @brief 创建udp socket, 绑定到ipv4和port, 
+ * @brief 创建udp socket, 绑定到ipv4和port,
         如果udp socket作为客户端使用不关心ip或port,可以ip填写0.0.0.0,port填写0.
  *
  * @param [in] sio   : struct sio*
@@ -121,6 +121,20 @@ int sio_dgram_attach(struct sio *sio, struct sio_dgram *sdgram);
  * @date 2014/03/31 14:05:40
 **/
 void sio_dgram_detach(struct sio *sio, struct sio_dgram *sdgram);
+/**
+ * @brief 解析返回客户端的地址
+ *
+ * @param [in] name   : struct sockaddr_in* 不能为空
+ * @param [in] address   : char*    可以为NULL
+ * @param [in] len   : uint32_t     address缓冲区的大小
+ * @param [in] port   : uint16_t*   可以为NULL
+ * @return  int 失败返回-1,成功返回0
+ * @retval   
+ * @see 
+ * @author liangdong
+ * @date 2014/08/01 14:15:10
+**/
+int sio_dgram_peer_address(struct sockaddr_in *name, char *address, uint32_t len, uint16_t *port);
 
 #ifdef __cplusplus
 }

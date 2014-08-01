@@ -287,7 +287,7 @@ uint64_t sio_stream_pending(struct sio_stream *stream)
     return sio_buffer_length(stream->outbuf);
 }
 
-int sio_stream_peer_address(struct sio_stream *stream, char *address, uint64_t len, uint16_t *port)
+int sio_stream_peer_address(struct sio_stream *stream, char *address, uint32_t len, uint16_t *port)
 {
     struct sockaddr_in name;
     socklen_t namelen = sizeof(name);

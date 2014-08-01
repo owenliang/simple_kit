@@ -17,21 +17,44 @@
 */
 
 #include <stdio.h>
+#include <string.h>
 #include <assert.h>
 #include <unistd.h>
 #include <errno.h>
+#include <signal.h>
 #include <sys/wait.h>
 #include "sio.h"
 #include "sio_stream.h"
 
 static void sio_stream_callback(struct sio *sio, struct sio_stream *stream, enum sio_stream_event event, void *arg)
 {
-    printf("%u accept\n", getpid());
+    char ipv4[32];
+    uint16_t port;
+    assert(sio_stream_peer_address(stream, ipv4, sizeof(ipv4), &port) == 0);
+    printf("[Pid-%u]sio_stream_callback ipv4=%s port=%u\n", getpid(), ipv4, port);
     sio_stream_close(sio, stream);
+}
+
+static char server_quit = 0;
+
+static void sio_stream_quit_handler(int signo)
+{
+    server_quit = 1;
+}
+
+static void sio_stream_server_signal()
+{
+    struct sigaction act;
+    memset(&act, 0, sizeof(act));
+    act.sa_handler = sio_stream_quit_handler;
+    sigaction(SIGINT, &act, NULL);
+    sigaction(SIGTERM, &act, NULL);
 }
 
 int main(int argc, char **argv)
 {
+    sio_stream_server_signal();
+
     struct sio *sio = sio_new();
     assert(sio);
     struct sio_stream *stream = sio_stream_listen(sio, "0.0.0.0", 8989, sio_stream_callback, NULL);
@@ -54,8 +77,7 @@ int main(int argc, char **argv)
         }
     }
     if (i < 8) {
-        int j;
-        for (j = 0; j < 20; ++j)
+        while (!server_quit)
             sio_run(sio, 1000);
     } else {
         while (1) {
@@ -66,6 +88,7 @@ int main(int argc, char **argv)
     }
     sio_stream_close(sio, stream);
     sio_free(sio);
+    printf("sio_stream_fork_server=quit\n");
     return 0;
 }
 

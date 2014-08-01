@@ -30,7 +30,7 @@ static void on_dgram(struct sio *sio, struct sio_dgram *sdgram, struct sockaddr_
 static void on_timer(struct sio *sio, struct sio_timer *timer, void *arg)
 {
     struct sio_dgram *sdgram = arg;
-    if (sio_dgram_write(sio, sdgram, "127.0.0.1", 8990, "ping\n", 5) == -1) {
+    if (sio_dgram_write(sio, sdgram, "127.0.0.1", 8990, "ping", 4) == -1) {
         printf("sio_dgram_write=-1\n");
     }
     sio_start_timer(sio, timer, 1000, on_timer, sdgram);

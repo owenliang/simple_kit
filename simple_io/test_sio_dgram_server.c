@@ -19,13 +19,18 @@
 #include <stdio.h>
 #include <string.h>
 #include <signal.h>
+#include <assert.h>
 #include "sio.h"
 #include "sio_dgram.h"
 
 static void on_dgram(struct sio *sio, struct sio_dgram *sdgram, struct sockaddr_in *source, char *data, uint64_t size, void *arg)
 {
-    printf("on_dgram=%.*s", (int)size, data);
-    if (sio_dgram_response(sio, sdgram, source, "pong", 5) == -1) {
+    char ipv4[32];
+    uint16_t port;
+    assert(sio_dgram_peer_address(source, ipv4, sizeof(ipv4), &port) == 0);
+
+    printf("on_dgram=%.*s ipv4=%s port=%u\n", (int)size, data, ipv4, port);
+    if (sio_dgram_response(sio, sdgram, source, "pong", 4) == -1) {
         printf("sio_dgram_response=-1\n");
     }
 }

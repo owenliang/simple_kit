@@ -136,4 +136,13 @@ int sio_dgram_response(struct sio *sio, struct sio_dgram *sdgram, struct sockadd
     return ret; // -1 or 0
 }
 
+int sio_dgram_peer_address(struct sockaddr_in *name, char *address, uint32_t len, uint16_t *port)
+{
+    if (address && !inet_ntop(AF_INET, &name->sin_addr, address, len))
+        return -1;
+    if (port)
+        *port = ntohs(name->sin_port);
+    return 0;
+}
+
 /* vim: set ts=4 sw=4 sts=4 tw=100 */
