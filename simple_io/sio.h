@@ -20,7 +20,7 @@ struct sio;
 struct sio_fd;
 
 /* 事件回调函数 */
-typedef void (*sio_callback_t)(struct sio *sio, struct sio_fd *sfd, enum sio_event event, void *arg);
+typedef void (*sio_callback_t)(struct sio *sio, struct sio_fd *sfd, int fd, enum sio_event event, void *arg);
 
 /* 注册在sio的文件描述符 */
 struct sio_fd {
@@ -34,7 +34,7 @@ struct sio_fd {
 /* 文件描述符管理器 */
 struct sio {
     int epfd; /* epoll句柄 */
-    struct epoll_event poll_events[64]; /* epoll_wait的参数 */ 
+    struct epoll_event poll_events[64]; /* epoll_wait的参数 */
     char is_in_loop;    /* 是否正在epoll_wait事件处理循环中 */
     int deferred_count; /* 延迟待删除sio_fd个数 */
     int deferred_capacity; /* 延迟待删除数组的大小 */
@@ -55,7 +55,7 @@ struct sio {
 **/
 struct sio *sio_new();
 /**
- * @brief 释放一个文件描述符管理器, 调用前确保取消了所有注册在其上的fd和timer, 
+ * @brief 释放一个文件描述符管理器, 调用前确保取消了所有注册在其上的fd和timer,
           否则会造成内存泄漏.
  *
  * @param [in] sio   : struct sio*

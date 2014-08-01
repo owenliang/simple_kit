@@ -26,10 +26,10 @@
 #include "sio_timer.h"
 #include "sio.h"
 
-static void _sio_wakeup_callback(struct sio *sio, struct sio_fd *sfd, enum sio_event event, void *arg)
+static void _sio_wakeup_callback(struct sio *sio, struct sio_fd *sfd, int fd, enum sio_event event, void *arg)
 {
     char buffer[1024];
-    read(sfd->fd, buffer, sizeof(buffer));
+    read(fd, buffer, sizeof(buffer));
 }
 
 struct sio *sio_new()
@@ -180,11 +180,11 @@ void sio_run(struct sio *sio, int timeout_ms)
         if (sfd->is_del)
             continue;
         if ((events & EPOLLIN) && (sfd->watch_events & EPOLLIN))
-            sfd->user_callback(sio, sfd, SIO_READ, sfd->user_arg);
+            sfd->user_callback(sio, sfd, sfd->fd, SIO_READ, sfd->user_arg);
         if (!sfd->is_del && (events & EPOLLOUT) && (sfd->watch_events & EPOLLOUT))
-            sfd->user_callback(sio, sfd, SIO_WRITE, sfd->user_arg);
+            sfd->user_callback(sio, sfd, sfd->fd, SIO_WRITE, sfd->user_arg);
         if (!sfd->is_del && (events & (EPOLLHUP | EPOLLERR)))
-            sfd->user_callback(sio, sfd, SIO_ERROR, sfd->user_arg);
+            sfd->user_callback(sio, sfd, sfd->fd, SIO_ERROR, sfd->user_arg);
     }
     sio->is_in_loop = 0;
     for (i = 0; i < sio->deferred_count; ++i) 

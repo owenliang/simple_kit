@@ -25,10 +25,10 @@
 
 static char cmdline_quit = 0;
 
-static void stdin_echo(struct sio_fd *sfd)
+static void stdin_echo(int fd)
 {
 	char input[64];
-	int ret = read(sfd->fd, input, sizeof(input));
+	int ret = read(fd, input, sizeof(input));
 	if (ret > 0) {
 		printf("%.*s", ret, input);
 	} else if (ret == 0) {
@@ -39,11 +39,11 @@ static void stdin_echo(struct sio_fd *sfd)
 	}
 }
 
-static void stdin_callback(struct sio *sio, struct sio_fd *sfd, enum sio_event event, void *arg)
+static void stdin_callback(struct sio *sio, struct sio_fd *sfd, int fd, enum sio_event event, void *arg)
 {
     switch (event) {
     case SIO_READ:
-        stdin_echo(sfd);
+        stdin_echo(fd);
         break;
     case SIO_WRITE:
         fprintf(stderr, "stdin_callback=write\n");

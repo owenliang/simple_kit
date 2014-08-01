@@ -36,7 +36,7 @@ static void _sio_dgram_read(struct sio *sio, struct sio_dgram *sdgram)
     }
 }
 
-static void _sio_dgram_callback(struct sio *sio, struct sio_fd *sfd, enum sio_event event, void *arg)
+static void _sio_dgram_callback(struct sio *sio, struct sio_fd *sfd, int fd, enum sio_event event, void *arg)
 {
     struct sio_dgram *sdgram = arg;
 

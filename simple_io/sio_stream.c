@@ -28,13 +28,13 @@
 #include "sio.h"
 #include "sio_stream.h"
 
-static int _sio_stream_read(struct sio *sio, struct sio_fd *sfd, struct sio_stream *stream)
+static int _sio_stream_read(struct sio *sio, struct sio_fd *sfd, int fd, struct sio_stream *stream)
 {
     char *space;
     sio_buffer_reserve(stream->inbuf, 4096); /* 4KB per read */
     sio_buffer_space(stream->inbuf, &space, NULL);
 
-    int64_t bytes = read(sfd->fd, space, 4096);
+    int64_t bytes = read(fd, space, 4096);
     if (bytes == -1) {
         if (errno != EINTR && errno != EAGAIN)
             return 1;
@@ -47,12 +47,12 @@ static int _sio_stream_read(struct sio *sio, struct sio_fd *sfd, struct sio_stre
     return 0;
 }
 
-static int _sio_stream_write(struct sio *sio, struct sio_fd *sfd, struct sio_stream *stream)
+static int _sio_stream_write(struct sio *sio, struct sio_fd *sfd, int fd, struct sio_stream *stream)
 {
     char *data;
     uint64_t size;
     sio_buffer_data(stream->outbuf, &data, &size);
-    int64_t bytes = write(sfd->fd, data, size);
+    int64_t bytes = write(fd, data, size);
     if (bytes == -1) {
         if (errno != EINTR && errno != EAGAIN) 
             return 1;
@@ -64,16 +64,16 @@ static int _sio_stream_write(struct sio *sio, struct sio_fd *sfd, struct sio_str
     return 0;
 }
 
-static void _sio_stream_callback(struct sio *sio, struct sio_fd *sfd, enum sio_event event, void *arg)
+static void _sio_stream_callback(struct sio *sio, struct sio_fd *sfd, int fd, enum sio_event event, void *arg)
 {
     struct sio_stream *stream = arg;
     int error = 0;
     switch (event) {
     case SIO_READ:
-        error = _sio_stream_read(sio, sfd, stream);
+        error = _sio_stream_read(sio, sfd, fd, stream);
         break;
     case SIO_WRITE:
-        error = _sio_stream_write(sio, sfd, stream);
+        error = _sio_stream_write(sio, sfd, fd, stream);
         break;
     case SIO_ERROR:
         error = 1;
@@ -88,7 +88,7 @@ static void _sio_stream_callback(struct sio *sio, struct sio_fd *sfd, enum sio_e
     }
 }
 
-static void _sio_connect_callback(struct sio *sio, struct sio_fd *sfd, enum sio_event event, void *arg)
+static void _sio_connect_callback(struct sio *sio, struct sio_fd *sfd, int fd, enum sio_event event, void *arg)
 {
     struct sio_stream *stream = arg;
     
@@ -96,7 +96,7 @@ static void _sio_connect_callback(struct sio *sio, struct sio_fd *sfd, enum sio_
     socklen_t optlen = sizeof(error);
     switch (event) {
     case SIO_WRITE:
-        ret = getsockopt(sfd->fd, SOL_SOCKET, SO_ERROR, &error, &optlen);
+        ret = getsockopt(fd, SOL_SOCKET, SO_ERROR, &error, &optlen);
         if (ret == 0 && error == 0) {
             stream->type = SIO_STREAM_NORMAL;
             sio_watch_read(sio, sfd);
@@ -126,11 +126,11 @@ static struct sio_stream *_sio_stream_new(int sock, enum sio_stream_type type,
     return stream;
 }
 
-static void _sio_accept_callback(struct sio *sio, struct sio_fd *sfd, enum sio_event event, void *arg)
+static void _sio_accept_callback(struct sio *sio, struct sio_fd *sfd, int fd, enum sio_event event, void *arg)
 {
     struct sio_stream *acceptor = arg;
 
-    int sock = accept(sfd->fd, NULL, NULL);
+    int sock = accept(fd, NULL, NULL);
     if (sock == -1)
         return;
     fcntl(sock, F_SETFL, fcntl(sock, F_GETFL) | O_NONBLOCK);
