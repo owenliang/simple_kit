@@ -38,6 +38,7 @@ struct sio_stream_conn {
 
 /* 工作线程 */
 struct sio_stream_work_thread {
+    uint32_t index; /* 第几个线程 */
     pthread_t tid; /* 线程ID */
 
     struct sdeque *conn_queue; /* 连接队列 */
@@ -144,6 +145,12 @@ static void sio_stream_fetch_conn(struct sio_stream_work_thread *thread)
 		sio_stream_set(thread->sio, conn->stream, sio_stream_conn_callback, conn);
 		assert(shash_insert(thread->conn_hash, (const char *)&conn->id, sizeof(conn->id), conn) == 0);
 		thread->conn_count++;
+
+	    char ipv4[32];
+	    uint16_t port;
+	    assert(sio_stream_peer_address(conn->stream, ipv4, sizeof(ipv4), &port) == 0);
+	    printf("[Thread-%u]sio_stream_fetch_conn=id:%lu ipv4=%s port=%u conn_count=%u\n",
+	            thread->index, conn->id, ipv4, port, thread->conn_count);
 	}
 }
 
@@ -162,8 +169,10 @@ static void sio_stream_close_conn(struct sio_stream_conn *conn, char attached)
 {
     printf("sio_stream_close_conn=id:%lu\n", conn->id);
     sio_stream_close(conn->thread->sio, conn->stream);
-    if (attached)
+    if (attached) {
         assert(shash_erase(conn->thread->conn_hash, (const char *)&conn->id, sizeof(conn->id)) == 0);
+        conn->thread->conn_count--;
+    }
     free(conn);
 }
 
@@ -195,8 +204,9 @@ static void sio_stream_work_thread_free(struct sio_stream_work_thread *thread)
     sio_free(thread->sio);
 }
 
-static void sio_stream_work_thread_init(struct sio_stream_work_thread *thread)
+static void sio_stream_work_thread_init(struct sio_stream_work_thread *thread, uint32_t index)
 {
+    thread->index = index;
     assert(thread->sio = sio_new());
     thread->conn_count = 0;
     assert(thread->conn_hash = shash_new());
@@ -214,7 +224,7 @@ static void sio_stream_multi_server_init(struct sio_stream_multi_server *server,
     server->work_threads = calloc(work_thread_count, sizeof(*server->work_threads));
     uint32_t i;
     for (i = 0; i < work_thread_count; ++i)
-        sio_stream_work_thread_init(server->work_threads + i);
+        sio_stream_work_thread_init(server->work_threads + i, i);
 }
 
 static void sio_stream_multi_server_free(struct sio_stream_multi_server *server)

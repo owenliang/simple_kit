@@ -157,6 +157,20 @@ struct sio_buffer *sio_stream_buffer(struct sio_stream *stream);
  * @date 2014/04/21 14:42:04
 **/
 uint64_t sio_stream_pending(struct sio_stream *stream);
+/**
+ * @brief 返回连接的对端地址
+ *
+ * @param [in] stream   : struct sio_stream* 已建立的连接
+ * @param [out] address   : char*   填充为可读IPV4地址, 可以为NULL
+ * @param [in] len   : uint64_t    address缓冲区的长度
+ * @param [out] port   : uint64_t    填充对端的端口(本地序), 可以为NULL
+ * @return  int  失败返回-1, 否则返回0
+ * @retval   
+ * @see 
+ * @author liangdong
+ * @date 2014/08/01 13:42:35
+**/
+int sio_stream_peer_address(struct sio_stream *stream, char *address, uint64_t len, uint16_t *port);
 
 #ifdef __cplusplus
 }

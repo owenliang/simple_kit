@@ -50,7 +50,11 @@ static void sio_stream_handle_accept(struct sio *sio, struct sio_stream *stream,
 	conn->server = server;
 	assert(shash_insert(server->conn_hash,(const char *)&conn->id, sizeof(conn->id), conn) == 0);
 	sio_stream_set(sio, stream, sio_stream_conn_callback, conn);
-	printf("sio_stream_handle_accept=id:%lu\n", conn->id);
+
+	char ipv4[32];
+	uint16_t port;
+	assert(sio_stream_peer_address(stream, ipv4, sizeof(ipv4), &port) == 0);
+	printf("sio_stream_handle_accept=id:%lu ipv4=%s port=%u\n", conn->id, ipv4, port);
 }
 
 static void sio_stream_close_conn(struct sio_stream_conn *conn)

@@ -287,4 +287,17 @@ uint64_t sio_stream_pending(struct sio_stream *stream)
     return sio_buffer_length(stream->outbuf);
 }
 
+int sio_stream_peer_address(struct sio_stream *stream, char *address, uint64_t len, uint16_t *port)
+{
+    struct sockaddr_in name;
+    socklen_t namelen = sizeof(name);
+    if (getpeername(stream->sock, (struct sockaddr *)&name, &namelen) == -1)
+        return -1;
+    if (address && !inet_ntop(AF_INET, &name.sin_addr, address, len))
+        return -1;
+    if (port)
+        *port = ntohs(name.sin_port);
+    return 0;
+}
+
 /* vim: set ts=4 sw=4 sts=4 tw=100 */
