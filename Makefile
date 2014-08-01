@@ -19,9 +19,10 @@ TEST_SRC_C = simple_hash/test_shash.c simple_skiplist/test_slist.c \
 		   simple_deque/test_sdeque.c simple_config/test_sconfig.c \
 		   simple_log/test_slog.c simple_io/test_sio.c simple_io/test_sio_dgram_client.c \
 		   simple_io/test_sio_dgram_server.c simple_io/test_sio_stream_fork_server.c \
-		   simple_io/test_sio_stream_server.c simple_io/test_sio_stream_client.c
+		   simple_io/test_sio_stream_server.c simple_io/test_sio_stream_client.c \
+		   simple_io/test_sio_stream_multi_server.c
 
-TEST_SRC_CPP = simple_io/test_sio_stream_multi_server.cpp \
+TEST_SRC_CPP = 
 
 # 测试用例
 TEST_CASE = simple_config/test_cases
