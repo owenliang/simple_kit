@@ -172,9 +172,11 @@ static void *_smem_alloc_heap(int bucket)
 
 	heap->used_chunk = 0;
 	heap->bucket = bucket;
-
 	heap->next_heap = smem.buckets[bucket].first_heap;
-	smem.buckets[bucket].first_heap = heap;
+	smem.buckets[bucket].first_heap = heap; /* 不需要关心第一个heap的prev */
+
+	if (heap->next_heap)
+		heap->next_heap->prev_heap = heap;
 
 	char *cur_chunk = (char *)(heap + 1);
 	uint32_t real_chunk_size = smem.buckets[bucket].chunk_size + sizeof(void *);
@@ -231,13 +233,12 @@ static void _smem_remove_heap(struct smem_heap_header *heap)
 {
 	struct smem_bucket *bucket = &smem.buckets[heap->bucket];
 	// printf("_smem_remove_heap=%p bucket=%u\n", heap, heap->bucket);
-	if (heap == bucket->first_heap)
-		bucket->first_heap = heap->next_heap;
-	else {
-		struct smem_heap_header *cur_heap = bucket->first_heap;
-		while (cur_heap->next_heap != heap)
-			cur_heap = cur_heap->next_heap;
-		cur_heap->next_heap = heap->next_heap;
+	if (heap == bucket->first_heap) {
+		bucket->first_heap = heap->next_heap; /* 不需要关心第一个heap的prev */
+	} else {
+		heap->prev_heap->next_heap = heap->next_heap;
+		if (heap->next_heap)
+			heap->next_heap->prev_heap = heap->prev_heap;
 	}
 
 	assert(munmap(heap, bucket->heap_size) == 0);

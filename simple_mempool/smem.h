@@ -26,6 +26,7 @@ struct smem_bucket {
 struct smem_heap_header {
 	uint32_t used_chunk;
 	uint32_t bucket;
+	struct smem_heap_header *prev_heap;
 	struct smem_heap_header *next_heap;
 	void *free_chunk;
 };
