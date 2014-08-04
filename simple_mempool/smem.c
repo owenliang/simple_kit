@@ -196,16 +196,21 @@ static void *_smem_alloc_small(int bucket)
 {
 	pthread_mutex_lock(&mutex);
 
-	struct smem_heap_header *heap = smem.buckets[bucket].first_heap;
+	struct smem_heap_header *heap = smem.buckets[bucket].step_heap;
 
-	while (heap) {
-		if (heap->free_chunk)
-			break;
-		heap = heap->next_heap;
+	uint64_t i;
+	for (i = 0; i < smem.buckets[bucket].total_heap; ++i) {
+	    if (!heap)
+	        heap = smem.buckets[bucket].first_heap;
+	    if (heap->free_chunk)
+	        break;
+	    heap = heap->next_heap;
 	}
 
-	if (!heap && !(heap = _smem_alloc_heap(bucket)))
+	if (i == smem.buckets[bucket].total_heap && !(heap = _smem_alloc_heap(bucket)))
 		return NULL;
+
+	smem.buckets[bucket].step_heap = heap;
 
 	smem.buckets[bucket].used_chunk++;
 	heap->used_chunk++;
@@ -240,6 +245,8 @@ static void _smem_remove_heap(struct smem_heap_header *heap)
 		if (heap->next_heap)
 			heap->next_heap->prev_heap = heap->prev_heap;
 	}
+	if (heap == smem.buckets[heap->bucket].step_heap)
+	    smem.buckets[heap->bucket].step_heap = NULL;
 
 	assert(munmap(heap, bucket->heap_size) == 0);
 	bucket->total_chunk -= bucket->chunk_per_heap;
@@ -267,7 +274,7 @@ static void _smem_free_small(void *ptr)
 
 	if (!heap->used_chunk &&
 			smem.buckets[bucket].total_chunk - smem.buckets[bucket].used_chunk >=
-			smem.buckets[bucket].chunk_per_heap * 2)
+			smem.buckets[bucket].chunk_per_heap << 1)
 		_smem_remove_heap(heap);
 
 	pthread_mutex_unlock(&mutex);

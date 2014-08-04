@@ -22,6 +22,7 @@ struct smem_bucket {
 
 	uint64_t total_heap; /* 该bucket中总共有多少个heap */
 	struct smem_heap_header *first_heap; /* heap组成的双向链表 */
+	struct smem_heap_header *step_heap; /* 当前从哪个heap分配(局部性) */
 };
 
 /* 一个heap的元信息, 也是heap内存的起始地址 */
