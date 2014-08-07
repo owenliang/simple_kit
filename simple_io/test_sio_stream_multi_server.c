@@ -130,15 +130,24 @@ static void sio_stream_conn_callback(struct sio *sio, struct sio_stream *stream,
 
 static void sio_stream_fetch_conn(struct sio_stream_work_thread *thread)
 {
-	struct sio_stream_conn *conn = NULL;
+    struct sdeque *conn_queue = NULL;
 
 	pthread_mutex_lock(&thread->mutex);
-	if (sdeque_front(thread->conn_queue, (void **)&conn) != -1)
-		sdeque_pop_front(thread->conn_queue);
+    if (sdeque_size(thread->conn_queue)) {
+        conn_queue = thread->conn_queue;
+        assert(thread->conn_queue = sdeque_new());
+    }
 	pthread_mutex_unlock(&thread->mutex);
 
-	if (conn) {
-		if (sio_stream_attach(thread->sio, conn->stream) == -1) {
+    if (!conn_queue)
+        return;
+	
+    struct sio_stream_conn *conn = NULL;
+
+	while (sdeque_front(conn_queue, (void **)&conn) != -1) {
+		sdeque_pop_front(conn_queue);
+		
+        if (sio_stream_attach(thread->sio, conn->stream) == -1) {
 		    sio_stream_close_conn(conn, 0);
 			return;
 		}
@@ -151,7 +160,9 @@ static void sio_stream_fetch_conn(struct sio_stream_work_thread *thread)
 	    assert(sio_stream_peer_address(conn->stream, ipv4, sizeof(ipv4), &port) == 0);
 	    printf("[Thread-%u]sio_stream_fetch_conn=id:%lu ipv4=%s port=%u conn_count=%u\n",
 	            thread->index, conn->id, ipv4, port, thread->conn_count);
-	}
+    }
+
+    sdeque_free(conn_queue);
 }
 
 static void *sio_steram_work_thread_main(void *arg)
