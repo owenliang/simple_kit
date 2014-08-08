@@ -14,7 +14,7 @@ SRC = simple_hash/shash.c simple_skiplist/slist.c simple_deque/sdeque.c \
 		  simple_io/sio_buffer.c simple_io/sio_dgram.c simple_io/sio_stream.c \
 		  simple_io/sio_timer.c #simple_mempool/smem.c
 
-ifndef NO_SMEM
+ifdef USE_SMEM
 	SRC += simple_mempool/smem.c
 endif
 
@@ -26,7 +26,7 @@ TEST_SRC_C = simple_hash/test_shash.c simple_skiplist/test_slist.c \
 		   simple_io/test_sio_stream_server.c simple_io/test_sio_stream_client.c \
 		   simple_io/test_sio_stream_multi_server.c #simple_mempool/test_smem.c
 
-ifndef NO_SMEM
+ifdef USE_SMEM
 	TEST_SRC_C += simple_mempool/test_smem.c
 endif
 
