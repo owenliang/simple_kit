@@ -12,7 +12,7 @@ OUTPUT_DIR = ./output
 SRC = simple_hash/shash.c simple_skiplist/slist.c simple_deque/sdeque.c \
 		  simple_config/sconfig.c simple_log/slog.c simple_io/sio.c \
 		  simple_io/sio_buffer.c simple_io/sio_dgram.c simple_io/sio_stream.c \
-		  simple_io/sio_timer.c
+		  simple_io/sio_timer.c simple_pack/spack.c
 
 # 测试程序
 TEST_SRC_C = simple_hash/test_shash.c simple_skiplist/test_slist.c \
@@ -20,7 +20,7 @@ TEST_SRC_C = simple_hash/test_shash.c simple_skiplist/test_slist.c \
 		   simple_log/test_slog.c simple_io/test_sio.c simple_io/test_sio_dgram_client.c \
 		   simple_io/test_sio_dgram_server.c simple_io/test_sio_stream_fork_server.c \
 		   simple_io/test_sio_stream_server.c simple_io/test_sio_stream_client.c \
-		   simple_io/test_sio_stream_multi_server.c
+		   simple_io/test_sio_stream_multi_server.c simple_pack/test_spack.c
 
 TEST_SRC_CPP = 
 
