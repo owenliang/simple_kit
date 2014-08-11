@@ -200,6 +200,55 @@ static void test_ext()
 
 static void test_str()
 {
+    struct spack_w wpack;
+
+    char wbuffer[10240];
+
+    spack_w_init(&wpack, wbuffer, sizeof(wbuffer));
+
+    const char *str = "hello world";
+    assert(spack_put_str(&wpack, str, strlen(str)) == 0);
+
+    struct spack_r rpack;
+    spack_r_init(&rpack, wbuffer, wpack.buf_used);
+
+    const char *rstr = NULL;
+    uint32_t len;
+    assert(spack_get_str(&rpack, &rstr, &len) == 0 && strcmp(rstr, "hello world") == 0 && len == 11);
+}
+
+static void test_array()
+{
+    struct spack_w wpack;
+
+    char wbuffer[10240];
+
+    spack_w_init(&wpack, wbuffer, sizeof(wbuffer));
+
+	assert(spack_put_array(&wpack, 5) == 0);
+
+    struct spack_r rpack;
+    spack_r_init(&rpack, wbuffer, wpack.buf_used);
+
+    uint32_t size;
+    assert(spack_get_array(&rpack, &size) == 0 && size == 5);
+}
+
+static void test_map()
+{
+    struct spack_w wpack;
+
+    char wbuffer[10240];
+
+    spack_w_init(&wpack, wbuffer, sizeof(wbuffer));
+
+	assert(spack_put_map(&wpack, 5) == 0);
+
+    struct spack_r rpack;
+    spack_r_init(&rpack, wbuffer, wpack.buf_used);
+
+    uint32_t size;
+    assert(spack_get_map(&rpack, &size) == 0 && size == 5);
 }
 
 int main(int argc, char **argv)
@@ -213,6 +262,7 @@ int main(int argc, char **argv)
     test_double();
     test_ext();
     test_str();
-
+    test_array();
+    test_map();
     return 0;
 }

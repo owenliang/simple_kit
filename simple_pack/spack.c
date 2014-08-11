@@ -44,6 +44,11 @@ void spack_w_init(struct spack_w *wpack, char *buf, uint64_t buf_capacity)
 	wpack->buf_capacity = buf_capacity;
 }
 
+uint64_t spack_w_size(struct spack_w *wpack)
+{
+	return wpack->buf_used;
+}
+
 void spack_r_init(struct spack_r *rpack, const char *buf, uint64_t buf_size)
 {
 	rpack->buf = buf;
