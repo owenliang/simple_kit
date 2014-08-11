@@ -54,7 +54,7 @@ void spack_r_init(struct spack_r *rpack, const char *buf, uint64_t buf_size)
 static void _spack_reverse_bytes(char *bytes, uint32_t len)
 {
 	char *end = bytes + len - 1;
-	while (bytes != end) {
+	while (bytes < end) {
 		char temp = *bytes;
 		*bytes = *end;
 		*end = temp;
@@ -68,8 +68,8 @@ static void _spack_check_bigendian(char *bytes, uint32_t len)
 		char b;
 		int n;
 	} u;
-	u.b = 1;
-	if (u.n == 1)
+	u.n = 1;
+	if (u.b == 1)
 		_spack_reverse_bytes(bytes, len);
 }
 
