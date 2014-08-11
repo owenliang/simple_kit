@@ -864,7 +864,7 @@ static int _spack_get_ext8(struct spack_r *rpack, int8_t *type, const char **dat
 	_spack_r_drain(rpack, (char *)type, sizeof(*type));
 	if (space < 2 + data_len)
 		return -1;
-	*data = rpack->buf;
+	*data = rpack->buf + rpack->buf_used;
 	*size = data_len;
 	rpack->buf_used += data_len;
 	return 0;
@@ -881,7 +881,7 @@ static int _spack_get_ext16(struct spack_r *rpack, int8_t *type, const char **da
 	_spack_r_drain(rpack, (char *)type, sizeof(*type));
 	if (space < 3 + data_len)
 		return -1;
-	*data = rpack->buf;
+	*data = rpack->buf + rpack->buf_used;
 	*size = data_len;
 	rpack->buf_used += data_len;
 	return 0;
@@ -898,7 +898,7 @@ static int _spack_get_ext32(struct spack_r *rpack, int8_t *type, const char **da
 	_spack_r_drain(rpack, (char *)type, sizeof(*type));
 	if (space < 5 + data_len)
 		return -1;
-	*data = rpack->buf;
+	*data = rpack->buf + rpack->buf_used;
 	*size = data_len;
 	rpack->buf_used += data_len;
 	return 0;
