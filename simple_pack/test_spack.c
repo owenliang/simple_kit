@@ -185,17 +185,21 @@ static void test_ext()
 
     spack_w_init(&wpack, wbuffer, sizeof(wbuffer));
 
-    char bin8[0xFF] = {1};
-    assert(spack_put_ext(&wpack, 8, bin8, sizeof(bin8)) == 0 && wpack.buf_used == 3 + 0xFF);
+    char ext8[0xFF] = {1};
+    assert(spack_put_ext(&wpack, 8, ext8, sizeof(ext8)) == 0 && wpack.buf_used == 3 + 0xFF);
 
     struct spack_r rpack;
     spack_r_init(&rpack, wbuffer, wpack.buf_used);
 
-    const char *rbin8;
+    const char *rext8;
     int8_t type;
     uint32_t rlen8;
-    assert(spack_get_ext(&rpack, &type, &rbin8, &rlen8) == 0);
-    assert(type == 8 && rlen8 == 0xFF && memcmp(bin8, rbin8, rlen8) == 0);
+    assert(spack_get_ext(&rpack, &type, &rext8, &rlen8) == 0);
+    assert(type == 8 && rlen8 == 0xFF && memcmp(ext8, rext8, rlen8) == 0);
+}
+
+static void test_str()
+{
 }
 
 int main(int argc, char **argv)
@@ -208,6 +212,7 @@ int main(int argc, char **argv)
     test_float();
     test_double();
     test_ext();
+    test_str();
 
     return 0;
 }

@@ -132,7 +132,7 @@ static int _spack_put_bin16(struct spack_w *wpack, const char *data, uint16_t le
 
 static int _spack_put_bin32(struct spack_w *wpack, const char *data, uint32_t len)
 {
-	if (_spack_w_space(wpack) < len + 4)
+	if (_spack_w_space(wpack) < len + 5)
 		return -1;
 	_spack_w_put_format(wpack, SPACK_FORMAT_BIN32);
 	_spack_check_bigendian((char *)&len, sizeof(len));
@@ -194,7 +194,7 @@ static int _spack_put_int32(struct spack_w *wpack, int32_t i32)
 
 static int _spack_put_int64(struct spack_w *wpack, int64_t i64)
 {
-	if (_spack_w_space(wpack) < 3)
+	if (_spack_w_space(wpack) < 9)
 		return -1;
 	_spack_w_put_format(wpack, SPACK_FORMAT_INT64);
 	_spack_check_bigendian((char *)&i64, sizeof(i64));
@@ -395,21 +395,23 @@ int spack_put_ext(struct spack_w *wpack, int8_t type, const void *data, uint32_t
 
 static int _spack_put_fixstr(struct spack_w *wpack, const char *data, uint8_t size)
 {
-	if (_spack_w_space(wpack) < 1 + size)
+	if (_spack_w_space(wpack) < 2 + size) /* 1B format + size B data + 1B NULL-terminal*/
 		return -1;
 	uint8_t format = 0xA0 | size;
 	_spack_w_put_format(wpack, format);
 	_spack_w_append(wpack, data, size);
+	wpack->buf[wpack->buf_used++] = '\0';
 	return 0;
 }
 
 static int _spack_put_str8(struct spack_w *wpack, const char *data, uint8_t size)
 {
-	if (_spack_w_space(wpack) < 2 + size)
+	if (_spack_w_space(wpack) < 3 + size)
 		return -1;
 	_spack_w_put_format(wpack, SPACK_FORMAT_STR8);
 	_spack_w_append(wpack, &size, sizeof(size));
 	_spack_w_append(wpack, data, size);
+	wpack->buf[wpack->buf_used++] = '\0';
 	return 0;
 }
 
@@ -421,6 +423,7 @@ static int _spack_put_str16(struct spack_w *wpack, const char *data, uint16_t si
 	_spack_check_bigendian((char *)&size, sizeof(size));
 	_spack_w_append(wpack, (const char *)&size, sizeof(size));
 	_spack_w_append(wpack, data, size);
+	wpack->buf[wpack->buf_used++] = '\0';
 	return 0;
 }
 
@@ -432,6 +435,7 @@ static int _spack_put_str32(struct spack_w *wpack, const char *data, uint32_t si
 	_spack_check_bigendian((char *)&size, sizeof(size));
 	_spack_w_append(wpack, (const char *)&size, sizeof(size));
 	_spack_w_append(wpack, data, size);
+	wpack->buf[wpack->buf_used++] = '\0';
 	return 0;
 }
 
@@ -725,7 +729,7 @@ static int _spack_get_bin8(struct spack_r *rpack, const char **data, uint32_t *l
 		return -1;
 	uint8_t data_len;
 	_spack_r_drain(rpack, &data_len, sizeof(data_len));
-	if (--space < data_len)
+	if (space < 1 + data_len)
 		return -1;
 	*len = data_len;
 	*data = rpack->buf + rpack->buf_used;
@@ -736,11 +740,11 @@ static int _spack_get_bin8(struct spack_r *rpack, const char **data, uint32_t *l
 static int _spack_get_bin16(struct spack_r *rpack, const char **data, uint32_t *len)
 {
 	uint64_t space = _spack_r_space(rpack);
-	if (space < 1)
+	if (space < 2)
 		return -1;
 	uint16_t data_len;
 	_spack_r_drain(rpack, (char *)&data_len, sizeof(data_len));
-	if (--space < data_len)
+	if (space < 2 + data_len)
 		return -1;
 	*len = data_len;
 	*data = rpack->buf + rpack->buf_used;
@@ -751,10 +755,10 @@ static int _spack_get_bin16(struct spack_r *rpack, const char **data, uint32_t *
 static int _spack_get_bin32(struct spack_r *rpack, const char **data, uint32_t *len)
 {
 	uint64_t space = _spack_r_space(rpack);
-	if (space < 1)
+	if (space < 4)
 		return -1;
 	_spack_r_drain(rpack, (char *)len, sizeof(*len));
-	if (--space < *len)
+	if (space < 4 + *len)
 		return -1;
 	*data = rpack->buf + rpack->buf_used;
 	rpack->buf_used += *len;
@@ -930,55 +934,63 @@ int spack_get_ext(struct spack_r *rpack, int8_t *type, const char **data, uint32
 
 static int _spack_get_fixstr(struct spack_r *rpack, const char **str, uint32_t *size)
 {
-	if (_spack_r_space(rpack) < *size)
+	if (_spack_r_space(rpack) < *size + 1) /* NULL terminal */
 		return -1;
 	*str = rpack->buf + rpack->buf_used;
 	rpack->buf_used += *size;
+	if (rpack->buf[rpack->buf_used++] != '\0')
+		return -1;
 	return 0;
 }
 
 static int _spack_get_str8(struct spack_r *rpack, const char **str, uint32_t *size)
 {
 	uint64_t space = _spack_r_space(rpack);
-	if (space < 1)
+	if (space < 2)
 		return -1;
 	uint8_t str_size;
 	_spack_r_drain(rpack, (char *)&str_size, sizeof(str_size));
-	if (space < 1 + str_size)
+	if (space < 2 + str_size) /* NULL terminal */
 		return -1;
 	*size = str_size;
 	*str = rpack->buf + rpack->buf_used;
 	rpack->buf_used += str_size;
+	if (rpack->buf[rpack->buf_used++] != '\0')
+		return -1;
 	return 0;
 }
 
 static int _spack_get_str16(struct spack_r *rpack, const char **str, uint32_t *size)
 {
 	uint64_t space = _spack_r_space(rpack);
-	if (space < 2)
+	if (space < 3)
 		return -1;
 	uint16_t str_size;
 	_spack_r_drain(rpack, (char *)&str_size, sizeof(str_size));
 	_spack_check_bigendian((char *)&str_size, sizeof(str_size));
-	if (space < 2 + str_size)
+	if (space < 3 + str_size)
 		return -1;
 	*size = str_size;
 	*str = rpack->buf + rpack->buf_used;
 	rpack->buf_used += str_size;
+	if (rpack->buf[rpack->buf_used++] != '\0')
+		return -1;
 	return 0;
 }
 
 static int _spack_get_str32(struct spack_r *rpack, const char **str, uint32_t *size)
 {
 	uint64_t space = _spack_r_space(rpack);
-	if (space < 4)
+	if (space < 5)
 		return -1;
 	_spack_r_drain(rpack, (char *)size, sizeof(*size));
 	_spack_check_bigendian((char *)size, sizeof(*size));
-	if (space < 4 + *size)
+	if (space < 5 + *size)
 		return -1;
 	*str = rpack->buf + rpack->buf_used;
 	rpack->buf_used += *size;
+	if (rpack->buf[rpack->buf_used++] != '\0')
+		return -1;
 	return 0;
 }
 
