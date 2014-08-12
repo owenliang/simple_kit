@@ -73,10 +73,12 @@ static void test_int()
 
     char wbuffer[10240];
 
+    /* 64位负数 */
     int64_t i;
     for (i = INT64_MIN; i < INT64_MIN + 10000; ++i) {
         spack_w_init(&wpack, wbuffer, sizeof(wbuffer));
         assert(spack_put_int(&wpack, i) == 0);
+        assert(wpack.buf_used == 9);
 
         struct spack_r rpack;
         spack_r_init(&rpack, wbuffer, wpack.buf_used);
@@ -86,9 +88,74 @@ static void test_int()
 
         assert(rpack.buf_used == wpack.buf_used);
     }
+    /* 64位正数 */
     for (i = INT64_MAX - 10000; i < INT64_MAX; ++i) {
         spack_w_init(&wpack, wbuffer, sizeof(wbuffer));
         assert(spack_put_int(&wpack, i) == 0);
+        assert(wpack.buf_used == 9);
+
+        struct spack_r rpack;
+        spack_r_init(&rpack, wbuffer, wpack.buf_used);
+
+        int64_t n;
+        assert(spack_get_int(&rpack, &n) == 0 && n == i);
+
+        assert(rpack.buf_used == wpack.buf_used);
+    }
+    /* 8位整数 */
+    for (i = -128; i <= 127; ++i) {
+        spack_w_init(&wpack, wbuffer, sizeof(wbuffer));
+        assert(spack_put_int(&wpack, i) == 0);
+
+        if (i >= 0x00 && i <= 0x7F)
+            assert(wpack.buf_used == 1);
+        else if (i >= (char)0xE0 && i <= (char)0xFF)
+            assert(wpack.buf_used == 1);
+        else
+            assert(wpack.buf_used == 2);
+
+        struct spack_r rpack;
+        spack_r_init(&rpack, wbuffer, wpack.buf_used);
+
+        int64_t n;
+        assert(spack_get_int(&rpack, &n) == 0 && n == i);
+
+        assert(rpack.buf_used == wpack.buf_used);
+    }
+    /* 16位整数 */
+    for (i = -32768; i <= 32767; ++i) {
+        spack_w_init(&wpack, wbuffer, sizeof(wbuffer));
+        assert(spack_put_int(&wpack, i) == 0);
+
+        if (i < -128 && i > 127)
+            assert(wpack.buf_used == 3);
+
+        struct spack_r rpack;
+        spack_r_init(&rpack, wbuffer, wpack.buf_used);
+
+        int64_t n;
+        assert(spack_get_int(&rpack, &n) == 0 && n == i);
+
+        assert(rpack.buf_used == wpack.buf_used);
+    }
+    /* 32位整数 */
+    for (i = INT32_MIN; i < INT32_MIN + 10000; ++i) {
+        spack_w_init(&wpack, wbuffer, sizeof(wbuffer));
+        assert(spack_put_int(&wpack, i) == 0);
+        assert(wpack.buf_used == 5);
+
+        struct spack_r rpack;
+        spack_r_init(&rpack, wbuffer, wpack.buf_used);
+
+        int64_t n;
+        assert(spack_get_int(&rpack, &n) == 0 && n == i);
+
+        assert(rpack.buf_used == wpack.buf_used);
+    }
+    for (i = INT32_MAX - 10000; i < INT32_MAX; ++i) {
+        spack_w_init(&wpack, wbuffer, sizeof(wbuffer));
+        assert(spack_put_int(&wpack, i) == 0);
+        assert(wpack.buf_used == 5);
 
         struct spack_r rpack;
         spack_r_init(&rpack, wbuffer, wpack.buf_used);
@@ -137,8 +204,9 @@ static void test_bin()
 {
     struct spack_w wpack;
 
-    char wbuffer[10240];
+    char wbuffer[102400]; /* 100 K, 支持bin8和bin16 */
 
+    /* bin8 */
     spack_w_init(&wpack, wbuffer, sizeof(wbuffer));
 
     char bin8[0xFF] = {1};
@@ -150,6 +218,30 @@ static void test_bin()
     const char *rbin8;
     uint32_t rlen8;
     assert(spack_get_bin(&rpack, &rbin8, &rlen8) == 0 && rlen8 == 0xFF && memcmp(bin8, rbin8, rlen8) == 0);
+
+    /* bin16 */
+    spack_w_init(&wpack, wbuffer, sizeof(wbuffer));
+
+    char bin16[0xFFFF] = {1};
+    assert(spack_put_bin(&wpack, bin16, sizeof(bin16)) == 0 && wpack.buf_used == 3 + 0xFFFF);
+
+    spack_r_init(&rpack, wbuffer, wpack.buf_used);
+
+    const char *rbin16;
+    uint32_t rlen16;
+    assert(spack_get_bin(&rpack, &rbin16, &rlen16) == 0 && rlen16 == 0xFFFF && memcmp(bin16, rbin16, rlen16) == 0);
+
+    /* bin32 */
+    spack_w_init(&wpack, wbuffer, sizeof(wbuffer));
+
+    char bin32[0x10000] = {1};
+    assert(spack_put_bin(&wpack, bin32, sizeof(bin32)) == 0 && wpack.buf_used == 5 + 0x10000);
+
+    spack_r_init(&rpack, wbuffer, wpack.buf_used);
+
+    const char *rbin32;
+    uint32_t rlen32;
+    assert(spack_get_bin(&rpack, &rbin32, &rlen32) == 0 && rlen32 == 0x10000 && memcmp(bin32, rbin32, rlen32) == 0);
 }
 
 static void test_float()
@@ -192,8 +284,9 @@ static void test_ext()
 {
     struct spack_w wpack;
 
-    char wbuffer[10240];
+    char wbuffer[102400]; /*100K*/
 
+    /* ext8 */
     spack_w_init(&wpack, wbuffer, sizeof(wbuffer));
 
     char ext8[0xFF] = {1};
@@ -207,6 +300,32 @@ static void test_ext()
     uint32_t rlen8;
     assert(spack_get_ext(&rpack, &type, &rext8, &rlen8) == 0);
     assert(type == 8 && rlen8 == 0xFF && memcmp(ext8, rext8, rlen8) == 0);
+
+    /* ext16 */
+    spack_w_init(&wpack, wbuffer, sizeof(wbuffer));
+
+    char ext16[0xFFFF] = {1};
+    assert(spack_put_ext(&wpack, 8, ext16, sizeof(ext16)) == 0 && wpack.buf_used == 4 + 0xFFFF);
+
+    spack_r_init(&rpack, wbuffer, wpack.buf_used);
+
+    const char *rext16;
+    uint32_t rlen16;
+    assert(spack_get_ext(&rpack, &type, &rext16, &rlen16) == 0);
+    assert(type == 8 && rlen16 == 0xFFFF && memcmp(ext16, rext16, rlen16) == 0);
+
+    /* ext32 */
+    spack_w_init(&wpack, wbuffer, sizeof(wbuffer));
+
+    char ext32[0x10000] = {1};
+    assert(spack_put_ext(&wpack, 8, ext32, sizeof(ext32)) == 0 && wpack.buf_used == 6 + 0x10000);
+
+    spack_r_init(&rpack, wbuffer, wpack.buf_used);
+
+    const char *rext32;
+    uint32_t rlen32;
+    assert(spack_get_ext(&rpack, &type, &rext32, &rlen32) == 0);
+    assert(type == 8 && rlen32 == 0x10000 && memcmp(ext32, rext32, rlen32) == 0);
 }
 
 static void test_str()
@@ -237,6 +356,7 @@ static void test_array()
     spack_w_init(&wpack, wbuffer, sizeof(wbuffer));
 
 	assert(spack_put_array(&wpack, 5) == 0);
+    assert(wpack.buf_used == 1);
 
     struct spack_r rpack;
     spack_r_init(&rpack, wbuffer, wpack.buf_used);
@@ -254,6 +374,7 @@ static void test_map()
     spack_w_init(&wpack, wbuffer, sizeof(wbuffer));
 
 	assert(spack_put_map(&wpack, 5) == 0);
+    assert(wpack.buf_used == 1);
 
     struct spack_r rpack;
     spack_r_init(&rpack, wbuffer, wpack.buf_used);

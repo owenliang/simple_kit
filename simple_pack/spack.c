@@ -147,8 +147,9 @@ static int _spack_put_bin16(struct spack_w *wpack, const char *data, uint16_t le
 	if (_spack_w_space(wpack) < len + 3)
 		return -1;
 	_spack_w_put_format(wpack, SPACK_FORMAT_BIN16);
-	_spack_check_bigendian((char *)&len, sizeof(len));
-	_spack_w_append(wpack, (const char *)&len, sizeof(len));
+	uint16_t be_len = len;
+	_spack_check_bigendian((char *)&be_len, sizeof(be_len));
+	_spack_w_append(wpack, (const char *)&be_len, sizeof(be_len));
 	_spack_w_append(wpack, data, len);
 	return 0;
 }
@@ -158,8 +159,9 @@ static int _spack_put_bin32(struct spack_w *wpack, const char *data, uint32_t le
 	if (_spack_w_space(wpack) < len + 5)
 		return -1;
 	_spack_w_put_format(wpack, SPACK_FORMAT_BIN32);
-	_spack_check_bigendian((char *)&len, sizeof(len));
-	_spack_w_append(wpack, (const char *)&len, sizeof(len));
+	uint32_t be_len = len;
+	_spack_check_bigendian((char *)&be_len, sizeof(be_len));
+	_spack_w_append(wpack, (const char *)&be_len, sizeof(be_len));
 	_spack_w_append(wpack, data, len);
 	return 0;
 }
@@ -378,8 +380,9 @@ static int _spack_put_ext16(struct spack_w *wpack, int8_t type, const char *data
 	if (_spack_w_space(wpack) < 4 + size)
 		return -1;
 	_spack_w_put_format(wpack, SPACK_FORMAT_EXT16);
-	_spack_check_bigendian((char *)&size, sizeof(size));
-	_spack_w_append(wpack, (const char *)&size, sizeof(size));
+	uint16_t be_size = size;
+	_spack_check_bigendian((char *)&be_size, sizeof(be_size));
+	_spack_w_append(wpack, (const char *)&be_size, sizeof(be_size));
 	_spack_w_append(wpack, (const char *)&type, sizeof(type));
 	_spack_w_append(wpack, (const char *)data, size);
 	return 0;
@@ -390,8 +393,9 @@ static int _spack_put_ext32(struct spack_w *wpack, int8_t type, const char *data
 	if (_spack_w_space(wpack) < 6 + size)
 		return -1;
 	_spack_w_put_format(wpack, SPACK_FORMAT_EXT32);
-	_spack_check_bigendian((char *)&size, sizeof(size));
-	_spack_w_append(wpack, (const char *)&size, sizeof(size));
+	uint32_t be_size = size;
+	_spack_check_bigendian((char *)&be_size, sizeof(be_size));
+	_spack_w_append(wpack, (const char *)&be_size, sizeof(be_size));
 	_spack_w_append(wpack, (const char *)&type, sizeof(type));
 	_spack_w_append(wpack, (const char *)data, size);
 	return 0;
@@ -443,8 +447,9 @@ static int _spack_put_str16(struct spack_w *wpack, const char *data, uint16_t si
 	if (_spack_w_space(wpack) < 3 + size)
 		return -1;
 	_spack_w_put_format(wpack, SPACK_FORMAT_STR16);
-	_spack_check_bigendian((char *)&size, sizeof(size));
-	_spack_w_append(wpack, (const char *)&size, sizeof(size));
+	uint16_t be_size = size;
+	_spack_check_bigendian((char *)&be_size, sizeof(be_size));
+	_spack_w_append(wpack, (const char *)&be_size, sizeof(be_size));
 	_spack_w_append(wpack, data, size);
 	wpack->buf[wpack->buf_used++] = '\0';
 	return 0;
@@ -455,8 +460,9 @@ static int _spack_put_str32(struct spack_w *wpack, const char *data, uint32_t si
 	if (_spack_w_space(wpack) < 5 + size)
 		return -1;
 	_spack_w_put_format(wpack, SPACK_FORMAT_STR32);
-	_spack_check_bigendian((char *)&size, sizeof(size));
-	_spack_w_append(wpack, (const char *)&size, sizeof(size));
+	uint32_t be_size = size;
+	_spack_check_bigendian((char *)&be_size, sizeof(be_size));
+	_spack_w_append(wpack, (const char *)&be_size, sizeof(be_size));
 	_spack_w_append(wpack, data, size);
 	wpack->buf[wpack->buf_used++] = '\0';
 	return 0;
@@ -767,6 +773,7 @@ static int _spack_get_bin16(struct spack_r *rpack, const char **data, uint32_t *
 		return -1;
 	uint16_t data_len;
 	_spack_r_drain(rpack, (char *)&data_len, sizeof(data_len));
+	_spack_check_bigendian((char *)&data_len, sizeof(data_len));
 	if (space < 2 + data_len)
 		return -1;
 	*len = data_len;
@@ -781,6 +788,7 @@ static int _spack_get_bin32(struct spack_r *rpack, const char **data, uint32_t *
 	if (space < 4)
 		return -1;
 	_spack_r_drain(rpack, (char *)len, sizeof(*len));
+	_spack_check_bigendian((char *)len, sizeof(*len));
 	if (space < 4 + *len)
 		return -1;
 	*data = rpack->buf + rpack->buf_used;
