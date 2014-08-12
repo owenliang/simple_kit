@@ -219,6 +219,8 @@ static void test_bin()
     uint32_t rlen8;
     assert(spack_get_bin(&rpack, &rbin8, &rlen8) == 0 && rlen8 == 0xFF && memcmp(bin8, rbin8, rlen8) == 0);
 
+    assert(rpack.buf_used == wpack.buf_used);
+
     /* bin16 */
     spack_w_init(&wpack, wbuffer, sizeof(wbuffer));
 
@@ -231,6 +233,8 @@ static void test_bin()
     uint32_t rlen16;
     assert(spack_get_bin(&rpack, &rbin16, &rlen16) == 0 && rlen16 == 0xFFFF && memcmp(bin16, rbin16, rlen16) == 0);
 
+    assert(rpack.buf_used == wpack.buf_used);
+
     /* bin32 */
     spack_w_init(&wpack, wbuffer, sizeof(wbuffer));
 
@@ -242,6 +246,8 @@ static void test_bin()
     const char *rbin32;
     uint32_t rlen32;
     assert(spack_get_bin(&rpack, &rbin32, &rlen32) == 0 && rlen32 == 0x10000 && memcmp(bin32, rbin32, rlen32) == 0);
+
+    assert(rpack.buf_used == wpack.buf_used);
 }
 
 static void test_float()
@@ -260,6 +266,8 @@ static void test_float()
 
     float rf;
     assert(spack_get_float(&rpack, &rf) == 0 && rf == f);
+
+    assert(rpack.buf_used == wpack.buf_used);
 }
 
 static void test_double()
@@ -278,6 +286,8 @@ static void test_double()
 
     double rd;
     assert(spack_get_double(&rpack, &rd) == 0 && rd == d);
+
+    assert(rpack.buf_used == wpack.buf_used);
 }
 
 static void test_ext()
@@ -300,6 +310,7 @@ static void test_ext()
     uint32_t rlen8;
     assert(spack_get_ext(&rpack, &type, &rext8, &rlen8) == 0);
     assert(type == 8 && rlen8 == 0xFF && memcmp(ext8, rext8, rlen8) == 0);
+    assert(rpack.buf_used == wpack.buf_used);
 
     /* ext16 */
     spack_w_init(&wpack, wbuffer, sizeof(wbuffer));
@@ -313,6 +324,7 @@ static void test_ext()
     uint32_t rlen16;
     assert(spack_get_ext(&rpack, &type, &rext16, &rlen16) == 0);
     assert(type == 8 && rlen16 == 0xFFFF && memcmp(ext16, rext16, rlen16) == 0);
+    assert(rpack.buf_used == wpack.buf_used);
 
     /* ext32 */
     spack_w_init(&wpack, wbuffer, sizeof(wbuffer));
@@ -326,25 +338,141 @@ static void test_ext()
     uint32_t rlen32;
     assert(spack_get_ext(&rpack, &type, &rext32, &rlen32) == 0);
     assert(type == 8 && rlen32 == 0x10000 && memcmp(ext32, rext32, rlen32) == 0);
+    assert(rpack.buf_used == wpack.buf_used);
+
+    /* fixext1 */
+    spack_w_init(&wpack, wbuffer, sizeof(wbuffer));
+
+    char fixext1[1] = {1};
+    assert(spack_put_ext(&wpack, 8, fixext1, sizeof(fixext1)) == 0 && wpack.buf_used == 3);
+
+    spack_r_init(&rpack, wbuffer, wpack.buf_used);
+
+    const char *rfixext1;
+    uint32_t fix_rlen1;
+    assert(spack_get_ext(&rpack, &type, &rfixext1, &fix_rlen1) == 0);
+    assert(type == 8 && fix_rlen1 == 1 && memcmp(rfixext1, fixext1, fix_rlen1) == 0);
+    assert(rpack.buf_used == wpack.buf_used);
+
+    /* fixext2 */
+    spack_w_init(&wpack, wbuffer, sizeof(wbuffer));
+
+    char fixext2[2] = {1};
+    assert(spack_put_ext(&wpack, 8, fixext2, sizeof(fixext2)) == 0 && wpack.buf_used == 4);
+
+    spack_r_init(&rpack, wbuffer, wpack.buf_used);
+
+    const char *rfixext2;
+    uint32_t fix_rlen2;
+    assert(spack_get_ext(&rpack, &type, &rfixext2, &fix_rlen2) == 0);
+    assert(type == 8 && fix_rlen2 == 2 && memcmp(rfixext2, fixext2, fix_rlen2) == 0);
+    assert(rpack.buf_used == wpack.buf_used);
+
+    /* fixext4 */
+    spack_w_init(&wpack, wbuffer, sizeof(wbuffer));
+
+    char fixext4[4] = {1};
+    assert(spack_put_ext(&wpack, 8, fixext4, sizeof(fixext4)) == 0 && wpack.buf_used == 6);
+
+    spack_r_init(&rpack, wbuffer, wpack.buf_used);
+
+    const char *rfixext4;
+    uint32_t fix_rlen4;
+    assert(spack_get_ext(&rpack, &type, &rfixext4, &fix_rlen4) == 0);
+    assert(type == 8 && fix_rlen4 == 4 && memcmp(rfixext4, fixext4, fix_rlen4) == 0);
+    assert(rpack.buf_used == wpack.buf_used);
+
+    /* fixext8 */
+    spack_w_init(&wpack, wbuffer, sizeof(wbuffer));
+
+    char fixext8[8] = {1};
+    assert(spack_put_ext(&wpack, 8, fixext8, sizeof(fixext8)) == 0 && wpack.buf_used == 10);
+
+    spack_r_init(&rpack, wbuffer, wpack.buf_used);
+
+    const char *rfixext8;
+    uint32_t fix_rlen8;
+    assert(spack_get_ext(&rpack, &type, &rfixext8, &fix_rlen8) == 0);
+    assert(type == 8 && fix_rlen8 == 8 && memcmp(rfixext8, fixext8, fix_rlen8) == 0);
+    assert(rpack.buf_used == wpack.buf_used);
+
+    /* fixext16 */
+    spack_w_init(&wpack, wbuffer, sizeof(wbuffer));
+
+    char fixext16[16] = {1};
+    assert(spack_put_ext(&wpack, 8, fixext16, sizeof(fixext16)) == 0 && wpack.buf_used == 18);
+
+    spack_r_init(&rpack, wbuffer, wpack.buf_used);
+
+    const char *rfixext16;
+    uint32_t fix_rlen16;
+    assert(spack_get_ext(&rpack, &type, &rfixext16, &fix_rlen16) == 0);
+    assert(type == 8 && fix_rlen16 == 16 && memcmp(rfixext16, fixext16, fix_rlen16) == 0);
+    assert(rpack.buf_used == wpack.buf_used);
 }
 
 static void test_str()
 {
     struct spack_w wpack;
 
-    char wbuffer[10240];
+    char wbuffer[102400];/* 100K */
 
+    /* fixstr */
     spack_w_init(&wpack, wbuffer, sizeof(wbuffer));
 
-    const char *str = "hello world";
-    assert(spack_put_str(&wpack, str, strlen(str)) == 0);
+    char fixstr[31] = {1};
+    assert(spack_put_str(&wpack, fixstr, sizeof(fixstr)) == 0);
 
     struct spack_r rpack;
     spack_r_init(&rpack, wbuffer, wpack.buf_used);
 
-    const char *rstr = NULL;
-    uint32_t len;
-    assert(spack_get_str(&rpack, &rstr, &len) == 0 && strcmp(rstr, "hello world") == 0 && len == 11);
+    const char *rfixstr = NULL;
+    uint32_t rfixlen;
+    assert(spack_get_str(&rpack, &rfixstr, &rfixlen) == 0 && rfixlen == sizeof(fixstr)  && memcmp(fixstr, rfixstr, rfixlen) == 0
+            && rfixlen == 31 && wpack.buf_used == 33);
+    assert(rpack.buf_used == wpack.buf_used);
+
+    /* str8 */
+    spack_w_init(&wpack, wbuffer, sizeof(wbuffer));
+
+    char str8[0xFF] = {1};
+    assert(spack_put_str(&wpack, str8, sizeof(str8)) == 0);
+
+    spack_r_init(&rpack, wbuffer, wpack.buf_used);
+
+    const char *rstr8 = NULL;
+    uint32_t rlen8;
+    assert(spack_get_str(&rpack, &rstr8, &rlen8) == 0 && rlen8 == sizeof(str8)  && memcmp(str8, rstr8, rlen8) == 0
+            && rlen8 == 0xFF && wpack.buf_used == 3 + 0xFF);
+    assert(rpack.buf_used == wpack.buf_used);
+
+    /* str16 */
+    spack_w_init(&wpack, wbuffer, sizeof(wbuffer));
+
+    char str16[0xFFFF] = {1};
+    assert(spack_put_str(&wpack, str16, sizeof(str16)) == 0);
+
+    spack_r_init(&rpack, wbuffer, wpack.buf_used);
+
+    const char *rstr16 = NULL;
+    uint32_t rlen16;
+    assert(spack_get_str(&rpack, &rstr16, &rlen16) == 0 && rlen16 == sizeof(str16)  && memcmp(str16, rstr16, rlen16) == 0
+            && rlen16 == 0xFFFF && wpack.buf_used == 4 + 0xFFFF);
+    assert(rpack.buf_used == wpack.buf_used);
+
+    /* str32 */
+    spack_w_init(&wpack, wbuffer, sizeof(wbuffer));
+
+    char str32[0x10000] = {1};
+    assert(spack_put_str(&wpack, str32, sizeof(str32)) == 0);
+
+    spack_r_init(&rpack, wbuffer, wpack.buf_used);
+
+    const char *rstr32 = NULL;
+    uint32_t rlen32;
+    assert(spack_get_str(&rpack, &rstr32, &rlen32) == 0 && rlen32 == sizeof(str32)  && memcmp(str32, rstr32, rlen32) == 0
+            && rlen32 == 0x10000 && wpack.buf_used == 6 + 0x10000);
+    assert(rpack.buf_used == wpack.buf_used);
 }
 
 static void test_array()
@@ -353,6 +481,7 @@ static void test_array()
 
     char wbuffer[10240];
 
+    /* fixarray */
     spack_w_init(&wpack, wbuffer, sizeof(wbuffer));
 
 	assert(spack_put_array(&wpack, 5) == 0);
@@ -363,6 +492,29 @@ static void test_array()
 
     uint32_t size;
     assert(spack_get_array(&rpack, &size) == 0 && size == 5);
+    assert(rpack.buf_used == wpack.buf_used);
+
+    /* array16 */
+    spack_w_init(&wpack, wbuffer, sizeof(wbuffer));
+
+    assert(spack_put_array(&wpack, 0xFF) == 0);
+    assert(wpack.buf_used == 3);
+
+    spack_r_init(&rpack, wbuffer, wpack.buf_used);
+
+    assert(spack_get_array(&rpack, &size) == 0 && size == 0xFF);
+    assert(rpack.buf_used == wpack.buf_used);
+
+    /* array32 */
+    spack_w_init(&wpack, wbuffer, sizeof(wbuffer));
+
+    assert(spack_put_array(&wpack, 0xFFFFFFFF) == 0);
+    assert(wpack.buf_used == 5);
+
+    spack_r_init(&rpack, wbuffer, wpack.buf_used);
+
+    assert(spack_get_array(&rpack, &size) == 0 && size == 0xFFFFFFFF);
+    assert(rpack.buf_used == wpack.buf_used);
 }
 
 static void test_map()
@@ -371,6 +523,7 @@ static void test_map()
 
     char wbuffer[10240];
 
+    /* fixmap */
     spack_w_init(&wpack, wbuffer, sizeof(wbuffer));
 
 	assert(spack_put_map(&wpack, 5) == 0);
@@ -381,6 +534,29 @@ static void test_map()
 
     uint32_t size;
     assert(spack_get_map(&rpack, &size) == 0 && size == 5);
+    assert(rpack.buf_used == wpack.buf_used);
+
+    /* map16 */
+    spack_w_init(&wpack, wbuffer, sizeof(wbuffer));
+
+    assert(spack_put_map(&wpack, 0xFF) == 0);
+    assert(wpack.buf_used == 3);
+
+    spack_r_init(&rpack, wbuffer, wpack.buf_used);
+
+    assert(spack_get_map(&rpack, &size) == 0 && size == 0xFF);
+    assert(rpack.buf_used == wpack.buf_used);
+
+    /* map32 */
+    spack_w_init(&wpack, wbuffer, sizeof(wbuffer));
+
+    assert(spack_put_map(&wpack, 0xFFFFFF) == 0);
+    assert(wpack.buf_used == 5);
+
+    spack_r_init(&rpack, wbuffer, wpack.buf_used);
+
+    assert(spack_get_map(&rpack, &size) == 0 && size == 0xFFFFFF);
+    assert(rpack.buf_used == wpack.buf_used);
 }
 
 int main(int argc, char **argv)

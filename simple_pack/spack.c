@@ -841,6 +841,7 @@ static int _spack_get_fixext1(struct spack_r *rpack, int8_t *type, const char **
 		return -1;
 	_spack_r_drain(rpack, (char *)type, sizeof(*type));
 	*data = rpack->buf + rpack->buf_used;
+	*size = 1;
 	rpack->buf_used += 1;
 	return 0;
 }
@@ -852,6 +853,7 @@ static int _spack_get_fixext2(struct spack_r *rpack, int8_t *type, const char **
 		return -1;
 	_spack_r_drain(rpack, (char *)type, sizeof(*type));
 	*data = rpack->buf + rpack->buf_used;
+	*size = 2;
 	rpack->buf_used += 2;
 	return 0;
 }
@@ -863,6 +865,7 @@ static int _spack_get_fixext4(struct spack_r *rpack, int8_t *type, const char **
 		return -1;
 	_spack_r_drain(rpack, (char *)type, sizeof(*type));
 	*data = rpack->buf + rpack->buf_used;
+	*size = 4;
 	rpack->buf_used += 4;
 	return 0;
 }
@@ -874,6 +877,7 @@ static int _spack_get_fixext8(struct spack_r *rpack, int8_t *type, const char **
 		return -1;
 	_spack_r_drain(rpack, (char *)type, sizeof(*type));
 	*data = rpack->buf + rpack->buf_used;
+	*size = 8;
 	rpack->buf_used += 8;
 	return 0;
 }
@@ -885,6 +889,7 @@ static int _spack_get_fixext16(struct spack_r *rpack, int8_t *type, const char *
 		return -1;
 	_spack_r_drain(rpack, (char *)type, sizeof(*type));
 	*data = rpack->buf + rpack->buf_used;
+	*size = 16;
 	rpack->buf_used += 16;
 	return 0;
 }
