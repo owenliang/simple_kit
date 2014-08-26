@@ -16,7 +16,7 @@ static void run_timer(uint64_t id, void *arg)
 
 static void handle_rpc_type5(struct sio_stream_rpc_server_cloure *cloure, void *arg)
 {
-    sio_stream_rpc_finish_cloure(cloure, 1, NULL, 0); /* 没有应答 */
+    sio_stream_rpc_terminate_cloure(cloure); /* 没有应答 */
 }
 
 int main(int argc, char **argv)

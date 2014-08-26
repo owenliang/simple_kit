@@ -379,19 +379,21 @@ static void _sio_stream_rpc_finish_cloure_in_thread(void *arg)
     free(cloure);
 }
 
-void sio_stream_rpc_finish_cloure(struct sio_stream_rpc_server_cloure *cloure, char no_response, const char *resp, uint32_t resp_len)
+void sio_stream_rpc_finish_cloure(struct sio_stream_rpc_server_cloure *cloure, const char *resp, uint32_t resp_len)
 {
-    if (no_response) {
-        cloure->no_resp = 1;
-        _sio_stream_rpc_queue_op(cloure->io_thread, _sio_stream_rpc_finish_cloure_in_thread, cloure);
-        return;
-    }
+    cloure->no_resp = 0;
     cloure->resp_len = SHEAD_ENCODE_SIZE + resp_len;
     cloure->resp_packet = malloc(cloure->resp_len);
     cloure->req_head.body_len = resp_len;
     assert(shead_encode(&cloure->req_head, cloure->resp_packet, SHEAD_ENCODE_SIZE) == 0);
     memcpy(cloure->resp_packet + SHEAD_ENCODE_SIZE, resp, resp_len);
 
+    _sio_stream_rpc_queue_op(cloure->io_thread, _sio_stream_rpc_finish_cloure_in_thread, cloure);
+}
+
+void sio_stream_rpc_terminate_cloure(struct sio_stream_rpc_server_cloure *cloure)
+{
+    cloure->no_resp = 1;
     _sio_stream_rpc_queue_op(cloure->io_thread, _sio_stream_rpc_finish_cloure_in_thread, cloure);
 }
 

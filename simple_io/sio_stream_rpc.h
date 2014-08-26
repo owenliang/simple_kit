@@ -151,7 +151,8 @@ void sio_stream_rpc_run_task(sio_stream_rpc_task_callback_t cb, void *arg);
 uint64_t sio_stream_rpc_add_timer(sio_stream_rpc_timer_callback_t cb, void *arg, uint64_t after_ms);
 int sio_stream_rpc_del_timer(uint64_t id);
 
-void sio_stream_rpc_finish_cloure(struct sio_stream_rpc_server_cloure *cloure, char no_response, const char *resp, uint32_t resp_len);
+void sio_stream_rpc_finish_cloure(struct sio_stream_rpc_server_cloure *cloure, const char *resp, uint32_t resp_len);
+void sio_stream_rpc_terminate_cloure(struct sio_stream_rpc_server_cloure *cloure);
 
 #ifdef __cplusplus
 }
