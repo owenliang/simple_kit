@@ -28,7 +28,6 @@
 #include "slist.h"
 #include "shash.h"
 #include "sdeque.h"
-#include "shead.h"
 #include "sio_stream_rpc.h"
 
 static struct sio_stream_rpc singleton = {0};
@@ -325,12 +324,13 @@ static struct sio_stream_rpc_io_thread *_sio_stream_rpc_choose_io_thread()
 
 static void _sio_stream_rpc_queue_op(struct sio_stream_rpc_io_thread *io_thread, sio_stream_rpc_task_callback_t cb, void *arg);
 
-static void _sio_stream_rpc_free_server_conn(struct sio_stream_rpc_server_conn *server_conn)
+static void _sio_stream_rpc_free_server_conn(struct sio_stream_rpc_server_conn *server_conn, char attached)
 {
     struct sio_stream_rpc_io_thread *io_thread = server_conn->io_thread;
 
-    assert(shash_erase(io_thread->server_conn_hash, (const char *)&server_conn->conn_id,
-            sizeof(server_conn->conn_id)) == 0);
+    if (attached)
+        assert(shash_erase(io_thread->server_conn_hash, (const char *)&server_conn->conn_id,
+                sizeof(server_conn->conn_id)) == 0);
 
     sio_stream_close(io_thread->sio, server_conn->stream);
     free(server_conn);
@@ -345,8 +345,10 @@ static struct sio_stream_rpc_server_cloure *_sio_stream_rpc_create_server_cloure
     cloure->io_thread = server_conn->io_thread;
     cloure->item = item;
     memcpy(&cloure->req_head, reqhead, sizeof(*reqhead));
-    cloure->req_body = malloc(reqhead->body_len);
-    memcpy(cloure->req_body, body, reqhead->body_len);
+    if (reqhead->body_len) {
+        cloure->req_body = malloc(reqhead->body_len);
+        memcpy(cloure->req_body, body, reqhead->body_len);
+    }
     return cloure;
 }
 
@@ -359,8 +361,22 @@ static void _sio_stream_rpc_handle_server_cloure(void *arg)
 static void _sio_stream_rpc_finish_cloure_in_thread(void *arg)
 {
     struct sio_stream_rpc_server_cloure *cloure = arg;
+    struct sio_stream_rpc_io_thread *io_thread = cloure->io_thread;
 
     // TODO: 1, 从哈希里找到连接, 2, 如果有response则向连接发包 3, 销毁cloure
+    void *value;
+    if (shash_find(io_thread->server_conn_hash, (const char *)&cloure->conn_id, sizeof(cloure->conn_id), &value) == 0) {
+        struct sio_stream_rpc_server_conn *server_conn = value;
+        int err = 0;
+        if (!cloure->no_resp) /* 有应答 */
+            err = sio_stream_write(io_thread->sio, server_conn->stream, cloure->resp_packet, cloure->resp_len);
+        --io_thread->pending_op; /* 处理完成了一个请求 */
+        if (err)
+            _sio_stream_rpc_free_server_conn(server_conn, 1);
+    }
+    free(cloure->req_body);
+    free(cloure->resp_packet);
+    free(cloure);
 }
 
 void sio_stream_rpc_finish_cloure(struct sio_stream_rpc_server_cloure *cloure, char no_response, const char *resp, uint32_t resp_len)
@@ -396,13 +412,14 @@ static void _sio_stream_rpc_handle_server_conn_data(struct sio_stream_rpc_server
             break;
         struct shead reqhead;
         if (shead_decode(&reqhead, data + used, left) == -1) /* 头部解析失败 */
-            return _sio_stream_rpc_free_server_conn(server_conn);
+            return _sio_stream_rpc_free_server_conn(server_conn, 1);
         if (left - SHEAD_ENCODE_SIZE < reqhead.body_len) /* 包体不完整 */
             break;
         /* TODO:得到完整的一个包 */
         void *value;
         if (shash_find(server_conn->service->register_service, (const char *)&reqhead.type, sizeof(reqhead.type), &value) == 0) {
             /* 请求的协议被服务端支持 */
+            ++server_conn->io_thread->pending_op; /* 处理中的请求+1 */
             struct sio_stream_rpc_server_cloure *cloure = _sio_stream_rpc_create_server_cloure(server_conn, value, &reqhead, data + used + SHEAD_ENCODE_SIZE);
             sio_stream_rpc_run_task(_sio_stream_rpc_handle_server_cloure, cloure);
         }
@@ -422,7 +439,7 @@ static void _sio_stream_rpc_sio_handle_server_conn(struct sio *sio, struct sio_s
         break;
     case SIO_STREAM_ERROR:
     case SIO_STREAM_CLOSE:
-        _sio_stream_rpc_free_server_conn(server_conn);
+        _sio_stream_rpc_free_server_conn(server_conn, 1);
         break;
     default:
         assert(0);
@@ -435,8 +452,7 @@ static void _sio_stream_rpc_attach_server_conn(void *arg)
     struct sio_stream_rpc_io_thread *io_thread = conn->io_thread;
 
     if (sio_stream_attach(io_thread->sio, conn->stream) == -1) {
-        sio_stream_close(NULL, conn->stream);
-        free(conn);
+        _sio_stream_rpc_free_server_conn(conn, 0);
         return;
     }
     sio_stream_set(io_thread->sio, conn->stream, _sio_stream_rpc_sio_handle_server_conn, conn);
@@ -497,10 +513,12 @@ int sio_stream_rpc_register_protocol(struct sio_stream_rpc_service *service, uin
 static void _sio_stream_rpc_io_handle_op(struct sio_stream_rpc_io_thread *io_thread)
 {
     struct sdeque *op_queue = NULL;
+
     pthread_mutex_lock(&io_thread->mutex);
-    if (sdeque_size(io_thread->op_queue))
+    if (sdeque_size(io_thread->op_queue)) {
         op_queue = io_thread->op_queue;
-    assert(io_thread->op_queue = sdeque_new());
+        assert(io_thread->op_queue = sdeque_new());
+    }
     pthread_mutex_unlock(&io_thread->mutex);
 
     if (!op_queue)

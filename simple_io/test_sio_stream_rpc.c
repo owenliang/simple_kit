@@ -14,9 +14,9 @@ static void run_timer(uint64_t id, void *arg)
     sio_stream_rpc_add_timer(run_timer, NULL, 500);
 }
 
-static void handle_rpc_type5(uint32_t type, void *arg)
+static void handle_rpc_type5(struct sio_stream_rpc_server_cloure *cloure, void *arg)
 {
-
+    sio_stream_rpc_finish_cloure(cloure, 1, NULL, 0); /* Ã»ÓÐÓ¦´ð */
 }
 
 int main(int argc, char **argv)
