@@ -101,7 +101,7 @@ static void _sio_rpc_upstream_timer(struct sio *sio, struct sio_timer *timer, vo
     if (!upstream->stream)
         upstream->stream = sio_stream_connect(sio, upstream->ip, upstream->port, _sio_rpc_upstream_callback, upstream);
 
-    sio_start_timer(upstream->client->rpc->sio, &upstream->timer, 20, _sio_rpc_upstream_timer, upstream);
+    sio_start_timer(upstream->client->rpc->sio, &upstream->timer, 1000, _sio_rpc_upstream_timer, upstream);
 }
 
 void sio_rpc_add_upstream(struct sio_rpc_client *client, const char *ip, uint16_t port)
@@ -120,7 +120,7 @@ void sio_rpc_add_upstream(struct sio_rpc_client *client, const char *ip, uint16_
     upstream->req_status = shash_new();
     upstream->stream = sio_stream_connect(client->rpc->sio, ip, port, _sio_rpc_upstream_callback, upstream);
 
-    sio_start_timer(client->rpc->sio, &upstream->timer, 20, _sio_rpc_upstream_timer, upstream);
+    sio_start_timer(client->rpc->sio, &upstream->timer, 1000, _sio_rpc_upstream_timer, upstream);
 
     client->upstreams = realloc(client->upstreams, ++client->upstream_count * sizeof(*client->upstreams));
     client->upstreams[client->upstream_count - 1] = upstream;
