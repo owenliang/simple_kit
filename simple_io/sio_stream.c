@@ -30,9 +30,8 @@
 
 static int _sio_stream_read(struct sio *sio, struct sio_fd *sfd, int fd, struct sio_stream *stream)
 {
-    char *space;
     sio_buffer_reserve(stream->inbuf, 4096); /* 4KB per read */
-    sio_buffer_space(stream->inbuf, &space, NULL);
+    char *space = sio_buffer_space(stream->inbuf, NULL);
 
     int64_t bytes = read(fd, space, 4096);
     if (bytes == -1) {
@@ -49,9 +48,8 @@ static int _sio_stream_read(struct sio *sio, struct sio_fd *sfd, int fd, struct 
 
 static int _sio_stream_write(struct sio *sio, struct sio_fd *sfd, int fd, struct sio_stream *stream)
 {
-    char *data;
     uint64_t size;
-    sio_buffer_data(stream->outbuf, &data, &size);
+    char *data = sio_buffer_data(stream->outbuf, &size);
     int64_t bytes = write(fd, data, size);
     if (bytes == -1) {
         if (errno != EINTR && errno != EAGAIN) 

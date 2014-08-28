@@ -93,20 +93,18 @@ uint64_t sio_buffer_capacity(struct sio_buffer *sbuf)
     return sbuf->capacity;
 }
 
-void sio_buffer_space(struct sio_buffer *sbuf, char **space, uint64_t *size)
+char *sio_buffer_space(struct sio_buffer *sbuf, uint64_t *size)
 {
-    if (space)
-        *space = sbuf->buffer + sbuf->end;
     if (size)
         *size = sbuf->capacity - sbuf->end;
+    return sbuf->buffer + sbuf->end;
 }
 
-void sio_buffer_data(struct sio_buffer *sbuf, char **data, uint64_t *size)
+char *sio_buffer_data(struct sio_buffer *sbuf, uint64_t *size)
 {
-    if (data)
-        *data = sbuf->buffer + sbuf->start;
     if (size)
         *size = sbuf->end - sbuf->start;
+    return sbuf->buffer + sbuf->start;
 }
 
 /* vim: set ts=4 sw=4 sts=4 tw=100 */

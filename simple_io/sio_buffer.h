@@ -111,28 +111,26 @@ uint64_t sio_buffer_capacity(struct sio_buffer *sbuf);
  * @brief 返回空闲区域的地址和长度, 需要用户调用sio_buffer_reserve预分配
  *
  * @param [in] sbuf   : struct sio_buffer*
- * @param [in] space   : 如果不需要可以传入NULL
- * @param [in] size   : 如果不需要可以传入NULL
- * @return  void 
- * @retval  *space为空闲区域首地址, *size为空闲区域长度 
+ * @param [in] size   : uint64_t* 如果不需要可以传入NULL
+ * @return  char* 
+ * @retval  size为空闲区域的长度 
  * @see 
  * @author liangdong
- * @date 2014/03/30 17:05:01
+ * @date 2014/08/28 12:45:17
 **/
-void sio_buffer_space(struct sio_buffer *sbuf, char **space, uint64_t *size);
+char *sio_buffer_space(struct sio_buffer *sbuf, uint64_t *size);
 /**
  * @brief 返回数据段的首地址和长度
  *
  * @param [in] sbuf   : struct sio_buffer*
- * @param [in] data   : 不需要可以传入NULL
- * @param [in] size   :  不需要可以传入NULL
- * @return  void 
+ * @param [in] size   : uint64_t*
+ * @return  char* 
  * @retval   
  * @see 
  * @author liangdong
- * @date 2014/03/30 17:07:51
+ * @date 2014/08/28 12:46:43
 **/
-void sio_buffer_data(struct sio_buffer *sbuf, char **data, uint64_t *size);
+char *sio_buffer_data(struct sio_buffer *sbuf, uint64_t *size);
 
 #ifdef __cplusplus
 }

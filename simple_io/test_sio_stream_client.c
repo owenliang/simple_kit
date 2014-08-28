@@ -49,9 +49,8 @@ static void sio_stream_conn_handle_data(struct sio_stream_conn *conn)
 {
     struct sio_buffer *input_buffer = sio_stream_buffer(conn->stream);
 
-    char *data_ptr;
     uint64_t data_len;
-    sio_buffer_data(input_buffer, &data_ptr, &data_len);
+    char *data_ptr = sio_buffer_data(input_buffer, &data_len);
 
     if (sio_stream_write(conn->client->sio, conn->stream, data_ptr, data_len) == -1)
         sio_stream_finish_conn(conn, 0);
