@@ -35,16 +35,56 @@ void sio_rpc_client_free(struct sio_rpc_client *client)
     free(client);
 }
 
+static void _sio_rpc_free_call(struct sio_rpc_request *req);
 static void _sio_rpc_reset_upstream(struct sio_rpc_upstream *upstream);
+
+static int _sio_rpc_upstream_parse_response(struct sio *sio, struct sio_rpc_upstream *upstream)
+{
+    struct sio_stream *stream = upstream->stream;
+
+    struct sio_buffer *input = sio_stream_buffer(stream);
+    uint64_t size;
+    char *data= sio_buffer_data(input, &size);
+
+    uint64_t used = 0;
+    while (used < size) {
+        uint64_t left = size - used;
+        if (left < SHEAD_ENCODE_SIZE)
+            break; /* header不完整 */
+        struct shead head;
+        if (shead_decode(&head, data + used, SHEAD_ENCODE_SIZE) == -1)
+            return -1; /* header不合法 */
+        if (left - SHEAD_ENCODE_SIZE < head.body_len)
+            break; /* body不完整 */
+        void *value;
+        if (shash_find(upstream->req_status, (const char *)&head.id, sizeof(head.id), &value) == 0) { /* 找到call */
+            assert(shash_erase(upstream->req_status, (const char *)&head.id, sizeof(head.id)) == 0);
+            struct sio_rpc_request *req = value;
+            if (head.type == req->type) { /* call的type相同, 回调用户, 关闭超时定时器, 释放call */
+                req->cb(upstream->client, 0, data + used + SHEAD_ENCODE_SIZE, head.body_len);
+                sio_stop_timer(sio, &req->timer);
+                _sio_rpc_free_call(req);
+            } else { /* 请求与应答的type不同, 客户端有bug才会至此, 作为超时处理 */
+                req->upstream = NULL;
+            }
+        } /* 没有找到对应的call, 忽略此应答 */
+        used += SHEAD_ENCODE_SIZE + head.body_len;
+    }
+    sio_buffer_erase(input, used);
+    return 0;
+}
 
 static void _sio_rpc_upstream_callback(struct sio *sio, struct sio_stream *stream, enum sio_stream_event event, void *arg)
 {
     struct sio_rpc_upstream *upstream = arg;
+    int err = 0;
     switch (event) {
     case SIO_STREAM_DATA:
+        err = _sio_rpc_upstream_parse_response(sio, upstream);
         break;
     case SIO_STREAM_ERROR:
     case SIO_STREAM_CLOSE:
+        _sio_rpc_reset_upstream(upstream);
         break;
     default:
         assert(0);
