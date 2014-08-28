@@ -29,8 +29,26 @@ struct sio_rpc_client *sio_rpc_client_new(struct sio_rpc *rpc)
     return client;
 }
 
+void sio_rpc_client_free(struct sio_rpc_client *client)
+{
+    free(client->upstreams);
+    free(client);
+}
+
+static void _sio_rpc_reset_upstream(struct sio_rpc_upstream *upstream);
+
 static void _sio_rpc_upstream_callback(struct sio *sio, struct sio_stream *stream, enum sio_stream_event event, void *arg)
 {
+    struct sio_rpc_upstream *upstream = arg;
+    switch (event) {
+    case SIO_STREAM_DATA:
+        break;
+    case SIO_STREAM_ERROR:
+    case SIO_STREAM_CLOSE:
+        break;
+    default:
+        assert(0);
+    }
 }
 
 static void _sio_rpc_upstream_timer(struct sio *sio, struct sio_timer *timer, void *arg)
@@ -40,10 +58,9 @@ static void _sio_rpc_upstream_timer(struct sio *sio, struct sio_timer *timer, vo
     /* TODO: 检查stream的pending长度/pending请求数, 过长则断开连接 */
 
     /* 当前只检查连接状态, 并发起重连 */
-    if (!upstream->stream) {
-        upstream->req_id = 0;
+    if (!upstream->stream)
         upstream->stream = sio_stream_connect(sio, upstream->ip, upstream->port, _sio_rpc_upstream_callback, upstream);
-    }
+
     sio_start_timer(upstream->client->rpc->sio, &upstream->timer, 20, _sio_rpc_upstream_timer, upstream);
 }
 
@@ -67,6 +84,31 @@ void sio_rpc_add_upstream(struct sio_rpc_client *client, const char *ip, uint16_
 
     client->upstreams = realloc(client->upstreams, ++client->upstream_count * sizeof(*client->upstreams));
     client->upstreams[client->upstream_count - 1] = upstream;
+}
+
+void sio_rpc_remove_upstream(struct sio_rpc_client *client, const char *ip, uint16_t port)
+{
+    struct sio_rpc_upstream *upstream = NULL;
+
+    uint32_t i;
+    for (i = 0; i < client->upstream_count; ++i) {
+        if (strcmp(client->upstreams[i]->ip, ip) == 0 && client->upstreams[i]->port == port) {
+            upstream = client->upstreams[i];
+            break;
+        }
+    }
+    if (!upstream)
+        return;
+    if (upstream->stream) /* 关闭连接, 重置所有排队请求 */
+        _sio_rpc_reset_upstream(upstream);
+    sio_stop_timer(client->rpc->sio, &upstream->timer); /* 关闭定时器 */
+    if (i != client->upstream_count - 1)
+        client->upstreams[i] = client->upstreams[client->upstream_count - 1]; /* 最后一个upstream往前放 */
+    client->upstream_count--;
+
+    free(upstream->ip);
+    shash_free(upstream->req_status);
+    free(upstream);
 }
 
 static struct sio_rpc_upstream *_sio_rpc_choose_upstream(struct sio_rpc_client *client)
@@ -127,6 +169,7 @@ static void _sio_rpc_reset_upstream(struct sio_rpc_upstream *upstream)
     struct sio *sio = upstream->client->rpc->sio;
     sio_stream_close(sio, upstream->stream);
     upstream->stream = NULL;
+    upstream->req_id = 0;
 
     /* 重置所有等待应答的请求的upstream为NULL, 等待超时后重新调度到其他upstream */
     shash_begin_iterate(upstream->req_status);
