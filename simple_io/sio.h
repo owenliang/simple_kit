@@ -2,8 +2,12 @@
 #define SIMPLE_IO_SIO_H
 
 #include <stdint.h>
-#include <sys/epoll.h>
 #include "sio_timer.h"
+
+/*
+ *  sio.h提供事件驱动机制, 只暴露接口, 具体实现在sio.c中实现, 针对不同平台可以通过makefile控制做不同的实现,
+ *  当前sio.c是epoll的实现, 后续需完成select版本的实现.
+ *  */
 
 #ifdef __cplusplus
 extern "C" {
@@ -21,28 +25,6 @@ struct sio_fd;
 
 /* 事件回调函数 */
 typedef void (*sio_callback_t)(struct sio *sio, struct sio_fd *sfd, int fd, enum sio_event event, void *arg);
-
-/* 注册在sio的文件描述符 */
-struct sio_fd {
-    int fd;     /* 用户监听的fd */
-    uint32_t watch_events;    /* 用户监听的事件 */
-    sio_callback_t user_callback; /* 用户的事件回调 */
-    void *user_arg; /* 用户参数 */
-    char is_del; /* 被sio_del移除 */
-};
-
-/* 文件描述符管理器 */
-struct sio {
-    int epfd; /* epoll句柄 */
-    struct epoll_event poll_events[64]; /* epoll_wait的参数 */
-    char is_in_loop;    /* 是否正在epoll_wait事件处理循环中 */
-    int deferred_count; /* 延迟待删除sio_fd个数 */
-    int deferred_capacity; /* 延迟待删除数组的大小 */
-    struct sio_fd **deferred_to_close; /* 延迟待删除sio_fd数组 */
-    int wake_pipe[2];  /* 唤醒sio_run的管道 */
-    struct sio_fd *wake_sfd; /* 注册在sio上的wake_pipe[0] */
-    struct sio_timer_manager *st_mgr;         /**< 定时器管理器       */
-};
 
 /**
  * @brief 创建一个文件描述符管理器

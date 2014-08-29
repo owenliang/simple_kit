@@ -23,6 +23,7 @@
 #include <errno.h>
 #include <signal.h>
 #include <sys/wait.h>
+#include <sys/types.h>
 #include "sio.h"
 #include "sio_stream.h"
 
