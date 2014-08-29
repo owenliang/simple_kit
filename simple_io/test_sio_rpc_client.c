@@ -59,7 +59,10 @@ int main(int argc, char **argv)
 
     sio_stop_timer(sio, &ping_timer);
 
-    //sio_rpc_remove_upstream(client, "127.0.0.1", 8989);
+    /*
+     * 可以不调用, client_free一样会回收所有连接和请求
+     *
+     sio_rpc_remove_upstream(client, "127.0.0.1", 8989); */
     sio_rpc_client_free(client);
 
     sio_rpc_free(rpc);
