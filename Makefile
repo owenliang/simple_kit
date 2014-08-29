@@ -11,7 +11,7 @@ OUTPUT_DIR = ./output
 # 目标文件
 SRC = simple_hash/shash.c simple_skiplist/slist.c simple_deque/sdeque.c \
 		  simple_config/sconfig.c simple_log/slog.c simple_io/sio.c simple_io/sio_rpc.c \
-		  simple_io/sio_buffer.c simple_io/sio_dgram.c simple_io/sio_stream.c simple_io/sio_rpc.c \
+		  simple_io/sio_buffer.c simple_io/sio_dgram.c simple_io/sio_stream.c \
 		  simple_io/sio_timer.c simple_pack/spack.c simple_head/shead.c
 
 # 测试程序

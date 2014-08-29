@@ -107,6 +107,8 @@ static void _sio_rpc_upstream_callback(struct sio *sio, struct sio_stream *strea
     default:
         assert(0);
     }
+    if (err)
+        _sio_rpc_reset_upstream(upstream);
 }
 
 static int _sio_rpc_upstream_connect(struct sio *sio, struct sio_rpc_upstream *upstream)
@@ -321,3 +323,77 @@ void sio_rpc_call(struct sio_rpc_client *client, uint32_t type, uint64_t timeout
     if (_sio_rpc_call(upstream, req) == -1)
         req->upstream = NULL; /* call失败, 等待请求超时 */
 }
+
+static void _sio_rpc_dstream_callback(struct sio *sio, struct sio_stream *stream, enum sio_stream_event event, void *arg);
+
+static void _sio_rpc_dstream_accept(struct sio_rpc_server *server, struct sio *sio, struct sio_stream *stream)
+{
+    struct sio_rpc_dstream *dstream = malloc(sizeof(*dstream));
+    dstream->id = server->conn_id++;
+    dstream->server = server;
+    dstream->stream = stream;
+    assert(shash_insert(server->dstreams, (const char *)&dstream->id, sizeof(dstream->id), dstream) == 0);
+    sio_stream_set(server->rpc->sio, stream, _sio_rpc_dstream_callback, dstream);
+}
+
+static int _sio_rpc_dstream_parse_request(struct sio_rpc_dstream *dstream)
+{
+    struct sio_stream *stream = dstream->stream;
+
+    struct sio_buffer *input = sio_stream_buffer(stream);
+    uint64_t size;
+    char *data= sio_buffer_data(input, &size);
+
+    uint64_t used = 0;
+    while (used < size) {
+      uint64_t left = size - used;
+      if (left < SHEAD_ENCODE_SIZE)
+          break; /* header不完整 */
+      struct shead head;
+      if (shead_decode(&head, data + used, SHEAD_ENCODE_SIZE) == -1)
+          return -1; /* header不合法 */
+      if (left - SHEAD_ENCODE_SIZE < head.body_len)
+          break; /* body不完整 */
+      // TODO
+      used += SHEAD_ENCODE_SIZE + head.body_len;
+    }
+    sio_buffer_erase(input, used);
+    return 0;
+}
+
+static void _sio_rpc_dstream_callback(struct sio *sio, struct sio_stream *stream, enum sio_stream_event event, void *arg)
+{
+    int err = 0;
+    switch (event) {
+    case SIO_STREAM_ACCEPT:
+        _sio_rpc_dstream_accept(arg, sio, stream);
+        break;
+    case SIO_STREAM_DATA:
+        err = _sio_rpc_dstream_parse_request(arg);
+        break;
+    case SIO_STREAM_ERROR:
+    case SIO_STREAM_CLOSE:
+        break;
+    default:
+        assert(0);
+    }
+    if (err) {
+        // TODO
+    }
+}
+
+struct sio_rpc_server *sio_rpc_server_new(struct sio_rpc *rpc, const char *ip, uint16_t port)
+{
+    struct sio_stream *stream = sio_stream_listen(rpc->sio, ip, port, _sio_rpc_dstream_callback, NULL);
+    if (!stream)
+        return NULL;
+
+    struct sio_rpc_server *server = malloc(sizeof(*server));
+    server->conn_id = 0;
+    server->rpc = rpc;
+    server->stream = stream;
+    server->dstreams = shash_new();
+    sio_stream_set(rpc->sio, stream, _sio_rpc_dstream_callback, server);
+    return server;
+}
+

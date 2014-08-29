@@ -13,6 +13,8 @@ struct shash;
 struct sio_stream;
 struct sio_rpc_upstream;
 struct sio_rpc_client;
+struct sio_rpc_dstream;
+struct sio_rpc_server;
 
 typedef void (*sio_rpc_upstream_callback_t)(struct sio_rpc_client *client, char is_timeout, const char *response, uint32_t size, void *arg);
 
@@ -53,6 +55,19 @@ struct sio_rpc_client {
     uint32_t upstream_count;
     struct sio_rpc_upstream **upstreams;
     struct shash *req_record;
+};
+
+struct sio_rpc_dstream {
+    uint64_t id;
+    struct sio_stream *stream;
+    struct sio_rpc_server *server;
+};
+
+struct sio_rpc_server {
+    struct sio_rpc *rpc;
+    uint64_t conn_id;
+    struct sio_stream *stream;
+    struct shash *dstreams;
 };
 
 struct sio_rpc *sio_rpc_new(struct sio *sio);
