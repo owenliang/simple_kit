@@ -7,6 +7,10 @@
 #include "sio_stream.h"
 #include "sio_rpc.h"
 
+static void _sio_rpc_free_call(struct sio_rpc_request *req);
+static void _sio_rpc_reset_upstream(struct sio_rpc_upstream *upstream);
+static void _sio_rpc_remove_upstream(struct sio_rpc_client *client, struct sio_rpc_upstream *upstream);
+
 struct sio_rpc *sio_rpc_new(struct sio *sio)
 {
     struct sio_rpc *rpc = malloc(sizeof(*rpc));
@@ -26,17 +30,29 @@ struct sio_rpc_client *sio_rpc_client_new(struct sio_rpc *rpc)
     client->rr_stream = 0;
     client->upstream_count = 0;
     client->upstreams = NULL;
+    assert(client->req_record = shash_new()); /* 所有运行中的rpc request地址都记录, 以便client_free时回收  */
     return client;
 }
 
 void sio_rpc_client_free(struct sio_rpc_client *client)
 {
+    int i;
+    for (i = 0; i < client->upstream_count; ++i)
+        _sio_rpc_remove_upstream(client, client->upstreams[i]);
+
+    shash_begin_iterate(client->req_record);
+    const char *key;
+    while (shash_iterate(client->req_record, &key, NULL, NULL) != -1) {
+        struct sio_rpc_request *req = *(struct sio_rpc_request * const*)key;
+        sio_stop_timer(client->rpc->sio, &req->timer);
+        _sio_rpc_free_call(req);
+    }
+    shash_end_iterate(client->req_record);
+
+    shash_free(client->req_record);
     free(client->upstreams);
     free(client);
 }
-
-static void _sio_rpc_free_call(struct sio_rpc_request *req);
-static void _sio_rpc_reset_upstream(struct sio_rpc_upstream *upstream);
 
 static int _sio_rpc_upstream_parse_response(struct sio *sio, struct sio_rpc_upstream *upstream)
 {
@@ -126,6 +142,16 @@ void sio_rpc_add_upstream(struct sio_rpc_client *client, const char *ip, uint16_
     client->upstreams[client->upstream_count - 1] = upstream;
 }
 
+static void _sio_rpc_remove_upstream(struct sio_rpc_client *client, struct sio_rpc_upstream *upstream)
+{
+    if (upstream->stream) /* 关闭连接, 重置所有排队请求 */
+        _sio_rpc_reset_upstream(upstream);
+    sio_stop_timer(client->rpc->sio, &upstream->timer); /* 关闭定时器 */
+    free(upstream->ip);
+    shash_free(upstream->req_status);
+    free(upstream);
+}
+
 void sio_rpc_remove_upstream(struct sio_rpc_client *client, const char *ip, uint16_t port)
 {
     struct sio_rpc_upstream *upstream = NULL;
@@ -139,16 +165,10 @@ void sio_rpc_remove_upstream(struct sio_rpc_client *client, const char *ip, uint
     }
     if (!upstream)
         return;
-    if (upstream->stream) /* 关闭连接, 重置所有排队请求 */
-        _sio_rpc_reset_upstream(upstream);
-    sio_stop_timer(client->rpc->sio, &upstream->timer); /* 关闭定时器 */
     if (i != client->upstream_count - 1)
         client->upstreams[i] = client->upstreams[client->upstream_count - 1]; /* 最后一个upstream往前放 */
     client->upstream_count--;
-
-    free(upstream->ip);
-    shash_free(upstream->req_status);
-    free(upstream);
+    _sio_rpc_remove_upstream(client, upstream);
 }
 
 static struct sio_rpc_upstream *_sio_rpc_choose_upstream(struct sio_rpc_client *client)
@@ -176,6 +196,7 @@ static struct sio_rpc_upstream *_sio_rpc_choose_upstream(struct sio_rpc_client *
 
 static void _sio_rpc_free_call(struct sio_rpc_request *req)
 {
+    assert(shash_erase(req->client->req_record, (const char *)&req, sizeof(req)) == 0);
     free(req->body);
     free(req);
 }
@@ -269,6 +290,7 @@ void sio_rpc_call(struct sio_rpc_client *client, uint32_t type, uint64_t timeout
     req->client = client;
     req->upstream = upstream;
     sio_start_timer(client->rpc->sio, &req->timer, timeout_ms, _sio_rpc_call_timer, req);
+    assert(shash_insert(client->req_record, (const char *)&req, sizeof(req), NULL) == 0);
 
     if (!req->upstream)
         return; /* 无可用连接, 等待请求超时 */

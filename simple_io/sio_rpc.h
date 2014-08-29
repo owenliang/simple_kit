@@ -49,7 +49,17 @@ struct sio_rpc_client {
     uint32_t rr_stream;
     uint32_t upstream_count;
     struct sio_rpc_upstream **upstreams;
+    struct shash *req_record;
 };
+
+struct sio_rpc *sio_rpc_new(struct sio *sio);
+void sio_rpc_free(struct sio_rpc *rpc);
+struct sio_rpc_client *sio_rpc_client_new(struct sio_rpc *rpc);
+void sio_rpc_client_free(struct sio_rpc_client *client);
+void sio_rpc_add_upstream(struct sio_rpc_client *client, const char *ip, uint16_t port);
+void sio_rpc_remove_upstream(struct sio_rpc_client *client, const char *ip, uint16_t port);
+void sio_rpc_call(struct sio_rpc_client *client, uint32_t type, uint64_t timeout_ms, uint32_t retry_times,
+        const char *request, uint32_t size, sio_rpc_upstream_callback_t cb, void *arg);
 
 #ifdef __cplusplus
 }
