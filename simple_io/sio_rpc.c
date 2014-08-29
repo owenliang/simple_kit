@@ -361,6 +361,12 @@ static int _sio_rpc_dstream_parse_request(struct sio_rpc_dstream *dstream)
     return 0;
 }
 
+static void _sio_rpc_dstream_free(struct sio_rpc_dstream *dstream)
+{
+    sio_stream_close(dstream->stream);
+    free(dstream);
+}
+
 static void _sio_rpc_dstream_callback(struct sio *sio, struct sio_stream *stream, enum sio_stream_event event, void *arg)
 {
     int err = 0;
@@ -373,13 +379,13 @@ static void _sio_rpc_dstream_callback(struct sio *sio, struct sio_stream *stream
         break;
     case SIO_STREAM_ERROR:
     case SIO_STREAM_CLOSE:
+        _sio_rpc_dstream_free();
         break;
     default:
         assert(0);
     }
-    if (err) {
-        // TODO
-    }
+    if (err)
+        _sio_rpc_dstream_free(arg);
 }
 
 struct sio_rpc_server *sio_rpc_server_new(struct sio_rpc *rpc, const char *ip, uint16_t port)
@@ -396,6 +402,31 @@ struct sio_rpc_server *sio_rpc_server_new(struct sio_rpc *rpc, const char *ip, u
     server->methods = shash_new();
     sio_stream_set(rpc->sio, stream, _sio_rpc_dstream_callback, server);
     return server;
+}
+
+void sio_rpc_server_free(struct sio_rpc_server *server)
+{
+    const char *key;
+    void *value;
+
+    shash_begin_iterate(server->methods);
+    while (shash_iterate(server->methods, &key, NULL, &value) != -1) {
+        struct sio_rpc_method *method = value;
+        free(method);
+    }
+    shash_end_iterate(server->methods);
+
+    shash_begin_iterate(server->dstreams);
+    while (shash_iterate(server->methods, &key, NULL, &value) != -1) {
+        struct sio_rpc_dstream *dstream = value;
+        _sio_rpc_dstream_free(dstream);
+    }
+    shash_end_iterate(server->dstreams);
+
+    shash_free(server->methods);
+    shash_free(server->dstreams);
+    sio_stream_close(server->stream);
+    free(server);
 }
 
 void sio_rpc_server_add_method(struct sio_rpc_server *server, uint32_t type, sio_rpc_dstream_callback_t cb, void *arg)
