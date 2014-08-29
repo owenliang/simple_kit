@@ -109,15 +109,28 @@ static void _sio_rpc_upstream_callback(struct sio *sio, struct sio_stream *strea
     }
 }
 
+static int _sio_rpc_upstream_connect(struct sio *sio, struct sio_rpc_upstream *upstream)
+{
+    upstream->stream = sio_stream_connect(sio, upstream->ip, upstream->port, _sio_rpc_upstream_callback, upstream);
+    upstream->last_conn_time = time(NULL);
+    if (!upstream->stream)
+        upstream->conn_delay = upstream->conn_delay >= 256 ? 256 : upstream->conn_delay * 2;
+    return upstream->stream ? 0 : -1;
+}
+
 static void _sio_rpc_upstream_timer(struct sio *sio, struct sio_timer *timer, void *arg)
 {
     struct sio_rpc_upstream *upstream = arg;
 
     /* TODO: 检查stream的pending长度/pending请求数, 过长则断开连接 */
 
-    /* 当前只检查连接状态, 并发起重连 */
-    if (!upstream->stream)
-        upstream->stream = sio_stream_connect(sio, upstream->ip, upstream->port, _sio_rpc_upstream_callback, upstream);
+    if (!upstream->stream) {
+        time_t now = time(NULL);
+        time_t period = now > upstream->last_conn_time ? now - upstream->last_conn_time : 0;
+        //printf("period=%ld conn_delay=%ld\n", period, upstream->conn_delay);
+        if (period >= upstream->conn_delay)
+            _sio_rpc_upstream_connect(sio, upstream);
+    }
 
     sio_start_timer(upstream->client->rpc->sio, &upstream->timer, 1000, _sio_rpc_upstream_timer, upstream);
 }
@@ -134,9 +147,11 @@ void sio_rpc_add_upstream(struct sio_rpc_client *client, const char *ip, uint16_
     upstream->ip = strdup(ip);
     upstream->port = port;
     upstream->req_id = 0;
+    upstream->conn_delay = 1; /* 最小延迟1秒重连 */
+    upstream->last_conn_time = time(NULL);
     upstream->client = client;
     upstream->req_status = shash_new();
-    upstream->stream = sio_stream_connect(client->rpc->sio, ip, port, _sio_rpc_upstream_callback, upstream);
+    _sio_rpc_upstream_connect(client->rpc->sio, upstream);
 
     sio_start_timer(client->rpc->sio, &upstream->timer, 1000, _sio_rpc_upstream_timer, upstream);
 
@@ -191,7 +206,7 @@ static struct sio_rpc_upstream *_sio_rpc_choose_upstream(struct sio_rpc_client *
     if (upstream)
         return upstream;
     upstream = client->upstreams[client->rr_stream++ % client->upstream_count];
-    if (!(upstream->stream = sio_stream_connect(client->rpc->sio, upstream->ip, upstream->port, _sio_rpc_upstream_callback, upstream)))
+    if (_sio_rpc_upstream_connect(client->rpc->sio, upstream) == -1)
         return NULL;
     return upstream;
 }
@@ -233,6 +248,13 @@ static void _sio_rpc_reset_upstream(struct sio_rpc_upstream *upstream)
     sio_stream_close(sio, upstream->stream);
     upstream->stream = NULL;
     upstream->req_id = 0;
+
+    time_t now = time(NULL);
+    time_t conn_life = now > upstream->last_conn_time ? now - upstream->last_conn_time : 0;
+    if (conn_life < 5) /* 连接存活不超过5秒, 增加惩罚时间 */
+        upstream->conn_delay = upstream->conn_delay >= 256 ? 256 : upstream->conn_delay * 2;
+    else
+        upstream->conn_delay = 1;
 
     /* 重置所有等待应答的请求的upstream为NULL, 等待超时后重新调度到其他upstream */
     shash_begin_iterate(upstream->req_status);

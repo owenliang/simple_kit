@@ -2,6 +2,7 @@
 #define SIMPLE_IO_SIO_RPC_H
 
 #include <stdint.h>
+#include <time.h>
 #include "shead.h"
 
 #ifdef __cplusplus
@@ -42,6 +43,8 @@ struct sio_rpc_upstream {
     uint64_t req_id;
     struct shash *req_status;
     struct sio_rpc_client *client;
+    time_t last_conn_time;
+    time_t conn_delay; /* 1~256 */
 };
 
 struct sio_rpc_client {
