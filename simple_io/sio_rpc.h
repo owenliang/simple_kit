@@ -13,7 +13,7 @@ struct sio_stream;
 struct sio_rpc_upstream;
 struct sio_rpc_client;
 
-typedef void (*sio_rpc_upstream_callback_t)(struct sio_rpc_client *client, char is_timeout, const char *response, uint32_t size);
+typedef void (*sio_rpc_upstream_callback_t)(struct sio_rpc_client *client, char is_timeout, const char *response, uint32_t size, void *arg);
 
 struct sio_rpc {
     struct sio *sio;

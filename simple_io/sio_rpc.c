@@ -45,6 +45,8 @@ void sio_rpc_client_free(struct sio_rpc_client *client)
     while (shash_iterate(client->req_record, &key, NULL, NULL) != -1) {
         struct sio_rpc_request *req = *(struct sio_rpc_request * const*)key;
         sio_stop_timer(client->rpc->sio, &req->timer);
+        /* XXX: 回调用户, 通知请求超时, 用户必须保证不再发起更多的call, 否则死循环. */
+        req->cb(client, 1, NULL, 0, req->arg);
         _sio_rpc_free_call(req);
     }
     shash_end_iterate(client->req_record);
@@ -77,7 +79,7 @@ static int _sio_rpc_upstream_parse_response(struct sio *sio, struct sio_rpc_upst
             assert(shash_erase(upstream->req_status, (const char *)&head.id, sizeof(head.id)) == 0);
             struct sio_rpc_request *req = value;
             if (head.type == req->type) { /* call的type相同, 回调用户, 关闭超时定时器, 释放call */
-                req->cb(upstream->client, 0, data + used + SHEAD_ENCODE_SIZE, head.body_len);
+                req->cb(upstream->client, 0, data + used + SHEAD_ENCODE_SIZE, head.body_len, req->arg);
                 sio_stop_timer(sio, &req->timer);
                 _sio_rpc_free_call(req);
             } else { /* 请求与应答的type不同, 客户端有bug才会至此, 作为超时处理 */
@@ -214,7 +216,7 @@ static void _sio_rpc_call_timer(struct sio *sio, struct sio_timer *timer, void *
     }
     /* call超过重试限制, 回调用户 */
     if (req->retry_count++ >= req->retry_times) {
-        req->cb(req->upstream->client, 1, NULL, 0);
+        req->cb(req->client, 1, NULL, 0, req->arg);
         _sio_rpc_free_call(req);
     } else { /* 重新选择upstream, 发起call重试 */
         sio_start_timer(req->client->rpc->sio, &req->timer, req->timeout, _sio_rpc_call_timer, req);
