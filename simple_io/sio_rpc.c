@@ -393,7 +393,27 @@ struct sio_rpc_server *sio_rpc_server_new(struct sio_rpc *rpc, const char *ip, u
     server->rpc = rpc;
     server->stream = stream;
     server->dstreams = shash_new();
+    server->methods = shash_new();
     sio_stream_set(rpc->sio, stream, _sio_rpc_dstream_callback, server);
     return server;
 }
 
+void sio_rpc_server_add_method(struct sio_rpc_server *server, uint32_t type, sio_rpc_dstream_callback_t cb, void *arg)
+{
+    if (shash_find(server->methods, (const char *)&type, sizeof(type), NULL) == 0)
+        return;
+
+    struct sio_rpc_method *method = malloc(sizeof(*method));
+    method->cb = cb;
+    method->arg = arg;
+    assert(shash_insert(server->methods, (const char *)&type, sizeof(type), method) == 0);
+}
+
+void sio_rpc_server_remove_method(struct sio_rpc_server *server, uint32_t type)
+{
+    void *value;
+    if (shash_find(server->methods, (const char *)&type, sizeof(type), &value) == -1)
+        return;
+    struct sio_rpc_method *method = value;
+    free(method);
+}

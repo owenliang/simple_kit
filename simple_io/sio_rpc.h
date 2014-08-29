@@ -17,6 +17,7 @@ struct sio_rpc_dstream;
 struct sio_rpc_server;
 
 typedef void (*sio_rpc_upstream_callback_t)(struct sio_rpc_client *client, char is_timeout, const char *response, uint32_t size, void *arg);
+typedef void (*sio_rpc_dstream_callback_t)(struct sio_rpc_server *server);
 
 struct sio_rpc {
     struct sio *sio;
@@ -63,11 +64,17 @@ struct sio_rpc_dstream {
     struct sio_rpc_server *server;
 };
 
+struct sio_rpc_method {
+    sio_rpc_dstream_callback_t cb;
+    void *arg;
+};
+
 struct sio_rpc_server {
     struct sio_rpc *rpc;
     uint64_t conn_id;
     struct sio_stream *stream;
     struct shash *dstreams;
+    struct shash *methods;
 };
 
 struct sio_rpc *sio_rpc_new(struct sio *sio);
