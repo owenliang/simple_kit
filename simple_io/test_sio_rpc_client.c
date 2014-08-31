@@ -18,8 +18,8 @@ static void sio_rpc_ping_timer_callback(struct sio *sio, struct sio_timer *timer
 {
     printf("rpc req:ping\n");
     struct sio_rpc_client *client = arg;
-    /* 请求类型0, 请求超时100ms, 重试3次, 总共最多花费100ms * 3 = 300ms */
-    sio_rpc_call(client, 0, 100, 3, "ping\n", 5, sio_rpc_upstream_callback,  NULL);
+    /* 请求类型0, 请求超时300ms, 重试3次, 总共最多花费300ms * 3 = 900ms */
+    sio_rpc_call(client, 0, 300, 3, "ping\n", 5, sio_rpc_upstream_callback,  NULL);
     sio_start_timer(sio, timer, 1000, sio_rpc_ping_timer_callback, client);
 }
 

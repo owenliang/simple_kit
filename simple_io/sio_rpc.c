@@ -390,7 +390,7 @@ static void _sio_rpc_dstream_handle_request(struct sio_rpc_dstream *dstream, con
 	resp->request = malloc(head->body_len);
 	memcpy(resp->request, req, head->body_len);
 
-	method->cb(dstream->server, resp);
+	method->cb(dstream->server, resp, method->arg);
 }
 
 static int _sio_rpc_dstream_parse_request(struct sio_rpc_dstream *dstream)
