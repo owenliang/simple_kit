@@ -9,7 +9,7 @@ LDFLAGS = -lrt -pthread -I./output/include -L./output/lib -lskit
 OUTPUT_DIR = ./output
 
 # 系统是否支持EPOLL
-SYS_EPOLL=/usr/include/sys/epoll.h
+SYS_EPOLL=/usr/include/sys/epollh
 ifeq ($(SYS_EPOLL), $(wildcard $(SYS_EPOLL)))
 	CFLAGS += -DSIO_SYS_EPOLL
 endif

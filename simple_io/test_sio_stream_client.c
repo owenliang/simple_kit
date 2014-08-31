@@ -152,7 +152,7 @@ int main(int argc, char **argv)
     sio_stream_client_signal();
 
     struct sio_stream_client client;
-    sio_stream_client_init(&client, 10);
+    sio_stream_client_init(&client, 1200);
 
     while (!client_quit)
         sio_run(client.sio, 1000);

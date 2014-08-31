@@ -203,24 +203,28 @@ void sio_run(struct sio *sio, int timeout_ms)
 
     if (event_count <= 0)
         return;
-    /* 先记录下select发生事件的sfd以及事件 */
-    int i;
-    for (i = 0; i < FD_SETSIZE; ++i) {
-        sio->rfds[i] = sio->fds[i];
-        if (!sio->rfds[i])
+    /* 遍历所有fd, 先记录下select发生事件的sfd以及事件 */
+    int r_idx = 0;
+    int fd;
+    for (fd = 0; fd < FD_SETSIZE; ++fd) {
+        sio->rfds[r_idx] = sio->fds[fd];
+        if (!sio->rfds[r_idx])
             continue;
-        sio->rfds[i]->revents = 0;
-        if (FD_ISSET(i, &rset))
-            sio->rfds[i]->revents |= SIO_SELECT_READ;
-        if (FD_ISSET(i, &wset))
-            sio->rfds[i]->revents |= SIO_SELECT_WRITE;
-        if (FD_ISSET(i, &eset))
-            sio->rfds[i]->revents |= SIO_SELECT_ERROR;
+        sio->rfds[r_idx]->revents = 0;
+        if (FD_ISSET(fd, &rset))
+            sio->rfds[r_idx]->revents |= SIO_SELECT_READ;
+        if (FD_ISSET(fd, &wset))
+            sio->rfds[r_idx]->revents |= SIO_SELECT_WRITE;
+        if (FD_ISSET(fd, &eset))
+            sio->rfds[r_idx]->revents |= SIO_SELECT_ERROR;
+        if (sio->rfds[r_idx]->revents)
+            r_idx++;
     }
     sio->is_in_loop = 1;
-    for (i = 0; i < FD_SETSIZE; ++i) {
+    int i; 
+    for (i = 0; i < r_idx; ++i) {
         struct sio_fd *sfd = sio->rfds[i];
-        if (!sfd || sfd->is_del)
+        if (sfd->is_del)
             continue;
         uint32_t events = sfd->revents;
         if ((events & SIO_SELECT_READ) && (sfd->watch_events & SIO_SELECT_READ))
