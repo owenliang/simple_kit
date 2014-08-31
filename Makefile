@@ -8,6 +8,12 @@ LDFLAGS = -lrt -pthread -I./output/include -L./output/lib -lskit
 # 编译产出目录
 OUTPUT_DIR = ./output
 
+# 系统是否支持EPOLL
+SYS_EPOLL=/usr/include/sys/epoll.h
+ifeq ($(SYS_EPOLL), $(wildcard $(SYS_EPOLL)))
+	CFLAGS += -DSIO_SYS_EPOLL
+endif
+
 # 目标文件
 SRC = simple_hash/shash.c simple_skiplist/slist.c simple_deque/sdeque.c \
 		  simple_config/sconfig.c simple_log/slog.c simple_io/sio.c simple_io/sio_rpc.c \
