@@ -336,6 +336,63 @@ static void _sio_rpc_dstream_accept(struct sio_rpc_server *server, struct sio *s
     sio_stream_set(server->rpc->sio, stream, _sio_rpc_dstream_callback, dstream);
 }
 
+static void _sio_rpc_finish(struct sio_rpc_response *resp)
+{
+	free(resp->request);
+	free(resp);
+}
+
+static void _sio_rpc_dstream_free(struct sio_rpc_dstream *dstream);
+
+void sio_rpc_finish(struct sio_rpc_response *resp, const char *body, uint32_t len)
+{
+	struct sio_rpc_server *server = resp->server;
+
+	void *value;
+	if (shash_find(server->dstreams, (const char *)&resp->conn_id, sizeof(resp->conn_id), &value) == 0) {
+		struct sio_rpc_dstream *dstream = value;
+
+		struct shead resp_head;
+		memcpy(&resp_head, &resp->req_head, sizeof(resp_head));
+		resp_head.body_len = len;
+
+		char head[SHEAD_ENCODE_SIZE];
+		assert(shead_encode(&resp_head, head, sizeof(head)) == 0);
+
+		int sent_head = sio_stream_write(server->rpc->sio, dstream->stream, head, sizeof(head));
+		int sent_body = sio_stream_write(server->rpc->sio, dstream->stream, body, len);
+		if (sent_head != 0 && sent_body != 0) { /* response发送失败, 关闭连接 */
+			_sio_rpc_dstream_free(dstream);
+		}
+	}
+	_sio_rpc_finish(resp);
+}
+
+const char *sio_rpc_request(struct sio_rpc_response *resp, uint32_t *len)
+{
+	if (len)
+		*len = resp->req_head.body_len;
+	return resp->request;
+}
+
+static void _sio_rpc_dstream_handle_request(struct sio_rpc_dstream *dstream, const struct shead *head, const char *req)
+{
+	void *value;
+	if (shash_find(dstream->server->methods, (const char *)&head->type, sizeof(head->type), &value) == -1)
+		return;
+
+	struct sio_rpc_method *method = value;
+
+	struct sio_rpc_response *resp = malloc(sizeof(*resp));
+	resp->conn_id = dstream->id;
+	resp->server = dstream->server;
+	memcpy(&resp->req_head, head, sizeof(*head));
+	resp->request = malloc(head->body_len);
+	memcpy(resp->request, req, head->body_len);
+
+	method->cb(dstream->server, resp);
+}
+
 static int _sio_rpc_dstream_parse_request(struct sio_rpc_dstream *dstream)
 {
     struct sio_stream *stream = dstream->stream;
@@ -354,7 +411,7 @@ static int _sio_rpc_dstream_parse_request(struct sio_rpc_dstream *dstream)
           return -1; /* header不合法 */
       if (left - SHEAD_ENCODE_SIZE < head.body_len)
           break; /* body不完整 */
-      // TODO
+      _sio_rpc_dstream_handle_request(dstream, &head, data + used + SHEAD_ENCODE_SIZE);
       used += SHEAD_ENCODE_SIZE + head.body_len;
     }
     sio_buffer_erase(input, used);
@@ -363,7 +420,9 @@ static int _sio_rpc_dstream_parse_request(struct sio_rpc_dstream *dstream)
 
 static void _sio_rpc_dstream_free(struct sio_rpc_dstream *dstream)
 {
-    sio_stream_close(dstream->stream);
+	struct sio_rpc_server *server = dstream->server;
+	assert(shash_erase(server->dstreams, (const char *)&dstream->id, sizeof(dstream->id)) == 0);
+    sio_stream_close(server->rpc->sio, dstream->stream);
     free(dstream);
 }
 
@@ -379,7 +438,7 @@ static void _sio_rpc_dstream_callback(struct sio *sio, struct sio_stream *stream
         break;
     case SIO_STREAM_ERROR:
     case SIO_STREAM_CLOSE:
-        _sio_rpc_dstream_free();
+        _sio_rpc_dstream_free(arg);
         break;
     default:
         assert(0);
@@ -417,7 +476,7 @@ void sio_rpc_server_free(struct sio_rpc_server *server)
     shash_end_iterate(server->methods);
 
     shash_begin_iterate(server->dstreams);
-    while (shash_iterate(server->methods, &key, NULL, &value) != -1) {
+    while (shash_iterate(server->dstreams, &key, NULL, &value) != -1) {
         struct sio_rpc_dstream *dstream = value;
         _sio_rpc_dstream_free(dstream);
     }
@@ -425,7 +484,7 @@ void sio_rpc_server_free(struct sio_rpc_server *server)
 
     shash_free(server->methods);
     shash_free(server->dstreams);
-    sio_stream_close(server->stream);
+    sio_stream_close(server->rpc->sio, server->stream);
     free(server);
 }
 

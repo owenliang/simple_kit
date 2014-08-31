@@ -8,12 +8,15 @@
 
 static void sio_rpc_upstream_callback(struct sio_rpc_client *client, char is_timeout, const char *response, uint32_t size, void *arg)
 {
-    printf("is_timeout=%d\n", is_timeout);
+    if (is_timeout)
+        printf("timeout\n");
+    else
+        printf("rpc resp:%.*s", size, response);
 }
 
 static void sio_rpc_ping_timer_callback(struct sio *sio, struct sio_timer *timer, void *arg)
 {
-    printf("ping\n");
+    printf("rpc req:ping\n");
     struct sio_rpc_client *client = arg;
     /* 请求类型0, 请求超时100ms, 重试3次, 总共最多花费100ms * 3 = 300ms */
     sio_rpc_call(client, 0, 100, 3, "ping\n", 5, sio_rpc_upstream_callback,  NULL);
