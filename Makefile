@@ -2,7 +2,7 @@
 CC = gcc
 CPP = g++
 AR = ar
-CFLAGS = -g -Wall -I ./simple_hash -I ./simple_skiplist -I ./simple_deque -I ./simple_config -I ./simple_io -I ./simple_log -I ./simple_spack -I ./simple_head
+CFLAGS = -g -Wall -I ./simple_hash -I ./simple_skiplist -I ./simple_deque -I ./simple_config -I ./simple_io -I ./simple_log -I./simple_head
 LDFLAGS = -lrt -pthread -I./output/include -L./output/lib -lskit
 
 # 编译产出目录
