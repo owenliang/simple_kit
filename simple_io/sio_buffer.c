@@ -47,6 +47,13 @@ void sio_buffer_reserve(struct sio_buffer *sbuf, uint64_t size)
         memmove(sbuf->buffer, sbuf->buffer + sbuf->start, sbuf->end - sbuf->start);
     } else {
         uint64_t new_capacity = sbuf->end - sbuf->start + size;
+        /* 性能优化: 线性扩容在高频率小包场景下造成频繁malloc和memcpy.
+         *
+         * 新策略对于小包引起的扩容直接double capacity, 对于大包(大于当前capacity)则延续线性扩容.
+         *  
+         * */
+        if (new_capacity < sbuf->capacity * 2) 
+            new_capacity = sbuf->capacity * 2;
         char *new_buffer = malloc(new_capacity);
         memcpy(new_buffer, sbuf->buffer + sbuf->start, sbuf->end - sbuf->start);
         free(sbuf->buffer);
