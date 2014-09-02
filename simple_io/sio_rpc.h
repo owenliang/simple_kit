@@ -252,13 +252,13 @@ void sio_rpc_finish(struct sio_rpc_response *resp, const char *body, uint32_t le
  *
  * @param [in] resp   : struct sio_rpc_response*
  * @param [in] len   : uint32_t* 可以为NULL
- * @return  const char* 如果*len返回为0, 那么返回值是未定义的, 不要访问!
+ * @return  char* 如果*len返回为0, 那么返回值是未定义的, 不要访问!
  * @retval   
  * @see 
  * @author liangdong
  * @date 2014/08/31 13:27:10
 **/
-const char *sio_rpc_request(struct sio_rpc_response *resp, uint32_t *len);
+char *sio_rpc_request(struct sio_rpc_response *resp, uint32_t *len);
 
 #ifdef __cplusplus
 }

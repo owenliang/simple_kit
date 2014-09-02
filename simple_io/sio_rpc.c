@@ -386,7 +386,7 @@ void sio_rpc_finish(struct sio_rpc_response *resp, const char *body, uint32_t le
 	_sio_rpc_finish(resp);
 }
 
-const char *sio_rpc_request(struct sio_rpc_response *resp, uint32_t *len)
+char *sio_rpc_request(struct sio_rpc_response *resp, uint32_t *len)
 {
 	if (len)
 		*len = resp->req_head.body_len;
