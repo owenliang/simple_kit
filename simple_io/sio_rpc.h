@@ -25,6 +25,7 @@ typedef void (*sio_rpc_dstream_callback_t)(struct sio_rpc_server *server, struct
 /* rpc框架, 需绑定到一个sio上 */
 struct sio_rpc {
     struct sio *sio; /* 事件驱动 */
+    uint64_t max_pending; /* 限制写缓冲区最大容量 */
 };
 
 /* rpc请求 */
@@ -76,6 +77,7 @@ struct sio_rpc_response {
 /* rpc下游,server的一个连接 */
 struct sio_rpc_dstream {
     uint64_t id; /* 下游的id */
+    struct sio_timer timer; /* 定时检查连接状况 */
     struct sio_stream *stream; /* TCP连接 */
     struct sio_rpc_server *server; /* 所属server */
 };
@@ -99,13 +101,14 @@ struct sio_rpc_server {
  * @brief 创建rpc框架
  *
  * @param [in] sio   : struct sio*
+ * @param [in] max_pending   : uint64_t 字节, 限制写缓冲区最大容量
  * @return  struct sio_rpc* 
  * @retval   
  * @see 
  * @author liangdong
- * @date 2014/08/31 13:21:20
+ * @date 2014/09/03 11:27:41
 **/
-struct sio_rpc *sio_rpc_new(struct sio *sio);
+struct sio_rpc *sio_rpc_new(struct sio *sio, uint64_t max_pending);
 /**
  * @brief 释放rpc框架
  *

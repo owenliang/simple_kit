@@ -29,10 +29,11 @@ static void _sio_rpc_free_call(struct sio_rpc_request *req);
 static void _sio_rpc_reset_upstream(struct sio_rpc_upstream *upstream);
 static void _sio_rpc_remove_upstream(struct sio_rpc_client *client, struct sio_rpc_upstream *upstream);
 
-struct sio_rpc *sio_rpc_new(struct sio *sio)
+struct sio_rpc *sio_rpc_new(struct sio *sio, uint64_t max_pending)
 {
     struct sio_rpc *rpc = malloc(sizeof(*rpc));
     rpc->sio = sio;
+    rpc->max_pending = max_pending;
     return rpc;
 }
 
@@ -142,7 +143,9 @@ static void _sio_rpc_upstream_timer(struct sio *sio, struct sio_timer *timer, vo
 {
     struct sio_rpc_upstream *upstream = arg;
 
-    /* TODO: 检查stream的pending长度/pending请求数, 过长则断开连接 */
+    /* 检查stream的pending长度/pending请求数, 过长则断开连接 */
+    if (upstream->stream && sio_stream_pending(upstream->stream) >= upstream->client->rpc->max_pending)
+        _sio_rpc_reset_upstream(upstream);
 
     if (!upstream->stream) {
         time_t now = time(NULL);
@@ -343,6 +346,18 @@ void sio_rpc_call(struct sio_rpc_client *client, uint32_t type, uint64_t timeout
 }
 
 static void _sio_rpc_dstream_callback(struct sio *sio, struct sio_stream *stream, enum sio_stream_event event, void *arg);
+static void _sio_rpc_dstream_free(struct sio_rpc_dstream *dstream);
+
+static void _sio_rpc_dstream_timer(struct sio *sio, struct sio_timer *timer, void *arg)
+{
+    struct sio_rpc_dstream *dstream = arg;
+
+    sio_start_timer(sio, &dstream->timer, 1000, _sio_rpc_dstream_timer, dstream);
+
+    /* 检查stream的pending长度/pending请求数, 过长则断开连接 */
+    if (sio_stream_pending(dstream->stream) >= dstream->server->rpc->max_pending)
+        _sio_rpc_dstream_free(dstream);
+}
 
 static void _sio_rpc_dstream_accept(struct sio_rpc_server *server, struct sio *sio, struct sio_stream *stream)
 {
@@ -351,7 +366,8 @@ static void _sio_rpc_dstream_accept(struct sio_rpc_server *server, struct sio *s
     dstream->server = server;
     dstream->stream = stream;
     assert(shash_insert(server->dstreams, (const char *)&dstream->id, sizeof(dstream->id), dstream) == 0);
-    sio_stream_set(server->rpc->sio, stream, _sio_rpc_dstream_callback, dstream);
+    sio_stream_set(sio, stream, _sio_rpc_dstream_callback, dstream);
+    sio_start_timer(sio, &dstream->timer, 1000, _sio_rpc_dstream_timer, dstream);
 }
 
 static void _sio_rpc_finish(struct sio_rpc_response *resp)
@@ -359,8 +375,6 @@ static void _sio_rpc_finish(struct sio_rpc_response *resp)
 	free(resp->request);
 	free(resp);
 }
-
-static void _sio_rpc_dstream_free(struct sio_rpc_dstream *dstream);
 
 void sio_rpc_finish(struct sio_rpc_response *resp, const char *body, uint32_t len)
 {
@@ -441,6 +455,7 @@ static void _sio_rpc_dstream_free(struct sio_rpc_dstream *dstream)
 	struct sio_rpc_server *server = dstream->server;
 	assert(shash_erase(server->dstreams, (const char *)&dstream->id, sizeof(dstream->id)) == 0);
     sio_stream_close(server->rpc->sio, dstream->stream);
+    sio_stop_timer(server->rpc->sio, &dstream->timer);
     free(dstream);
 }
 
