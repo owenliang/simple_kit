@@ -64,7 +64,7 @@ int main(int argc, char **argv)
     struct sio *sio = sio_new();
     assert(sio);
 
-    struct sio_rpc *rpc = sio_rpc_new(sio);
+    struct sio_rpc *rpc = sio_rpc_new(sio, 10 * 1024 * 1024/*10MB write buffer limit*/);
     assert(rpc);
 
     struct sio_rpc_client *client = sio_rpc_client_new(rpc);
