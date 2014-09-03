@@ -109,7 +109,7 @@ void test_case2(const char *filename)
     assert(uint32_score == 45); /* 符合strtoul截断预期 */
     uint32_t uint32_token;
     assert(sconfig_read_uint32(sconf, "token", &uint32_token) == 0);
-    assert((uint64_t)uint32_token != 1234567890123ULL); /* 符合strtoul溢出预期 */
+    //assert((uint64_t)uint32_token != 1234567890123ULL); /* 符合strtoul溢出预期 */
     uint64_t uint64_token;
     assert(sconfig_read_uint64(sconf, "token", &uint64_token) == 0);
     assert(uint64_token == 1234567890123ULL);

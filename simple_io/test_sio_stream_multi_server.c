@@ -141,10 +141,12 @@ static void sio_stream_fetch_conn(struct sio_stream_work_thread *thread)
     if (!conn_queue)
         return;
 	
-    struct sio_stream_conn *conn = NULL;
+    void *value;
 
-	while (sdeque_front(conn_queue, (void **)&conn) != -1) {
+	while (sdeque_front(conn_queue, &value) != -1) {
 		sdeque_pop_front(conn_queue);
+        
+        struct sio_stream_conn *conn = value;
 		
         if (sio_stream_attach(thread->sio, conn->stream) == -1) {
 		    sio_stream_close_conn(conn, 0);
@@ -191,8 +193,9 @@ static void sio_stream_work_thread_free(struct sio_stream_work_thread *thread)
     pthread_join(thread->tid, NULL);
     pthread_mutex_destroy(&thread->mutex);
 
-    struct sio_stream_conn *detached_conn = NULL;
-    while (sdeque_front(thread->conn_queue, (void **)&detached_conn) != -1) {
+    void *value;
+    while (sdeque_front(thread->conn_queue, &value) != -1) {
+        struct sio_stream_conn *detached_conn = value;
         sdeque_pop_front(thread->conn_queue);
         sio_stream_close_conn(detached_conn, 0);
     }
@@ -202,7 +205,6 @@ static void sio_stream_work_thread_free(struct sio_stream_work_thread *thread)
 
     const char *key;
     uint32_t key_len;
-    void *value;
     while (shash_iterate(thread->conn_hash, &key, &key_len, &value) != -1) {
         assert(key_len == sizeof(uint64_t));
         uint64_t id = *(const uint64_t *)key;

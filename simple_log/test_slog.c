@@ -17,6 +17,7 @@
 */
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <pthread.h>
 #include <signal.h>
 #include <assert.h>
@@ -28,20 +29,29 @@
 
 static void *level_writer(void *arg)
 {
+    int thread_idx = *(int *)arg;
+
     int i;
     for (i = 0; i < SLOG_MB(1); ++i) {
-        if (arg == (void *)0)
+        switch (thread_idx) {
+        case 0:
             SLOG(FATAL, "%s", "a");
-        else if (arg == (void *)1)
+            break;
+        case 1:
             SLOG(ERROR, "%s", "b");
-        else if (arg == (void *)2)
+            break;
+        case 2:    
             SLOG(WARN, "%s", "c");
-        else if (arg == (void *)3)
+            break;
+        case 3:
             SLOG(INFO, "%s", "d");
-        else
+            break;
+        case 4:
             SLOG(DEBUG, "%s", "e");
+            break;
+        }
     }
-    return NULL;
+    return arg;
 }
 
 void rotate_handler(int signo)
@@ -84,10 +94,14 @@ int main(int argc, char **argv)
     pthread_t tids[5];
     int i;
     for (i = 0; i < 5; ++i) {
-        pthread_create(tids + i, NULL, level_writer, (void *)i);
+        int *n = malloc(sizeof(*n));
+        *n = i;
+        pthread_create(tids + i, NULL, level_writer, n);
     }
     for (i = 0; i < 5; ++i) {
-        pthread_join(tids[i], NULL);
+        void *idx;
+        pthread_join(tids[i], &idx);
+        free(idx);
     }
     if (pid > 0) {
         while (1) {
