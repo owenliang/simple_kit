@@ -181,8 +181,12 @@ static uint64_t _sio_cur_time_ms()
 static void _sio_timer_run(struct sio *sio)
 {
     uint64_t now = _sio_cur_time_ms();
- 
-    while (sio_timer_size(sio->st_mgr)) {
+
+    /* 防止用户循环投递超时为0的timer造成死循环 */
+    uint64_t max_times = sio_timer_size(sio->st_mgr);
+    uint64_t cur_times = 0;
+
+    while (sio_timer_size(sio->st_mgr) && cur_times++ < max_times) {
         struct sio_timer *timer = sio_timer_top(sio->st_mgr);
         if (timer->expire <= now) {
             sio_timer_pop(sio->st_mgr);
