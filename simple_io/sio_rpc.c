@@ -143,8 +143,10 @@ static void _sio_rpc_upstream_timer(struct sio *sio, struct sio_timer *timer, vo
 {
     struct sio_rpc_upstream *upstream = arg;
 
-    /* 检查stream的pending长度/pending请求数, 过长则断开连接 */
-    if (upstream->stream && sio_stream_pending(upstream->stream) >= upstream->client->rpc->max_pending)
+    /* 检查stream的读写缓冲区pending长度, 过长则断开连接 */
+    if (upstream->stream && 
+            (sio_stream_pending(upstream->stream) >= upstream->client->rpc->max_pending 
+                || sio_buffer_length(sio_stream_buffer(upstream->stream)) >= upstream->client->rpc->max_pending))
         _sio_rpc_reset_upstream(upstream);
 
     if (!upstream->stream) {
@@ -354,8 +356,9 @@ static void _sio_rpc_dstream_timer(struct sio *sio, struct sio_timer *timer, voi
 
     sio_start_timer(sio, &dstream->timer, 1000, _sio_rpc_dstream_timer, dstream);
 
-    /* 检查stream的pending长度/pending请求数, 过长则断开连接 */
-    if (sio_stream_pending(dstream->stream) >= dstream->server->rpc->max_pending)
+    /* 检查stream的读写缓冲区pending, 过长则断开连接 */
+    if (sio_stream_pending(dstream->stream) >= dstream->server->rpc->max_pending
+            || sio_buffer_length(sio_stream_buffer(dstream->stream)) >= dstream->server->rpc->max_pending)
         _sio_rpc_dstream_free(dstream);
 }
 
