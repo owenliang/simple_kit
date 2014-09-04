@@ -24,24 +24,18 @@
 #include "sio.h"
 #include "sio_rpc.h"
 
+static char client_quit = 0;
+
 static void sio_rpc_upstream_callback(struct sio_rpc_client *client, char is_timeout, const char *response, uint32_t size, void *arg)
 {
     if (is_timeout)
-        printf("timeout\n");
+        printf("rpc timeout\n");
     else
         printf("rpc resp:%.*s", size, response);
+    
+    if (!client_quit)    
+        sio_rpc_call(client, 0, 300, 3, "ping\n", 5, sio_rpc_upstream_callback,  NULL);
 }
-
-static void sio_rpc_ping_timer_callback(struct sio *sio, struct sio_timer *timer, void *arg)
-{
-    printf("rpc req:ping\n");
-    struct sio_rpc_client *client = arg;
-    /* 请求类型0, 请求超时300ms, 重试3次, 总共最多花费300ms * 3 = 900ms */
-    sio_rpc_call(client, 0, 300, 3, "ping\n", 5, sio_rpc_upstream_callback,  NULL);
-    sio_start_timer(sio, timer, 1000, sio_rpc_ping_timer_callback, client);
-}
-
-static char client_quit = 0;
 
 static void sio_rpc_quit_handler(int signo)
 {
@@ -69,16 +63,13 @@ int main(int argc, char **argv)
 
     struct sio_rpc_client *client = sio_rpc_client_new(rpc);
     sio_rpc_add_upstream(client, "127.0.0.1", 8989);
-
-    /* 每秒ping发起一次Ping rpc */
-    struct sio_timer ping_timer;
-    sio_start_timer(sio, &ping_timer, 1000, sio_rpc_ping_timer_callback, client);
+    
+    /* 请求类型0, 请求超时300ms, 重试3次, 总共最多花费300ms * 3 = 900ms */
+    sio_rpc_call(client, 0, 300, 3, "ping\n", 5, sio_rpc_upstream_callback,  NULL);
 
     while (!client_quit) {
         sio_run(sio);
     }
-
-    sio_stop_timer(sio, &ping_timer);
 
     /*
      * 可以不调用, client_free一样会回收所有连接和请求

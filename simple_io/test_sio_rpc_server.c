@@ -69,10 +69,10 @@ static void sio_rpc_dstream_callback(struct sio_rpc_server *server, struct sio_r
 
     /* 
      * sio_rpc_response可以异步处理, 由用户通过sio_rpc_finish结束处理.
-     * 这里通过timer模拟异步请求处理, 花费100ms.
+     * 这里通过timer模拟异步请求处理, 花费0ms.
      */
     struct sio_timer *timer = malloc(sizeof(*timer));
-    sio_start_timer(sio, timer, 100, sio_rpc_finish_response, resp);
+    sio_start_timer(sio, timer, 0, sio_rpc_finish_response, resp);
     assert(shash_insert(pending_response, (const char *)&resp, sizeof(resp), timer) == 0);
 }
 
