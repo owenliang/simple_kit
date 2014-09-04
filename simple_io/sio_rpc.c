@@ -218,6 +218,8 @@ static struct sio_rpc_upstream *_sio_rpc_choose_upstream(struct sio_rpc_client *
     uint64_t min_pending = ~0;
     struct sio_rpc_upstream *upstream = NULL;
 
+    client->rr_stream++;
+    
     uint32_t i;
     for (i = 0; i < client->upstream_count; ++i) {
         uint32_t idx = (client->rr_stream + i) % client->upstream_count;
@@ -229,7 +231,6 @@ static struct sio_rpc_upstream *_sio_rpc_choose_upstream(struct sio_rpc_client *
             }
         }
     }
-    client->rr_stream++;
     if (upstream)
         return upstream;
     upstream = client->upstreams[client->rr_stream % client->upstream_count];
