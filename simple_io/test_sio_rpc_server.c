@@ -47,6 +47,22 @@ static void sio_rpc_finish_response(struct sio *sio, struct sio_timer *timer, vo
     printf("rpc resp:pong\n");
 }
 
+static void sio_rpc_finish_response_onexit(struct sio *sio)
+{
+    /* 结束正在处理中的请求 */
+    shash_begin_iterate(pending_response);
+    const char *key;
+    void *value;
+    while (shash_iterate(pending_response, &key, NULL, &value) != -1) {
+        struct sio_rpc_response *resp = *(struct sio_rpc_response * const *)key;
+        struct sio_timer *timer = value;
+        sio_rpc_finish(resp, NULL, 0);
+        sio_stop_timer(sio, timer);
+        free(timer);
+    }
+    shash_end_iterate(pending_response);
+}
+
 static void sio_rpc_dstream_callback(struct sio_rpc_server *server, struct sio_rpc_response *resp, void *arg)
 {
     struct sio *sio = arg;
@@ -96,19 +112,8 @@ int main(int argc, char **argv)
     while (!server_quit) {
         sio_run(sio, 100);
     }
-
-    /* 结束正在处理中的请求 */
-    shash_begin_iterate(pending_response);
-    const char *key;
-    void *value;
-    while (shash_iterate(pending_response, &key, NULL, &value) != -1) {
-        struct sio_rpc_response *resp = *(struct sio_rpc_response * const *)key;
-        struct sio_timer *timer = value;
-        sio_rpc_finish(resp, NULL, 0);
-        sio_stop_timer(sio, timer);
-        free(timer);
-    }
-    shash_end_iterate(pending_response);
+    
+    sio_rpc_finish_response_onexit(sio);
 
     sio_rpc_server_free(server);
 
