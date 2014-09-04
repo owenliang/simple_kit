@@ -79,7 +79,7 @@ int main(int argc, char **argv)
     }
     if (i < 8) {
         while (!server_quit)
-            sio_run(sio, 1000);
+            sio_run(sio);
     } else {
         while (1) {
             pid_t pid = wait(NULL);

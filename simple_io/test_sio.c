@@ -98,7 +98,7 @@ int main(int argc, char **argv)
     sio_start_timer(sio, &timer, 2000, timer_callback, NULL);
 
     while (!cmdline_quit)
-        sio_run(sio, 1000);
+        sio_run(sio);
 
     sio_del(sio, sfd);
     sio_stop_timer(sio, &timer);

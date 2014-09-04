@@ -155,7 +155,7 @@ int main(int argc, char **argv)
     sio_stream_client_init(&client, 1200);
 
     while (!client_quit)
-        sio_run(client.sio, 1000);
+        sio_run(client.sio);
 
     sio_stream_client_free(&client);
     printf("sio_stream_client=quit\n");

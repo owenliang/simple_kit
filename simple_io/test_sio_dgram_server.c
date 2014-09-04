@@ -68,7 +68,7 @@ int main(int argc, char **argv)
     }
 
     while (!server_quit)
-        sio_run(sio, 1000);
+        sio_run(sio);
 
     sio_dgram_close(sio, sdgram);
     sio_free(sio);

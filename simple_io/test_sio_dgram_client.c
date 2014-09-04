@@ -73,7 +73,7 @@ int main(int argc, char **argv)
     sio_start_timer(sio, &timer, 1000, on_timer, sdgram);
 
     while (!client_quit)
-        sio_run(sio, 1000);
+        sio_run(sio);
 
     sio_dgram_close(sio, sdgram);
     sio_stop_timer(sio, &timer);

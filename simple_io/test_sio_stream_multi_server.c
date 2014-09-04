@@ -172,7 +172,7 @@ static void *sio_steram_work_thread_main(void *arg)
 
 	while (!server_quit) {
 		sio_stream_fetch_conn(thread);
-		sio_run(thread->sio, 1000);
+		sio_run(thread->sio);
 	}
     return NULL;
 }
@@ -271,7 +271,7 @@ int main(int argc, char **argv)
 
     sio_stream_multi_server_init(&server, 8);
     while (!server_quit)
-    	sio_run(server.main_sio, 1000);
+    	sio_run(server.main_sio);
     sio_stream_multi_server_free(&server);
 
     printf("sio_stream_multi_server=quit\n");

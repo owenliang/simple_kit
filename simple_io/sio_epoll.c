@@ -170,13 +170,18 @@ void sio_unwatch_read(struct sio *sio, struct sio_fd *sfd)
     _sio_watch_events(sio, sfd);
 }
 
-static void _sio_timer_run(struct sio *sio)
+static uint64_t _sio_cur_time_ms()
 {
     struct timeval tv;
     gettimeofday(&tv, NULL);
 
-    uint64_t now = tv.tv_sec * 1000 + tv.tv_usec / 1000;
+    return tv.tv_sec * 1000 + tv.tv_usec / 1000;
+}
 
+static void _sio_timer_run(struct sio *sio)
+{
+    uint64_t now = _sio_cur_time_ms();
+ 
     while (sio_timer_size(sio->st_mgr)) {
         struct sio_timer *timer = sio_timer_top(sio->st_mgr);
         if (timer->expire <= now) {
@@ -188,11 +193,28 @@ static void _sio_timer_run(struct sio *sio)
     }
 }
 
-void sio_run(struct sio *sio, int timeout_ms)
+static int _sio_calc_timeout(struct sio *sio)
+{
+    if (!sio_timer_size(sio->st_mgr))
+        return 1000; /* 默认1s */
+    
+    uint64_t now = _sio_cur_time_ms();
+    struct sio_timer *timer = sio_timer_top(sio->st_mgr);
+    if (timer->expire <= now)
+        return 0; /* 已经有任务超时 */
+    uint64_t period = timer->expire - now; 
+    if (period >= 1000) /* 最多挂起1s */
+        return 1000;
+    return period; /* 否则挂起到最近一个任务超时时间 */
+}
+
+void sio_run(struct sio *sio)
 {
     _sio_timer_run(sio);
+    
+    int timeout = _sio_calc_timeout(sio);
 
-    int event_count = epoll_wait(sio->epfd, sio->poll_events, 64, timeout_ms);
+    int event_count = epoll_wait(sio->epfd, sio->poll_events, 64, timeout);
     if (event_count <= 0)
         return;
     sio->is_in_loop = 1;

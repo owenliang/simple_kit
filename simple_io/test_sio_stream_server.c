@@ -153,7 +153,7 @@ int main(int argc, char **argv)
 	sio_stream_server_init(&server);
 
 	while (!server_quit) {
-		sio_run(server.sio, 1000);
+		sio_run(server.sio);
 	}
 
 	sio_stream_server_free(&server);

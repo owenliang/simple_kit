@@ -137,17 +137,16 @@ void sio_watch_read(struct sio *sio, struct sio_fd *sfd);
 **/
 void sio_unwatch_read(struct sio *sio, struct sio_fd *sfd);
 /**
- * @brief 指定超时时间,执行一次事件循环并返回
+ * @brief 执行一次事件循环并返回, 挂起最多不超过1s
  *
  * @param [in] sio   : struct sio*
- * @param [in] timeout_ms   : epoll_wait的超时时间, 毫秒
  * @return  void 
  * @retval   
  * @see 
  * @author liangdong
  * @date 2014/03/29 20:20:59
 **/
-void sio_run(struct sio *sio, int timeout_ms);
+void sio_run(struct sio *sio);
 /**
  * @brief 唤醒挂起的sio_run, 线程安全函数, 常用于与sio线程的跨线程通讯
  *

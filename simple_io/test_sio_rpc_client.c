@@ -75,7 +75,7 @@ int main(int argc, char **argv)
     sio_start_timer(sio, &ping_timer, 1000, sio_rpc_ping_timer_callback, client);
 
     while (!client_quit) {
-        sio_run(sio, 100);
+        sio_run(sio);
     }
 
     sio_stop_timer(sio, &ping_timer);

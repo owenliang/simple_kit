@@ -110,7 +110,7 @@ int main(int argc, char **argv)
     sio_rpc_server_add_method(server, 0, sio_rpc_dstream_callback, sio);
 
     while (!server_quit) {
-        sio_run(sio, 100);
+        sio_run(sio);
     }
     
     sio_rpc_finish_response_onexit(sio);
