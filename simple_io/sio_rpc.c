@@ -220,17 +220,19 @@ static struct sio_rpc_upstream *_sio_rpc_choose_upstream(struct sio_rpc_client *
 
     uint32_t i;
     for (i = 0; i < client->upstream_count; ++i) {
-        if (client->upstreams[i]->stream) {
-            uint64_t pending = shash_size(client->upstreams[i]->req_status);
+        uint32_t idx = (client->rr_stream + i) % client->upstream_count;
+        if (client->upstreams[idx]->stream) {
+            uint64_t pending = shash_size(client->upstreams[idx]->req_status);
             if (pending <= min_pending) {
                 min_pending = pending;
-                upstream = client->upstreams[i];
+                upstream = client->upstreams[idx];
             }
         }
     }
+    client->rr_stream++;
     if (upstream)
         return upstream;
-    upstream = client->upstreams[client->rr_stream++ % client->upstream_count];
+    upstream = client->upstreams[client->rr_stream % client->upstream_count];
     if (_sio_rpc_upstream_connect(client->rpc->sio, upstream) == -1)
         return NULL;
     return upstream;

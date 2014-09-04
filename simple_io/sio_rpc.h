@@ -60,7 +60,7 @@ struct sio_rpc_upstream {
 /* rpc客户端 */
 struct sio_rpc_client {
     struct sio_rpc *rpc; /* rpc框架 */
-    uint32_t rr_stream; /* 当无活连接时, 轮转重试各个upstream */
+    uint32_t rr_stream; /* 轮转各个upstream,保证基本的公平性 */
     uint32_t upstream_count; /* upstream数组长度 */
     struct sio_rpc_upstream **upstreams; /* upstream数组, 每个元素地址各不相同 */
     struct shash *req_record; /* 记录所有请求 */
