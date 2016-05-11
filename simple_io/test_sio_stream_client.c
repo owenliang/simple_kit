@@ -62,6 +62,9 @@ static void sio_stream_conn_callback(struct sio *sio, struct sio_stream *stream,
 {
     struct sio_stream_conn *conn = arg;
     switch (event) {
+    case SIO_STREAM_CONNECTED:
+    	printf("sio_stream_conn_callback=SIO_STREAM_CONNECTED\n");
+    	break;
     case SIO_STREAM_DATA:
         sio_stream_conn_handle_data(conn);
         break;

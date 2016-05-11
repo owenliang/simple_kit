@@ -116,6 +116,8 @@ static void _sio_rpc_upstream_callback(struct sio *sio, struct sio_stream *strea
     struct sio_rpc_upstream *upstream = arg;
     int err = 0;
     switch (event) {
+    case SIO_STREAM_CONNECTED:
+    	break;
     case SIO_STREAM_DATA:
         err = _sio_rpc_upstream_parse_response(sio, upstream);
         break;

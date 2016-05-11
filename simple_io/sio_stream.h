@@ -14,6 +14,7 @@ enum sio_stream_event {
     SIO_STREAM_DATA,          /**< 接收了新数据       */
     SIO_STREAM_ERROR,         /**< 连接出现错误       */
     SIO_STREAM_CLOSE,         /**< 连接被关闭      */
+	SIO_STREAM_CONNECTED, /**< 连接建立成功 */
 };
 
 struct sio;

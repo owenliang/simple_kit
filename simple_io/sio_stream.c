@@ -101,6 +101,7 @@ static void _sio_connect_callback(struct sio *sio, struct sio_fd *sfd, int fd, e
             if (!sio_buffer_length(stream->outbuf))
                 sio_unwatch_write(sio, sfd); 
             sio_set(sio, sfd, _sio_stream_callback, stream);
+            stream->user_callback(sio, stream, SIO_STREAM_CONNECTED, stream->user_arg);
             break;
         }
     case SIO_ERROR:
