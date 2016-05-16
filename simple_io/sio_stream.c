@@ -202,16 +202,14 @@ struct sio_stream *sio_stream_connect(struct sio *sio, const char *ipv4, uint16_
         close(sock);
         return NULL;
     }
-    struct sio_stream *stream = _sio_stream_new(sock, ret == 0 ? SIO_STREAM_NORMAL : SIO_STREAM_CONNECT, callback, arg);
-    stream->sfd = sio_add(sio, sock, ret == 0 ? _sio_stream_callback : _sio_connect_callback, stream);
+    struct sio_stream *stream = _sio_stream_new(sock, SIO_STREAM_CONNECT, callback, arg);
+    stream->sfd = sio_add(sio, sock, _sio_connect_callback, stream);
     if (!stream->sfd) {
         sio_stream_close(sio, stream);
         return NULL;
     }
-    if (ret == 0) 
-        sio_watch_read(sio, stream->sfd);
-    else
-        sio_watch_write(sio, stream->sfd);
+    /* 无论连接是否立即完成, 都推迟到异步通知 */
+    sio_watch_write(sio, stream->sfd);
     return stream;
 }
 
