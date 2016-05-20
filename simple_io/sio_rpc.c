@@ -235,6 +235,8 @@ static struct sio_rpc_upstream *_sio_rpc_choose_upstream(struct sio_rpc_client *
     }
     if (upstream)
         return upstream;
+    if (!client->upstream_count)
+        return NULL;
     upstream = client->upstreams[client->rr_stream % client->upstream_count];
     if (_sio_rpc_upstream_connect(client->rpc->sio, upstream) == -1)
         return NULL;
