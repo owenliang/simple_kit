@@ -160,8 +160,8 @@ static void _slist_erase_node(struct slist *slist, struct slist_node *node)
     uint32_t h;
     for (h = node->height; h >= 1; --h) {
         uint32_t l = h - 1;
-        node->levels[l].prev->levels[l].next = node->levels[l].next;
         node->levels[l].prev->levels[l].span += node->levels[l].span - 1;
+        node->levels[l].prev->levels[l].next = node->levels[l].next;
         if (node->levels[l].next)
             node->levels[l].next->levels[l].prev = node->levels[l].prev;
     }
@@ -258,7 +258,7 @@ uint64_t slist_size(struct slist *slist)
     return slist->num_nodes;
 }
 
-uint64_t slist_rank(struct slist *slist, const char* key, uint32_t key_len)
+int64_t slist_rank(struct slist *slist, const char* key, uint32_t key_len)
 {
     struct slist_node *node = slist->head;
     uint32_t h;
@@ -268,14 +268,14 @@ uint64_t slist_rank(struct slist *slist, const char* key, uint32_t key_len)
         uint32_t l = h - 1;
         while (node->levels[l].next) {
             int ret = _slist_key_compare(key, key_len, node->levels[l].next->key, node->levels[l].next->key_len);
-            if (ret < 0)
+            if (ret < 0) {
                 break;
-            else if (ret == 0) {
+            } else if (ret == 0) {
                 rank += node->levels[l].span;
                 return rank;
             }
-            node = node->levels[l].next;
             rank += node->levels[l].span;
+            node = node->levels[l].next;
         }
     }
     return -1;

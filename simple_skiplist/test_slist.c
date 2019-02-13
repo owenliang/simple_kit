@@ -134,13 +134,22 @@ void test_rank()
     assert(slist_insert(slist, "a", sizeof("a"), NULL) == 0);
     assert(slist_insert(slist, "c", sizeof("c"), NULL) == 0);
 
-    uint64_t rank;
+    int64_t rank;
     rank = slist_rank(slist, "b", sizeof("b"));
-    printf("b rank=%lu\n", rank);
+    printf("b rank=%ld\n", rank);
     rank = slist_rank(slist, "a", sizeof("a"));
-    printf("a rank=%lu\n", rank);
+    printf("a rank=%ld\n", rank);
     rank = slist_rank(slist, "c", sizeof("c"));
-    printf("c rank=%lu\n", rank);
+    printf("c rank=%ld\n", rank);
+
+    slist_erase(slist, "b", sizeof("b"));
+
+    rank = slist_rank(slist, "b", sizeof("b"));
+    printf("b rank=%ld\n", rank);
+    rank = slist_rank(slist, "a", sizeof("a"));
+    printf("a rank=%ld\n", rank);
+    rank = slist_rank(slist, "c", sizeof("c"));
+    printf("c rank=%ld\n", rank);
 }
 
 int main(int argc, char **argv)

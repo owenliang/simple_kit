@@ -169,13 +169,13 @@ uint64_t slist_size(struct slist *slist);
  * @param [in] slist   : struct slist*
  * @param [in] key   : const char*  不能为NULL
  * @param [in] key_len   : uint32_t 不能为0
- * @return  int 返回非0表示成功,返回-1表示key不存在
+ * @return  int64_t 返回非0表示成功,返回-1表示key不存在
  * @retval
  * @see 
  * @author liangdong
  * @date 2019/02/13 10:16:56
 **/
-uint64_t slist_rank(struct slist *slist, const char* key, uint32_t key_len);
+int64_t slist_rank(struct slist *slist, const char* key, uint32_t key_len);
 /**
  * @brief 重置正向迭代器(key从小到大)
  *
