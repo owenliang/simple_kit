@@ -13,6 +13,7 @@ struct slist_node;
 struct slist_level {
     struct slist_node *next; /* 当前level的后继 */
     struct slist_node *prev; /* 当前level的前驱 */
+    int span; /* 向next移动会跳过多少个结点 */
 };
 
 /* 跳表中的结点 */
@@ -34,7 +35,8 @@ struct slist {
     struct slist_node *riterator; /* 反向迭代器 */
     struct slist_node *head;  /* 链表头节点,不含用户键值 */
     struct slist_node *tail;  /* 链表尾节点,key最大 */
-    struct slist_node *level_node[1]; /* 用于计算索引的柔性数组 */
+    int *level_rank;   /* 用于暂存插入结点的每一级前驱的排位 */
+    struct slist_node *level_node[1]; /* 用于暂存插入结点的每一级链表前驱 */
 };
 
 /**
