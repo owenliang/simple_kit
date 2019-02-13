@@ -142,6 +142,16 @@ void test_rank()
     rank = slist_rank(slist, "c", sizeof("c"));
     printf("c rank=%ld\n", rank);
 
+    struct slist_node *node = slist->head;
+    while (node != NULL) {
+        printf("key=%s height=%d\n", node->key, node->height);
+        int l;
+        for (l = 0; l < node->height; ++l) {
+            printf("level[%d].span=%lu\n", l, node->levels[l].span);
+        }
+        node = node->levels[0].next;
+    }
+
     slist_erase(slist, "b", sizeof("b"));
 
     rank = slist_rank(slist, "b", sizeof("b"));

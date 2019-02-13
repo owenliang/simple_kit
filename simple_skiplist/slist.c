@@ -129,8 +129,14 @@ int slist_insert(struct slist *slist, const char *key, uint32_t key_len, void *v
         if (new_node->levels[l].next)
             new_node->levels[l].next->levels[l].prev = new_node;
     }
-    if (height > slist->cur_height)
+    if (height > slist->cur_height) {
         slist->cur_height = height;
+    } else {
+        for (h = height + 1; h <= slist->cur_height; ++h) {
+            uint32_t l = h - 1;
+            ++slist->level_node[l]->levels[l].span;
+        }
+    }
     if (!new_node->levels[0].next)
         slist->tail = new_node;
     ++slist->num_nodes;
