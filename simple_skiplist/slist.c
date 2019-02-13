@@ -164,12 +164,22 @@ static struct slist_node *_slist_find_node(struct slist *slist, const char *key,
 static void _slist_erase_node(struct slist *slist, struct slist_node *node)
 {
     uint32_t h;
-    for (h = node->height; h >= 1; --h) {
+    struct slist_node *cur_node = slist->head;
+    for (h = slist->cur_height; h >= 1; --h) {
         uint32_t l = h - 1;
-        node->levels[l].prev->levels[l].span += node->levels[l].span - 1;
-        node->levels[l].prev->levels[l].next = node->levels[l].next;
-        if (node->levels[l].next)
-            node->levels[l].next->levels[l].prev = node->levels[l].prev;
+        while (cur_node->levels[l].next && 
+                _slist_key_compare(node->key, node->key_len, cur_node->levels[l].next->key, cur_node->levels[l].next->key_len) > 0) {
+            cur_node = cur_node->levels[l].next;
+        }
+        if (cur_node->levels[l].next == node) {
+            node->levels[l].prev->levels[l].span += node->levels[l].span - 1;
+            node->levels[l].prev->levels[l].next = node->levels[l].next;
+            if (node->levels[l].next) {
+                node->levels[l].next->levels[l].prev = node->levels[l].prev;
+            }
+        } else {
+            --cur_node->levels[l].span;
+        }
     }
     if (node == slist->tail) {
         if (slist->head == node->levels[0].prev)
