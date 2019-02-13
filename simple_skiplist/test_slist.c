@@ -126,6 +126,42 @@ void check_iterate(struct slist *slist, int range)
     assert(slist->iterator == slist->riterator && slist->iterator == NULL);
 }
 
+void test_rank()
+{
+    struct slist *slist = slist_new(32);
+
+    assert(slist_insert(slist, "b", sizeof("b"), NULL) == 0);
+    assert(slist_insert(slist, "a", sizeof("a"), NULL) == 0);
+    assert(slist_insert(slist, "c", sizeof("c"), NULL) == 0);
+
+    int64_t rank;
+    rank = slist_rank(slist, "b", sizeof("b"));
+    printf("b rank=%ld\n", rank);
+    rank = slist_rank(slist, "a", sizeof("a"));
+    printf("a rank=%ld\n", rank);
+    rank = slist_rank(slist, "c", sizeof("c"));
+    printf("c rank=%ld\n", rank);
+
+    struct slist_node *node = slist->head;
+    while (node != NULL) {
+        printf("key=%s height=%d\n", node->key, node->height);
+        int l;
+        for (l = 0; l < node->height; ++l) {
+            printf("level[%d].span=%lu\n", l, node->levels[l].span);
+        }
+        node = node->levels[0].next;
+    }
+
+    slist_erase(slist, "b", sizeof("b"));
+
+    rank = slist_rank(slist, "b", sizeof("b"));
+    printf("b rank=%ld\n", rank);
+    rank = slist_rank(slist, "a", sizeof("a"));
+    printf("a rank=%ld\n", rank);
+    rank = slist_rank(slist, "c", sizeof("c"));
+    printf("c rank=%ld\n", rank);
+}
+
 int main(int argc, char **argv)
 {
     srand(time(NULL));
@@ -157,6 +193,8 @@ int main(int argc, char **argv)
     check_iterate(slist, 2);
 
     slist_free(slist);
+
+    test_rank();
     return 0;
 }
 

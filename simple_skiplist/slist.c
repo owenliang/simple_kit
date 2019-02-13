@@ -44,6 +44,7 @@ struct slist *slist_new(uint32_t height)
     slist->cur_height = 1;
     slist->seed = time(NULL);
     slist->head = _slist_new_node(NULL, 0, slist->max_height,NULL);
+    slist->level_rank = malloc(sizeof(uint64_t) * height);
     return slist;
 }
 
@@ -55,6 +56,7 @@ void slist_free(struct slist *slist)
         _slist_free_node(node);
         node = next;
     }
+    free(slist->level_rank);
     free(slist);
 }
 
@@ -92,9 +94,12 @@ int slist_insert(struct slist *slist, const char *key, uint32_t key_len, void *v
     uint32_t h;
     for (h = slist->cur_height; h >= 1; --h) {
         uint32_t l = h - 1;
+        slist->level_rank[l] = h == slist->cur_height ? 0 : slist->level_rank[l + 1];
         while (node->levels[l].next && 
-                _slist_key_compare(key, key_len, node->levels[l].next->key, node->levels[l].next->key_len) > 0)
+                _slist_key_compare(key, key_len, node->levels[l].next->key, node->levels[l].next->key_len) > 0) {
+            slist->level_rank[l] += node->levels[l].span;
             node = node->levels[l].next;
+        }
         slist->level_node[l] = node;
     }
     if (node->levels[0].next && 
@@ -103,8 +108,11 @@ int slist_insert(struct slist *slist, const char *key, uint32_t key_len, void *v
 
     uint32_t height = _slist_choose_height(slist);
     if (height > slist->cur_height) {
-        for (h = height; h > slist->cur_height; --h)
-            slist->level_node[h - 1] = slist->head;
+        for (h = height; h > slist->cur_height; --h) {
+            uint32_t l = h - 1;
+            slist->level_node[l] = slist->head;
+            slist->level_rank[l] = 0;
+        }
     }
     
     char *dup_key = malloc(key_len);
@@ -116,11 +124,19 @@ int slist_insert(struct slist *slist, const char *key, uint32_t key_len, void *v
         new_node->levels[l].next = node->levels[l].next;
         new_node->levels[l].prev = node;
         node->levels[l].next = new_node;
+        new_node->levels[l].span = node->levels[l].span - (slist->level_rank[0] - slist->level_rank[l] + 1) + 1; // 当没有后继时,span值是无效的
+        node->levels[l].span = slist->level_rank[0] - slist->level_rank[l] + 1;
         if (new_node->levels[l].next)
             new_node->levels[l].next->levels[l].prev = new_node;
     }
-    if (height > slist->cur_height)
+    if (height >= slist->cur_height) {
         slist->cur_height = height;
+    } else {
+        for (h = height + 1; h <= slist->cur_height; ++h) {
+            uint32_t l = h - 1;
+            ++slist->level_node[l]->levels[l].span;
+        }
+    }
     if (!new_node->levels[0].next)
         slist->tail = new_node;
     ++slist->num_nodes;
@@ -148,11 +164,22 @@ static struct slist_node *_slist_find_node(struct slist *slist, const char *key,
 static void _slist_erase_node(struct slist *slist, struct slist_node *node)
 {
     uint32_t h;
-    for (h = node->height; h >= 1; --h) {
+    struct slist_node *cur_node = slist->head;
+    for (h = slist->cur_height; h >= 1; --h) {
         uint32_t l = h - 1;
-        node->levels[l].prev->levels[l].next = node->levels[l].next;
-        if (node->levels[l].next)
-            node->levels[l].next->levels[l].prev = node->levels[l].prev;
+        while (cur_node->levels[l].next && 
+                _slist_key_compare(node->key, node->key_len, cur_node->levels[l].next->key, cur_node->levels[l].next->key_len) > 0) {
+            cur_node = cur_node->levels[l].next;
+        }
+        if (cur_node->levels[l].next == node) {
+            node->levels[l].prev->levels[l].span += node->levels[l].span - 1;
+            node->levels[l].prev->levels[l].next = node->levels[l].next;
+            if (node->levels[l].next) {
+                node->levels[l].next->levels[l].prev = node->levels[l].prev;
+            }
+        } else {
+            --cur_node->levels[l].span;
+        }
     }
     if (node == slist->tail) {
         if (slist->head == node->levels[0].prev)
@@ -245,6 +272,29 @@ int slist_pop_back(struct slist *slist)
 uint64_t slist_size(struct slist *slist)
 {
     return slist->num_nodes;
+}
+
+int64_t slist_rank(struct slist *slist, const char* key, uint32_t key_len)
+{
+    struct slist_node *node = slist->head;
+    uint32_t h;
+    uint64_t rank = 0;
+
+    for (h = slist->cur_height; h >= 1; --h) {
+        uint32_t l = h - 1;
+        while (node->levels[l].next) {
+            int ret = _slist_key_compare(key, key_len, node->levels[l].next->key, node->levels[l].next->key_len);
+            if (ret < 0) {
+                break;
+            } else if (ret == 0) {
+                rank += node->levels[l].span;
+                return rank;
+            }
+            rank += node->levels[l].span;
+            node = node->levels[l].next;
+        }
+    }
+    return -1;
 }
 
 void slist_begin_iterate(struct slist *slist)
