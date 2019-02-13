@@ -13,7 +13,7 @@ struct slist_node;
 struct slist_level {
     struct slist_node *next; /* 当前level的后继 */
     struct slist_node *prev; /* 当前level的前驱 */
-    int span; /* 向next移动会跳过多少个结点 */
+    uint64_t span; /* 向next移动会跳过多少个结点 */
 };
 
 /* 跳表中的结点 */
@@ -35,7 +35,7 @@ struct slist {
     struct slist_node *riterator; /* 反向迭代器 */
     struct slist_node *head;  /* 链表头节点,不含用户键值 */
     struct slist_node *tail;  /* 链表尾节点,key最大 */
-    int *level_rank;   /* 用于暂存插入结点的每一级前驱的排位 */
+    uint64_t *level_rank;   /* 用于暂存插入结点的每一级前驱的排位 */
     struct slist_node *level_node[1]; /* 用于暂存插入结点的每一级链表前驱 */
 };
 
@@ -163,6 +163,19 @@ int slist_pop_back(struct slist *slist);
  * @date 2014/05/26 18:13:14
 **/
 uint64_t slist_size(struct slist *slist);
+/**
+ * @brief 计算key的排名
+ *
+ * @param [in] slist   : struct slist*
+ * @param [in] key   : const char*  不能为NULL
+ * @param [in] key_len   : uint32_t 不能为0
+ * @return  int 返回非0表示成功,返回-1表示key不存在
+ * @retval
+ * @see 
+ * @author liangdong
+ * @date 2019/02/13 10:16:56
+**/
+uint64_t slist_rank(struct slist *slist, const char* key, uint32_t key_len);
 /**
  * @brief 重置正向迭代器(key从小到大)
  *

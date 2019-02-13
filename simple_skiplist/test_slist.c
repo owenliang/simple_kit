@@ -126,6 +126,23 @@ void check_iterate(struct slist *slist, int range)
     assert(slist->iterator == slist->riterator && slist->iterator == NULL);
 }
 
+void test_rank()
+{
+    struct slist *slist = slist_new(32);
+
+    assert(slist_insert(slist, "b", sizeof("b"), NULL) == 0);
+    assert(slist_insert(slist, "a", sizeof("a"), NULL) == 0);
+    assert(slist_insert(slist, "c", sizeof("c"), NULL) == 0);
+
+    uint64_t rank;
+    rank = slist_rank(slist, "b", sizeof("b"));
+    printf("b rank=%lu\n", rank);
+    rank = slist_rank(slist, "a", sizeof("a"));
+    printf("a rank=%lu\n", rank);
+    rank = slist_rank(slist, "c", sizeof("c"));
+    printf("c rank=%lu\n", rank);
+}
+
 int main(int argc, char **argv)
 {
     srand(time(NULL));

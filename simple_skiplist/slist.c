@@ -44,7 +44,7 @@ struct slist *slist_new(uint32_t height)
     slist->cur_height = 1;
     slist->seed = time(NULL);
     slist->head = _slist_new_node(NULL, 0, slist->max_height,NULL);
-    slist->level_rank = malloc(sizeof(int) * height);
+    slist->level_rank = malloc(sizeof(uint64_t) * height);
     return slist;
 }
 
@@ -256,6 +256,29 @@ int slist_pop_back(struct slist *slist)
 uint64_t slist_size(struct slist *slist)
 {
     return slist->num_nodes;
+}
+
+uint64_t slist_rank(struct slist *slist, const char* key, uint32_t key_len)
+{
+    struct slist_node *node = slist->head;
+    uint32_t h;
+    uint64_t rank = 0;
+
+    for (h = slist->cur_height; h >= 1; --h) {
+        uint32_t l = h - 1;
+        while (node->levels[l].next) {
+            int ret = _slist_key_compare(key, key_len, node->levels[l].next->key, node->levels[l].next->key_len);
+            if (ret < 0)
+                break;
+            else if (ret == 0) {
+                rank += node->levels[l].span;
+                return rank;
+            }
+            node = node->levels[l].next;
+            rank += node->levels[l].span;
+        }
+    }
+    return -1;
 }
 
 void slist_begin_iterate(struct slist *slist)
