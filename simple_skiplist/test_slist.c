@@ -193,6 +193,8 @@ int main(int argc, char **argv)
     check_iterate(slist, 2);
 
     slist_free(slist);
+
+    test_rank();
     return 0;
 }
 
